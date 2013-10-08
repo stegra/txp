@@ -1,0 +1,106 @@
+Options +Indexes
+
+RewriteEngine On
+RewriteBase /
+
+# ------------------------------------------------------------------------------
+# Admin
+
+RewriteRule ^(~\w+/)?admin/?$			$1admin/index.php 				[R]
+RewriteRule ^(~\w+/)?admin/index.php	textpattern/index.php
+RewriteRule ^(~\w+/)?admin/(.+) 		textpattern/$2
+
+# ------------------------------------------------------------------------------
+# check html file in sites/html cache directory for sub sites
+
+RewriteCond %{REQUEST_URI} 						\.html$
+RewriteCond %{QUERY_STRING} 				    ^$
+RewriteCond %{REQUEST_URI} 						^/~(\w+)/(.+)
+RewriteCond %{DOCUMENT_ROOT}/sites/%1/html/%2 	-f
+RewriteRule ^~(\w+)/(.+)						sites/$1/html/$2		[L]
+
+# ------------------------------------------------------------------------------
+# check html file in html cache directory for main site
+
+RewriteCond %{REQUEST_URI} 						\.html$
+RewriteCond %{QUERY_STRING} 				    ^$
+RewriteCond %{REQUEST_URI} 				   	   !^/~\w+$
+RewriteCond %{REQUEST_URI} 						^/(.+)
+RewriteCond %{DOCUMENT_ROOT}/html/%1 			-f
+RewriteRule (.+)								html/$1					[L]
+
+# ------------------------------------------------------------------------------
+# Publish
+
+RewriteRule ^$						index.php
+RewriteRule ^index.html?$			index.php
+
+# add a trailing slash to everything that does not end with a file extension
+
+RewriteRule ^(~?)([\w\/\-]+?)([\w\-]+)$	$1$2$3/							[L,R]
+
+# send everything that ends with ".html" or a slash "/" 
+# and is not an existing file or directory to index.php
+
+RewriteCond %{SCRIPT_FILENAME} 	   !-f
+RewriteCond %{SCRIPT_FILENAME}	   !-d
+RewriteCond %{REQUEST_URI} 		   !^/~\w+$
+RewriteCond %{REQUEST_URI} 		   !^/~\w+/(images|files|css|js|fonts?)/
+RewriteCond %{REQUEST_URI} 		   !^/~\w+/(database|log|xsl|tmp|test)/
+RewriteCond %{REQUEST_URI} 		   !^/(images|files|css|js|fonts)/
+RewriteCond %{REQUEST_URI} 		   !^/(database|log|xsl|test)/
+RewriteCond %{REQUEST_URI} 		   !^/(admin|textpattern)/
+RewriteRule (\.html?|\.xml|\/)$		index.php
+
+# ------------------------------------------------------------------------------
+# static files in ~tilda sites (www.mydomain.com/~mysite)
+
+RewriteCond %{REQUEST_URI} 			^/~(\w+)/(images|files|css|js|fonts?)/  [OR]
+RewriteCond %{REQUEST_URI} 			^/~(\w+)/(database|log|xsl|tmp|test)/	[OR]
+RewriteCond %{REQUEST_URI} 			^/~(\w+)/(favicon.ico)
+RewriteCond %{DOCUMENT_ROOT}/sites/%1 -d
+RewriteRule ^~(\w+)/(.+)			sites/$1/$2
+
+# ------------------------------------------------------------------------------
+# static files in sub-domain sites	(mysite.mydomain.com)
+
+RewriteCond %{REQUEST_URI} 			^/(images|files|css|js|fonts?)/			[OR]
+RewriteCond %{REQUEST_URI} 			^/(database|log|xsl|tmp|test)/
+RewriteCond %{SERVER_NAME}			(.+)
+RewriteCond	sites/_domains/%1 		-d
+RewriteRule (.+)					sites/_domains/%1/$1
+
+# ------------------------------------------------------------------------------
+# captcha
+
+RewriteRule ^(~\w+/)?captcha.png$	index.php?captcha=1
+
+# ------------------------------------------------------------------------------
+# file download
+
+RewriteRule /?file_download/(\d+)	index.php?s=file_download&id=$1 [L]
+
+# ------------------------------------------------------------------------------
+# make and display image if it does not exist
+
+RewriteCond %{SCRIPT_FILENAME} 		!-f
+RewriteRule \.(jpg|png|gif)$	 	index.php?getfile=img
+
+# ------------------------------------------------------------------------------
+# css
+
+RewriteCond %{QUERY_STRING} 		(.*)
+RewriteRule /?css.php$				textpattern/index.php?css=1&%1
+
+# ------------------------------------------------------------------------------
+# fetch css from database if file does not exist
+# TODO
+
+#RewriteCond %{SCRIPT_FILENAME} 	!-f
+#RewriteRule \.css$	 				index.php?getfile=css
+
+# ------------------------------------------------------------------------------
+# display a directory listing
+
+RewriteCond %{SCRIPT_FILENAME} 		-d
+RewriteRule .+						index.php?getfile=dir
