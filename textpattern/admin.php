@@ -351,7 +351,7 @@
 		: txpath.'/include/txp_'.$event.'.php';
 	
 	if ($event == 'admin' and in_array('admin',$events)) {
-		$inc = txpath.'/include/txp_admin_admin_new.php';
+		// $inc = txpath.'/include/txp_admin_admin_new.php';
 	}
 	
 	if (is_readable($inc)) {

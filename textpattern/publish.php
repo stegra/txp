@@ -26,7 +26,7 @@ $LastChangedRevision: 3258 $
 	
 	define("TXP_UPDATE",0);
 	
-	include txpath.'/publish/lib/publish_new.php';
+	include txpath.'/publish/lib/publish.php';
 	include txpath.'/publish/log.php';
 	include txpath.'/publish/comment.php';
 		
