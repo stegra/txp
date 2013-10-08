@@ -1,0 +1,148 @@
+div#inspector-body {
+	min-height: 70%;
+	padding-bottom: 40px;
+}
+
+div.dump {
+	position: absolute;
+	min-height: 200px;
+	left: 0px; right: 0px;
+	/* padding: 5px; */
+	padding-bottom: 10px;
+	border-top: 0px solid #BBB;
+	background-color: #DDD; 
+	opacity: 1.0;
+	font-family: Monaco;
+	font-size: 11px;
+	text-align: left;
+}
+
+div.dump div.block {
+	border: 0px dotted red;
+}
+
+div.dump div.item {
+	padding: 6px 30px;
+}
+
+div.dump div.line {
+	border-bottom: 1px dotted #999;
+	padding: 0px 0px;
+	margin-bottom: 0px;
+}
+
+div.dump div.h2 {
+	padding: 7px 30px 6px 0px;
+	margin-top: 0px;
+	background-color: #CCC;
+	border-top: 1px solid #999;
+	background-image: url('images/debug_shadow.png');
+	background-repeat: repeat-x;
+}
+
+div.dump h2 {
+	position: relative;
+	font-size: 14px;
+	font-weight: normal;
+	font-family: Monaco;
+	font-style: normal;
+	padding: 0px 0px 0px 30px;
+	margin: 0px;
+	width: auto;
+	text-align: left;
+}
+
+div.dump div div.h2 h2 span {
+	position: absolute;
+	display: block;
+	width: 10px;
+	height: 10px;
+	top: 4px;
+	left: 11px;
+	background-image: url('images/open_close.png');
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+pre.dump {
+	margin: 0px;
+	padding: 5px;
+	font-size: 10px;
+}
+
+div.dump div.block.closed div.item {
+	display: none;
+}
+
+div.dump div.block.closed div.item.h2 {
+	display: block;
+} 
+
+div.dump div.closed div.h2 h2 span {
+	background-position: right;
+}
+
+div.dump div.item ul {
+	margin: 0px;
+	padding-left: 0px;
+	margin-bottom: 5px;
+}
+
+div.dump div.item ul li {
+	padding-left: 0px;
+}
+
+div.dump span.comment {
+	color: #888;
+}
+
+div.dump div.sql {
+	margin-bottom: 10px;
+}
+
+div.dump pre.query 				{ font-size: 16px; font-family: monospace; padding: 10px; margin: 0px; color: #444; }
+div.dump pre.query span			{ font-size: 16px; font-family: monospace; }
+div.dump pre.query span.sql 	{ color: #5d799f; }
+div.dump pre.query span.sqlval 	{ color: #637623; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* EXPLAIN */
+
+div.dump table.explain {
+	margin-bottom: 10px;
+	border-collapse: collapse;
+	background-color: #DDD;
+	-moz-box-shadow: 1px 1px 5px #ccc;
+  	-webkit-box-shadow: 1px 1px 5px #ccc;
+ 	 box-shadow: 1px 1px 5px #ccc;
+}
+
+div.dump table.explain th,
+div.dump table.explain td { 
+	font-size: 9px;
+	border-color: #DDD;
+	border-width: 1px;
+	border-style: solid;
+	text-align: left;
+	padding: 3px;
+	vertical-align: top;
+	font-family: Monaco;
+	background-color: #D1D1D1;
+	margin: 1px;
+}
+
+div.dump table.explain th { 
+	color: #555;
+	border-width: 1px 1px 1px 0px;
+	text-transform: lowercase;
+}
+
+div.dump table.explain td { 
+	color: #444;
+	border-width: 0px 1px 1px 0px;
+}
+
+div.dump table.explain th.id,
+div.dump table.explain td.id { 
+	border-left-width: 1px;
+}

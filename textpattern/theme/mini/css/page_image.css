@@ -1,0 +1,98 @@
+/*
+Remora Theme for Textpattern CMS
+Suckerfish menu: @see http://htmldog.com/articles/suckerfish/dropdowns/
+*/
+
+@import url("../../remora/css/page_image.css");
+
+#list tr#hr3 td {
+	display: none;
+}
+
+table#frame-view-grid {
+	width: 100%;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - */
+
+table.upload-search {
+	display: none;
+}
+
+td.show-column {
+	display: none;
+}
+
+td.view-per-page {
+	display: none;
+}
+
+td.add-existing { 
+	display: none;
+}
+
+.search .label {
+	display: none;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - */
+
+td.prev-next { 
+	padding: 10px 0px 5px 0px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - */
+
+tr.footer td .right {
+	/* height: 20px; */
+	/* overflow: hidden; */
+}
+
+table#list tr.footer td {
+	position: fixed;
+	bottom: 0px;
+	left: 4%;
+	right: 5%;
+	padding: 0px;
+	background-color: white;
+	z-index: 100;
+}
+
+table#list tr.footer td div.pad {
+	margin-top: 1px;
+	border-top: 1px solid #DDD;
+	padding: 4px 15px 15px 15px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - */
+
+body.window-narrow #nav li ul {
+	width: 80px;
+}
+
+body.window-narrow #nav li ul li {
+	width: 60px;
+}
+
+body.window-narrow #nav li ul li a:hover {
+	width: 60px;
+}
+
+body.window-narrow-2 table.search input.text,
+body.window-narrow-2 table.search input.search {
+	display: none;
+}
+
+body.window-narrow-2 .with-selected {
+	display: none;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - */
+
+body#page-image #content table td {
+	/* border: 1px dotted grey; */
+}
+
+
+
+

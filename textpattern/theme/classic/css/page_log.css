@@ -1,0 +1,28 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_list.css');
+
+#content table#list {
+	padding: 0px;
+	width: 90%;
+}
+
+#content table#list td.page {
+	width: 300px;
+}
+
+#list td.page a {
+	display: block;
+	width: 300px;
+	height: 12px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.footer .view-mode {
+	display: none;
+}
+
+.footer .thumb-size {
+	display: none;
+}

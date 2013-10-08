@@ -1,0 +1,7 @@
+@import url('textpattern_mod.css');
+@import url('content_edit.css');
+
+body#page-custom #edit div.image.add  div#image-add   { display: none; }
+body#page-custom #edit div.image.view div#image-add   { display: none; }
+
+#edit div.image.add { height: 82px; }

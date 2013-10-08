@@ -1,0 +1,590 @@
+@import url("textpattern.css");
+
+/* base
+----------------------------------------------- */
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../webfontkit/avenirltstd-roman-webfont.eot');
+    src: url('../webfontkit/avenirltstd-roman-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../webfontkit/avenirltstd-roman-webfont.woff') format('woff'),
+         url('../webfontkit/avenirltstd-roman-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-size: 12px;
+}
+
+a {
+	letter-spacing: 0.1em;
+}
+
+legend {
+	letter-spacing: 0.1em;
+}
+
+h3.plain {
+	font-family: Avenir, Verdana, Arial, sans-serif;
+}
+
+h1, h2, h3 {
+	font-family: Georgia, Times, serif;
+	color: #333;
+}
+
+.code {
+	font-family: Monaco, "Courier New", monospace;
+	font-size: 11px;
+	line-height: 16px;
+	color: #555;
+	padding: 13px 0 12px 12px;
+	background-color: #EEEEEE;
+	background-image: url('../../../txp_img/textarea_code_bg2.png');
+	background-repeat: repeat-y;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #999 #DDD #DDD #999;
+}
+
+.error {
+	color: #EB2633;
+}
+
+div.dump {
+	width: 100%; 
+	min-height: 100px;
+	margin: 0;
+	margin-top: 40px; 
+	background-color: #DDD; 
+	opacity: 0.8; 
+	padding: 5px; 
+	padding-bottom: 10px;
+	border-top: 1px solid #BBB;
+}
+
+pre.dump {
+	margin: 0px;
+	padding: 5px;
+	font-size: 10px;
+}
+
+hr {
+	display: none;
+}
+
+.hidden {
+	display: none;
+}
+
+.clear.left {
+	clear: left;
+}
+
+.clear.right {
+	clear: right;
+}
+
+.clear.both {
+	clear: both;
+}
+
+/* table elements
+----------------------------------------------- */
+
+table#pagetop {
+	border-collapse: collapse;
+}
+
+table#pagetop .tabs {
+	padding: 0px;
+}
+
+table#pagetop .tabs a b {
+	font-weight: normal;
+}
+
+/* links
+----------------------------------------------- */
+
+a.pophelp {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	padding: 0;
+	margin-bottom: -1px;
+	margin-left: 1px;
+	font-weight: normal;
+	background-color: transparent;
+	background-image: url('../txp_img/button_help.png');
+	text-indent: 15px;
+	overflow: hidden;
+	border: 0;
+}
+
+a.pophelp:hover {
+	background-position: right;
+}
+
+a:hover, a:focus {
+	text-decoration: none;
+	color: #000;
+}
+
+a.unset-cookie {
+	display:block;
+	width: 200px;
+	margin: -20px auto 20px auto;
+	text-align: center;
+	color: white;
+}
+
+a.unset-cookie:hover {
+	color: #963;
+}
+
+/* form elements
+----------------------------------------------- */
+
+input.publish {
+	letter-spacing: 2px;
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-size: 12px;
+}
+
+select#withselected {
+	min-width: 125px;
+}
+
+body#page-list select#action {
+	min-width: 135px;
+}
+
+form.upload-form {
+	border-bottom: 0px dotted #CCC;
+}
+
+form.upload-form input.edit {
+	background-color: white;
+	border: 0px;
+}
+
+form.delete {
+	width: 17px;
+	height: 17px;
+	background-image: url('../txp_img/button_delete.png');
+}
+
+form.delete:hover {
+	background-position: right;
+}
+
+form.delete input.smallerbox {
+	padding: 0px;
+	width: 17px;
+	height: 17px;
+	background-color: transparent;
+	border: 0;
+	color: white;
+}
+
+input.publish.saved {
+	background-color: #999;
+	border-color: #bbb #666 #666 #bbb;
+}
+
+form iframe {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #999 #DDD #DDD #999;
+}
+	
+/* table elements
+----------------------------------------------- */
+
+table, tr, th, td {
+	vertical-align: auto;
+}
+
+body.edit #content td, 
+#page-page #content td,
+#page-css #content td,
+#page-list #content td,
+#page-plugin #content td,
+#page-section #content td,
+#page-class #content td,
+#page-prefs #content td,
+#page-ied_plugin_composer #content td {
+	vertical-align: top;
+}
+
+/* other element overrides
+----------------------------------------------- */
+
+p#js {
+	margin-top: 10px;
+	padding-right: 20px;
+}
+
+p#js span {
+	padding: 5px 5px 8px 5px;
+}
+
+p#js span select {
+	min-width: 125px;
+}
+
+body#page-list p#js span select {
+	min-width: 135px;
+}
+
+/* global layout
+----------------------------------------------- */
+
+div#footer {
+	text-align: center;
+	margin: 4em 1em 1em 1em;
+}
+
+body.window div#end_page {
+	display: none;
+}
+
+td.tabs {
+	background-position: bottom left;
+}
+
+td.tabs a:hover, td.tabs a:focus {
+	color: #963;
+}
+
+tr#nav-primary td.tabs td {
+	background: none;
+	padding: 0px;
+}
+
+tr#nav-secondary td.tabs td {
+	background: none;
+	padding: 0px;
+}
+
+tr#nav-secondary td.tabs,
+tr#nav-secondary td.tabs td {
+	height: 30px;
+}
+
+td.tabs td.tabdown, 
+td.tabs td.tabdown2, 
+td.tabs td.tabup {
+	width: auto;
+	height: 25px;
+	position: relative;
+}
+
+tr#nav-primary td.tabs td.tabdown,
+tr#nav-primary td.tabs td.tabup,
+tr#nav-secondary table td {
+	width: 125px;
+}
+
+td.tabs td.tabdown a,
+td.tabs td.tabdown2 a,
+td.tabs td.tabup a {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	left: 0px;
+	height: 14px;
+	min-width: 124px;
+	padding-top: 11px;
+	margin-left: 0px;
+	background-repeat: no-repeat;
+	background-position: bottom center;
+}
+
+tr#nav-secondary td a {
+	padding-top: 16px;
+}
+
+td.tabs td.content 		a { z-index: 4; }
+td.tabs td.presentation a { z-index: 3; }
+td.tabs td.admin 		a { z-index: 2; }
+td.tabs td.view-site 	a { z-index: 1; }
+
+td.tabs td.item1 a { z-index: 8; }
+td.tabs td.item2 a { z-index: 7; }
+td.tabs td.item3 a { z-index: 6; }
+td.tabs td.item4 a { z-index: 5; }
+td.tabs td.item5 a { z-index: 4; }
+td.tabs td.item6 a { z-index: 3; }
+td.tabs td.item7 a { z-index: 2; }
+td.tabs td.item8 a { z-index: 1; }
+
+td.tabs td.tabdown a {
+	background-image: url('../txp_img/down.png');
+}
+
+td.tabs td.tabdown2 a {
+	background-image: url('../txp_img/down2.png');
+}
+
+td.tabs td.tabup a {
+	background-image: url('../txp_img/up.png');
+	z-index: 10;
+}
+
+/* footer
+----------------------------------------------- */
+
+div#footer p {
+	display: inline;
+	position: relative;
+	top: -20px;
+	letter-spacing: 0.1em;
+	font-size: 11px;
+}
+
+/* setup
+----------------------------------------------- */
+
+iframe.update {
+	border: 1px solid grey;
+	margin-top: 20px;
+}
+
+/* organize
+----------------------------------------------- */
+
+/* write
+----------------------------------------------- */
+
+td#article-col-1 {
+	padding-top: 0px;
+}
+
+td#article-col-1 input.checkbox {
+	width: auto;
+}
+
+td#article-main {
+	padding-top: 10px;
+}
+
+td#article-col-2 {
+	padding-top: 25px;
+}
+
+body.edit #prev-next {
+	height: 33px;
+}
+
+body.edit fieldset {
+	margin: 0 0 0px 0;
+	padding: 5px 5px 5px 10px;
+	border: 1px solid #ddd;
+	border-width: 1px 0px 0px 0px;
+}
+
+body.edit fieldset#write-class label,
+body.edit fieldset#write-class .small,
+body.edit fieldset#write-class br {
+	display: none;
+}
+
+body.edit fieldset#write-class select {
+	min-width: 115px;	
+}
+
+body.edit fieldset#write-sort p {
+	margin-left: 2px;	
+}
+
+body.edit fieldset#write-sort select {
+	min-width: 115px;	
+}
+
+body.edit #article-col-2 h3.lever {
+	margin-left: 5px;
+}
+
+body.edit #edit #aliases ul {
+	max-width: 175px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+body.edit #edit #aliases ul li {
+	margin-bottom: 5px;
+	margin-left: 0px;
+}
+
+body.edit #edit #article-path {
+	position: relative;
+	min-height: 41px;
+	margin-bottom: 29px;
+	color: #666;
+}
+
+body.edit #edit #article-path span {
+	position: absolute;
+	bottom: 0px;
+}
+
+body.edit #edit textarea#body {
+	height: 350px;
+}
+
+/* comments
+----------------------------------------------- */
+
+/* pages, forms, style, plugins
+----------------------------------------------- */
+
+#content { 
+	margin-left: 5%; 
+	margin-right: 5%;
+}
+
+#page-page #content { 
+	margin-top: 25px;
+}
+
+#page-page #content table#edit {
+	width: auto;
+}
+
+#page-page #content table#list {
+	/* margin: 0; */
+}
+
+#page-page h3, 
+#page-page ul.plain-list li,
+#page-form h3, 
+#page-form ul.plain-list li,
+#page-css #content p {
+	white-space: nowrap;
+}
+
+textarea.code {
+	margin-bottom: 7px;
+}
+
+#page-page textarea#code,
+#page-page textarea#code_cp {
+	margin-top: 7px;
+	width: 650px;
+	height: 426px;
+}
+
+#page-page form p {
+	margin: 0px;
+}
+
+form a#toggleEditor {
+	display: block;
+	float: right;
+	width: 14px;
+	height: 14px;
+	overflow: hidden;
+	text-indent: 14px;
+	background-image: url('../../../txp_img/button_toggle_editor.png');
+	outline: none;
+}
+
+#page-page form a:hover {
+	background-position: right;
+}
+
+#page-page form iframe {
+	margin-top: 7px;
+	margin-bottom: 7px;
+	width: 662px; 		/* add 650px + 12px left padding */
+	height: 451px;		/* add 426px + 13px top padding + 12px bottom padding */
+}
+
+#page-css textarea#code,
+#page-css textarea#code_cp {
+	margin-top: 6px;
+	width: 535px;
+	height: 460px;
+}
+
+#page-css form iframe {
+	margin-top: 6px;
+	margin-bottom: 7px;
+	width: 547px; 		/* add 535px + 12px left padding */
+	height: 485px;		/* add 460px + 13px top padding + 12px bottom padding */
+}
+
+#page-form textarea#code,
+#page-form textarea#code_cp {
+	margin-top: 6px;
+	width: 535px;
+	height: 380px;	
+}
+
+#page-form form iframe {
+	margin-top: 6px;
+	margin-bottom: 7px;
+	width: 547px; 		/* add 535px + 12px left padding */
+	height: 405px;		/* add 380px + 13px top padding + 12px bottom padding */
+}
+
+#page-css #content table td h2 {
+	margin-left: 5px;
+}
+
+#page-css #content table td table td {
+	/* width: auto; */
+}
+
+/* utilities
+----------------------------------------------- */
+
+#page-utilities #content {
+	margin-left: 0px; 
+	margin-right: 0px;
+}
+
+#page-utilities #footer {
+	display: none;
+}
+
+/* tagbuilder
+----------------------------------------------- */
+
+/* preferences
+----------------------------------------------- */
+
+/* images
+----------------------------------------------- */
+
+/* users
+----------------------------------------------- */
+
+#page-admin table#list {
+	margin-top: 30px;
+}
+
+/* processing
+----------------------------------------------- */
+
+div#processing {
+	display: none;
+	position: fixed;
+	top: 200px;
+	left: 50%;
+	right: 50%;
+	width: 58px;
+	height: 58px;
+	padding: 5px;
+	background-color: #DDD;
+	opacity: 0.7;
+	border-radius: 15px;
+}
+
+

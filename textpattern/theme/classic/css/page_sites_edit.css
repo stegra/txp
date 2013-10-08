@@ -1,0 +1,159 @@
+@import url('textpattern_mod.css');
+@import url('content_edit.css');
+
+/* Vertical tabs 
+ ******************************************************************** */
+ 
+#article-tabs ul {
+	display: none;
+}
+
+/* Title
+ ******************************************************************** */
+
+#content.site #article-main div.title {
+	margin-bottom: 10px;
+}
+
+#content.site #article-main div.title input {
+	padding: 1px 4px;
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-size: 13px;
+}
+
+/* Body
+ ******************************************************************** */
+
+#content.site #article-main div.body {
+	margin-bottom: 10px;
+}
+
+#content.site #article-main div.body textarea#body {
+	height: 140px;
+	width: 505px;
+	padding: 1px 4px;
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-size: 13px;
+	line-height: 17px;
+}
+
+/* Site Values
+ ******************************************************************** */
+
+#article-main p, 
+#article-main h3 {
+	clear: left;
+}
+
+#article-main h3 {
+	padding-top: 15px;
+	margin-top: 0px;
+}
+
+#article-main h3 span {
+	font-size: 12px;
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-weight: normal;
+}
+
+#article-main h3 span a {
+	font-weight: normal;
+}
+
+#article-main p.note {
+	margin-bottom: 12px;
+	margin-top: -6px;
+	color: #777;
+}
+
+#article-main div.field {
+	float: left;
+	padding-bottom: 10px;
+}
+
+#article-main .twocols .field {
+	width: 245px;
+}
+
+#article-main .twocols .field.onecol {
+	width: auto;
+}
+
+#article-main .twocols .field.pos1,
+#article-main .twocols .field.pos3,
+#article-main .twocols .field.pos5 {
+	width: 260px;
+}
+
+#article-main .twocols .field.onecol.pos1,
+#article-main .twocols .field.onecol.pos3,
+#article-main .twocols .field.onecol.pos5 {
+	width: 245px;
+}
+
+
+#article-main .field input {
+	width: 505px;
+	margin-top: 0px;
+	padding: 1px 4px;
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-size: 13px;
+}
+
+#article-main .twocols .field input,
+#article-main .twocols .field select {
+	width: 243px;
+}
+
+#article-main .twocols .field select {
+	margin-top: 1px;
+}
+
+#article-main .twocols .field.onecol input {
+	width: 505px;
+}
+
+#article-main .db {
+	margin-bottom: 15px;
+}
+
+/* Image 
+ ********************************************************************* */
+
+#edit div.image.add {
+	height: 70px;
+}
+
+#edit div.image.view {
+	margin-bottom: 9px;
+}
+
+#edit #image-add p.header {
+	display: none;
+}
+
+/* Site Info
+ ********************************************************************* */
+ 
+.site-info {
+	clear: left;
+	padding-top: 0px;
+	margin-top: -13px;
+}
+
+.site-info p {
+	margin-bottom: 9px;
+}
+
+.site-info p span.none {
+	color: #777;
+}
+
+#article-col-1 .site-info select {
+	width: 120px;
+}
+
+#article-col-1 .site-info input {
+	width: 120px;
+	margin-top: 0px;
+}

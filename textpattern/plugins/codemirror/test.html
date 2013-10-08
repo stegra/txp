@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+  <head>
+    <title>CodeMirror</title>
+    
+    <link rel="stylesheet" href="/admin/plugins/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="/admin/plugins/codemirror/doc/docs.css">
+    <link rel="stylesheet" href="/admin/plugins/jScrollPane/style/jquery.jscrollpane.css" type="text/css" media="all" />
+    
+    <script src="/admin/js/lib/jquery-1.7.1.min.js"></script>
+	<script src="/admin/plugins/jScrollPane/script/jquery.mousewheel.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/admin/plugins/jScrollPane/script/jquery.jscrollpane.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/admin/plugins/codemirror/lib/codemirror.js"></script>
+    <script src="/admin/plugins/codemirror/mode/xml/xml.js"></script>
+    
+	<style type="text/css">
+ 	
+		#box { 
+			position: relative;
+			width: 80%;
+			height: 450px;
+			border: 0px dotted red;
+		}
+			
+		#scrollpane {
+			position: absolute;
+			right: 0px;
+			left: 0px;
+			top: 0px;
+			height: 450px;
+			border-width: 1px;
+			border-style: solid;
+			border-color: #999 #D9D9D9 #999 #D9D9D9;
+			overflow: hidden;
+		}
+		
+		#scrollpane .jspVerticalBar { width: 12px; }
+		#scrollpane .jspTrack		{ background-color: #DDD; border-left: 1px solid #D4D4D4; }
+		#scrollpane .jspDrag		{ background-color: #BBB; }
+		
+		.CodeMirror {
+			border-top: 0px solid black; 
+			border-bottom: 0px solid black;
+			background-color: #EEE;
+			background-image: url('lib/bg.png');
+			background-repeat: repeat-y;
+			background-position: 0px 0px;
+			font-family: Monaco;
+			font-size: 11px;
+			line-height: 18px;
+		}
+		
+		.CodeMirror-scroll {
+			height: 650px;
+			overflow-x: hidden;
+			overflow-y: hidden;
+		}
+		
+		.CodeMirror-gutter {
+			background-color: #DDD;
+			width: 40px;
+		}
+	
+		.CodeMirror-gutter-text {
+			color: #AAA;
+			margin-right: 3px;
+			padding: 0 .2em .4em .4em;
+		}
+		  
+		.CodeMirror-lines {
+			padding: 0px;
+		}
+		  
+		.CodeMirror-lines pre {
+			padding-left: 3px;
+		}
+		  
+		.activeline {
+			background: #E5E5E5 !important;
+		}
+		
+		p {
+			width: 80%;
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		#show-line-numbers {
+			display: block;
+			width: 33px;
+			margin-left: 1px;
+			margin-top: 3px;
+			padding: 2px 7px 0px 0px;
+			font-family: Monaco;
+			font-size: 11px;
+			font-weight: normal;
+			text-align: right;
+			text-decoration: none;
+			letter-spacing: -2px;
+			color: #BBB;
+			background-color: #DDD;
+			-moz-border-radius: 0px 3px 3px 0px;
+			-webkit-border-radius: 0px 3px 3px 0px;
+			border-radius: 0px 0px 3px 3px ;
+		} 
+			
+		#show-line-numbers:hover {
+			color: #555;
+		}
+		
+		input#save {
+			float: right;
+			margin-right: 20px;
+			margin-top: -10px;
+			width: 80px;
+		}
+	
+	</style>
+    
+    <script type="text/javascript">
+    
+    	window.onload = function() {
+    		
+    		var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+			  mode: "application/xml",
+			  lineNumbers: true,
+			  lineWrapping: false,
+			  onCursorActivity: function() {
+				editor.setLineClass(hlLine, null, null);
+				hlLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
+			  }
+			});
+			
+			var editorpane  = $(".CodeMirror-scroll");
+			var line_height = $(".CodeMirror-lines pre").height();
+			var line_count  = 0;
+			
+			editor.setOption('onChange', function() {
+			  	
+			  	var editorpane_height = editorpane.height();
+				var new_line_count = editor.lineCount();
+				
+				if (new_line_count != line_count) {
+				
+					var content_height = new_line_count * line_height;
+			
+					if (content_height > scrollpane_height) {
+						editorpane.css('height',content_height + 'px');
+					}
+					
+					editor.refresh();
+					line_count = new_line_count;
+				}
+				
+				scrollpane.api.reinitialise();
+			});
+			  
+			var firstline = editor.getLineHandle(0);
+			var hlLine = editor.setLineClass(firstline,null, "activeline");
+			
+			// -----------------------------------------------------
+			
+			var scrollpane = $("#scrollpane");
+    		var scrollpane_height = scrollpane.height();
+    		
+			var settings = {
+				'showArrows': false,
+				'maintainPosition': true,
+				'enableKeyboardNavigation': false,
+				'clickOnTrack': false,
+				'verticalDragMinHeight': 50,
+				'verticalGutter': 0,
+				'autoReinitialise': false,
+				'autoReinitialiseDelay': 2000,
+				'scrollToBottom': true,
+				'disableHorizontalScroll': true,
+				'disableFocusHandler' : true
+			};
+			
+        	scrollpane.jScrollPane(settings);
+        	scrollpane.api = scrollpane.data('jsp');
+        	
+        	// -----------------------------------------------------
+        	
+			$("a#show-line-numbers").click( function (event) {
+				
+				event.preventDefault();
+				
+				if (editor.getOption('lineNumbers')) {
+					editor.setOption('lineNumbers', false);
+					$(".CodeMirror").css("background-position","-40px 0px");
+				} else {
+					editor.setOption('lineNumbers', true);
+					$(".CodeMirror").css("background-position","0px 0px");
+				}
+					
+			});
+			
+			// -----------------------------------------------------
+			
+			$("input#save").click( function (event) {
+				
+				editor.save();
+				
+				console.log($('textarea#code').val());
+			});
+		}
+		
+	</script>
+
+  </head>
+  <body>
+    
+     <form><div id="box"><div id="scrollpane"><textarea id="code" name="code">
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"
+     xmlns:georss="http://www.georss.org/georss"
+     xmlns:twitter="http://api.twitter.com">
+  <channel>
+    <title>Twitter / codemirror</title>
+    <link>http://twitter.com/codemirror</link>
+    <atom:link type="application/rss+xml"
+               href="http://twitter.com/statuses/user_timeline/242283288.rss" rel="self"/>
+    <description>Twitter updates from CodeMirror / codemirror.</description>
+    <language>en-us</language>
+    <ttl>40</ttl>
+  <item>
+    <title>codemirror: http://cloud-ide.com &#8212; they're springing up like mushrooms. This one
+      uses CodeMirror as its editor.</title>
+    <description>codemirror: http://cloud-ide.com &#8212; they're springing up like mushrooms. This
+      one uses CodeMirror as its editor.</description>
+    <pubDate>Thu, 17 Mar 2011 23:34:47 +0000</pubDate>
+    <guid>http://twitter.com/codemirror/statuses/48527733722058752</guid>
+    <link>http://twitter.com/codemirror/statuses/48527733722058752</link>
+    <twitter:source>web</twitter:source>
+    <twitter:place/>
+  </item>
+  <item>
+    <title>codemirror: Posted a description of the CodeMirror 2 internals at
+      http://codemirror.net/2/internals.html</title>
+    <description>codemirror: Posted a description of the CodeMirror 2 internals at
+      http://codemirror.net/2/internals.html</description>
+    <pubDate>Wed, 02 Mar 2011 12:15:09 +0000</pubDate>
+    <guid>http://twitter.com/codemirror/statuses/42920879788789760</guid>
+    <link>http://twitter.com/codemirror/statuses/42920879788789760</link>
+    <twitter:source>web</twitter:source>
+    <twitter:place/>
+  </item>
+  </channel>
+</rss></textarea></div></div></form>
+
+<p>
+	<a id="show-line-numbers" title="Line Numbers" href="#">1&#183;2&#183;3</a>
+	<input id="save" type="button" value="Save"/>
+</p>
+
+
+  </body>
+</html>

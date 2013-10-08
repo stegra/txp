@@ -1,0 +1,59 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_list.css');
+
+/* ---------------------------------------------------------------------------------- */
+/* images list page */
+
+#content table#list {
+	padding: 0px;
+}
+
+#content table#list.view-div.thumb-x {
+	width: 70%;
+}
+
+#content table#list.view-div.thumb-xx {
+	width: 85%;
+}
+
+body.window #content table#list.view-div {
+	width: 100%;
+}
+
+body.window #content table#list.view-tr {
+	width: 100%;
+}
+
+#list tr.odd td, 
+#list tr.even td { 
+	vertical-align: top;
+}
+
+#list tr.odd td.thumb, 
+#list tr.even td.thumb { 
+	border: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+#list tr.edit td.r_size_w input,
+#list tr.edit td.r_size_h input,
+#list tr.edit td.t_size_w input,
+#list tr.edit td.t_size_h input {
+	width: 40px;
+}
+
+table.upload {
+	width: 300px;
+	margin: 0px auto;
+}
+
+table.upload td {
+	border: 0px dotted red;
+}
+
+table.upload input#image-upload {
+	border: 0px;
+	background-color: transparent;
+}

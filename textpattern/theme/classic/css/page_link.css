@@ -1,0 +1,7 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_list.css');
+
+table#list td.url input {
+	width: 175px;
+}

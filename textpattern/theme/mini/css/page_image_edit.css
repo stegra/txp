@@ -1,0 +1,25 @@
+/*
+Remora Theme for Textpattern CMS
+Suckerfish menu: @see http://htmldog.com/articles/suckerfish/dropdowns/
+*/
+
+@import url("../../remora/css/page_image_edit.css");
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - */
+
+body.window.edit #content { 
+	margin-top: 0px;
+	margin-left: 15px; 
+	margin-right: 15px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
+body.window.edit #content #edit { 
+	margin-top: 0px;
+	margin: 0px auto;
+}
+
+
+
+

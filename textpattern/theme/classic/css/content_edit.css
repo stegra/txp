@@ -1,0 +1,725 @@
+/* 
+
+#edit .custom-fields input.edit {
+	width: 100px;
+}
+
+#edit .custom-fields select.list {
+	width: 100px;
+}
+
+#edit .custom-fields select.datetime {
+	width: auto;
+}
+
+#edit .custom-fields textarea {
+	width: 100px;
+	height: 80px;
+}
+
+#edit .custom-fields .error {
+	width: 100px;
+}
+
+#edit .custom-fields p {
+	margin-bottom: 0;
+}
+
+#edit .custom-fields .radio {
+	width: 100px;
+	margin-top: 2px;
+	border: 0px dotted red;
+}
+
+#edit .custom-fields .radio .option span {
+	display: block;
+	padding-top: 1px;
+	padding-left: 17px;
+	padding-bottom: 3px;
+}
+		
+#edit .custom-fields .radio .option input {
+	float: left;
+}
+
+*/
+
+#edit .event-group1 {
+	margin-top: 20px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* event file */
+
+body.file #edit td#article-tabs {
+	width: 5px;
+}
+
+body.file #edit td#article-tabs ul {
+	display: none;
+}
+
+body.file #edit div.advanced-options {
+	display: none;
+}
+
+body.file #edit div.recent-articles {
+	display: none;
+}	
+
+body.file #edit textarea#body {
+	height: 280px;
+}
+
+body.file #edit .media-player audio {
+	width: 150px;
+}
+
+body.file-class-export #edit textarea#body {
+	font-family: Monaco;
+	font-size: 10px;
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* event discuss */
+
+body.discuss #edit td#article-tabs {
+	width: 5px;
+}
+
+body.discuss #edit td#article-tabs ul {
+	display: none;
+}
+
+body.discuss #edit div.recent-articles {
+	display: none;
+}	
+
+body.discuss #edit textarea#body {
+	height: 280px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* event link */
+
+body.link #edit td#article-tabs {
+	width: 5px;
+}
+
+body.link #edit td#article-tabs ul {
+	display: none;
+}
+
+body.link #edit div.advanced-options {
+	display: none;
+}
+
+body.link #edit div.recent-articles {
+	display: none;
+}	
+
+body.link #edit textarea#body {
+	height: 230px;
+}
+
+body.link #edit input#url {
+	width: 420px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* event custom */
+
+body.custom #edit td#article-tabs {
+	width: 0px;
+}
+
+body.custom #edit td#article-tabs ul {
+	display: none;
+}
+
+body.custom #edit div#image-add {
+	display: none;
+}
+
+body.custom #edit div.advanced-options {
+	display: none;
+}
+
+body.custom #edit div.recent-articles {
+	display: none;
+}	
+
+body.custom #edit p.body {
+	width: 160px;
+	float: left;
+}
+
+body.custom #edit p.body textarea#body {
+	width: 150px;
+	height: 307px;
+}
+
+body.custom #edit p.excerpt {
+	width: 330px;
+	margin-left: 170px;
+}
+
+body.custom #edit p.excerpt textarea#excerpt {
+	width: 320px;
+	height: 307px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* custom field edit */
+
+#edit .custom-fields {
+	position: relative;
+	margin-top: 25px;
+	margin-bottom: 10px;
+	padding-top: 0px;
+	left: -5px;
+}
+
+#edit .custom-fields div.level-1 {
+	position: relative;
+	margin-top: 0px;
+	margin-left: -7px;
+	margin-bottom: 2px;
+	padding: 0px;
+	overflow: hidden;
+	border: 0px dotted green;
+}
+
+#edit .custom-fields div.level-1.hover {
+	background-color: #F9F9F9;
+	background-color: #EEEEEE;
+	-moz-box-shadow: inset 0px 0px 2px #AAA;
+	-webkit-box-shadow: inset 0px 0px 2px #AAA;
+	box-shadow: inset 0px 0px 2px #AAA;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+
+/* fieldset */
+
+#edit .custom-fields fieldset {
+	position: relative;
+	padding-right: 0px;
+	border-width: 0px;
+	padding: 0px;
+	margin-bottom: 8px;
+}
+
+#edit .custom-fields fieldset.level-1 {
+	border-width: 1px 0px 0px 0px;
+	padding: 5px 5px 5px 10px;
+	margin-bottom: 1px;
+}
+
+#edit .custom-fields fieldset.with-children {
+	border-width: 1px 0px 0px 0px;
+	padding: 5px 5px 5px 10px;
+	margin-bottom: 0px;
+}
+
+#edit .custom-fields div.level-1.hover fieldset {
+	border-width: 0px;
+}
+
+#edit .custom-fields .sublevel fieldset {
+	margin-top: 0px;
+}
+
+#edit .custom-fields .sublevel fieldset.with-children {
+	margin-left: -10px;
+	margin-top: 12px;
+}
+
+/* legend */
+
+#edit .custom-fields fieldset legend {
+	padding-top: 0px;
+	padding-bottom: 2px;
+}
+
+#edit .custom-fields fieldset legend.level-1 {
+	padding-top: 4px;
+}
+
+#edit .custom-fields fieldset legend.with-children {
+	margin-bottom: 0px;
+}
+
+#edit .custom-fields fieldset legend a {
+	color: black;
+}
+
+/* remove button */
+
+#edit .custom-fields a.remove {
+	display: none;
+	position: absolute;
+	padding: 0px; 
+	top: 5px;
+	right: 10px;
+	width: 11px;
+	height: 11px;
+	background-image: url('../txp_img/button_delete_small.png');
+	background-position: left;
+	overflow: hidden;
+	text-indent: 11px;
+}
+
+#edit .custom-fields div.level-1.hover a.remove:hover {
+	background-position: right;
+}
+
+#edit .custom-fields div.level-1.hover a.remove {
+	display: block;
+	background-position: left;
+}
+
+#edit .custom-fields div.level-1.hover div.sublevel a.remove {
+	display: none;
+}
+
+/* input fields */
+
+#edit .custom-fields input.edit {
+	width: 150px;
+	margin-top: 0px;
+}
+
+#edit .custom-fields div.radio {
+	margin-bottom: 3px;
+}
+
+#edit .custom-fields div.radio.total-2 {
+	width: auto;
+	float: left;
+	margin-right: 10px;
+}
+
+#edit .custom-fields input.radio {
+	width: auto;
+	margin-top: 0px;
+}
+
+#edit .custom-fields textarea {
+	width: 145px;
+	margin-top: 0px;
+}
+
+#edit .custom-fields select {
+	width: 153px;
+	margin-top: 0px;
+}
+
+#edit .custom-fields div.level-1.hover input.edit {
+	background-color: #FCFCFC;
+}
+
+#edit .custom-fields .date {}
+
+#edit .custom-fields select.datetime {
+	width: 45px;
+}
+
+#edit .custom-fields select.datetime.month {
+	width: 55px;
+}
+
+#edit .custom-fields select.datetime.ampm {
+	width: 56px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* add custom field */
+
+#edit .custom-fields h3 {
+	position: absolute;
+	margin-top: 12px;
+	z-index: 2;
+}
+
+#edit .custom-fields h3 a {
+	display: block;
+	width: 16px;
+	height: 16px;
+	padding: 0px;
+	overflow: hidden;
+	background-image: url('../txp_img/button_add.png');
+	text-indent: 16px;
+	outline: none;
+	z-index: 10;
+}
+
+#edit .custom-fields h3 a:hover {
+	background-position: right;
+}
+
+#edit .custom-fields #add-custom-field {
+	position: absolute;
+	width: 175px;
+	left: -5px;
+	margin-top: 8px;
+	padding-top: 4px;
+	padding-bottom: 2px;
+	z-index: 1;
+	border: 1px solid #DDD;
+	background-color: #FCFCFC;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	/* -moz-box-shadow: 0px 4px 6px #AAA;
+	-webkit-box-shadow: 0px 4px 6px #AAA;
+	box-shadow: 0px 4px 6px #AAA; */
+	
+}
+
+#edit .custom-fields #add-custom-field p {
+	margin-left: 10px;
+}
+
+#edit .custom-fields #add-custom-field p.field label {
+	display: block;
+	margin-left: 16px;
+	margin-bottom: 8px;
+}
+
+#edit .custom-fields #add-custom-field p.field select {
+	margin-left: 1px;
+	width: 153px;
+}
+
+/* apply to group */
+
+#edit .custom-fields #add-custom-field p.apply {
+	padding-left: 5px;
+	border: 0px dotted grey;
+}
+
+#edit .custom-fields #add-custom-field p.apply input.edit {
+	width: auto;
+	font-size: 10px;
+}
+
+#edit .custom-fields #add-custom-field p.apply label {
+	display: inline;
+	font-size: 10px;
+}
+
+#edit .custom-fields #add-custom-field p.apply label span {
+	
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#edit #advanced select.list {
+	width: 100px;
+}
+.article-notes .notepad 		{ display: block; position: absolute; }
+.article-notes .notepad .min 	{ display: block; }
+.article-notes .notepad .max 	{ display: none; }
+.article-notes .notepad .header .openclose { display: none; }
+
+#edit .categories select.list {
+	min-width: 112px;
+}
+
+/* IMAGE
+ ***************************************************************** */
+
+#edit div.image {
+	width: 160px;
+}
+
+#edit div.image.view div#image-add  { display: none; }
+#edit div.image.view div#image-view { display: block; }
+#edit div.image.add div#image-view  { display: none; }
+#edit div.image.add div#image-add   { display: block; }
+
+#edit div.image.view {
+	position: relative;
+	height: 155px;
+}
+
+#edit div.image.add {
+	position: relative;
+	height: 105px;
+	border: 0px dotted red;
+}
+
+#edit #image-add {
+	position: absolute;
+	bottom: 0px;
+	border: 0px dotted green;
+}
+
+#edit #image-view {
+	display: block;
+	float: left;
+	margin-top: 23px;
+	margin-left: -6px;
+}
+
+#edit #image-view p.header {
+	position: relative;
+	padding-top: 3px;
+}
+
+#edit #image-view p.header span {
+	color: #BBB;
+}
+
+#edit #image-view a.remove {
+	display: none;
+	position: absolute;
+	left: auto;
+	right: 2px;
+	top: 2px;
+	color: #FE4C4C;
+	font-weight: normal;
+	width: 15px;
+	height: 15px;
+	background-image: url('../txp_img/button_remove.png');
+	text-indent: 15px;
+	overflow: hidden;
+	border: 0px dotted green;
+}
+
+/* #edit #image-view .header a.remove:hover {
+	text-decoration: none;
+	color: #F00;
+} */
+
+#edit #image-view div.image:hover a.remove {
+	display: block;
+}
+
+#edit #image-view a.edit {
+	display: block;
+	background-color: #FFF;
+	-moz-box-shadow:    1px 1px 3px 0px #CCC;
+  	-webkit-box-shadow: 1px 1px 3px 0px #CCC;
+  	box-shadow:         1px 1px 3px 0px #CCC;
+  	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#edit #image-view a.edit.dragover {
+	-moz-box-shadow:    0px 0px 2px 0px #777;
+  	-webkit-box-shadow: 0px 0px 2px 0px #777;
+  	box-shadow:         0px 0px 2px 0px #777;
+}
+
+#edit #image-view img.small {
+	margin: 5px 5px 5px 5px;
+	border: 1px solid #EEE;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-moz-box-shadow:    0px 0px 0px 0px #FFF;
+  	-webkit-box-shadow: 0px 0px 0px 0px #FFF;
+  	box-shadow:         0px 0px 0px 0px #FFF;
+}
+
+#edit #image-view h4 {
+	font-weight: normal;
+	color: #555;
+	margin-top: 8px;
+	margin-bottom: 3px;
+}
+
+#edit #image-view select {
+	width: 100px;
+	display: block;
+	margin-bottom: 2px;
+}
+
+#edit #image-view div.image {
+	height: auto;
+	width: auto;
+	position: relative;
+}
+
+/* FILE
+ ***************************************************************** */
+ 
+#edit .view #file-add  { display: none; }
+#edit .add  #file-view { display: none; }
+
+/* file view */
+
+#edit #file-view .header .ext {
+	text-transform: uppercase;
+	color: grey;
+}
+
+#edit #file-view .filename {
+	position: relative;
+	margin-top: -10px;
+}
+
+#edit #file-view .filename a {
+	color: #444;
+}
+
+#edit #file-view .filename object {
+	margin-bottom: -3px;
+}
+
+#edit #file-view-min { display: block; }
+#edit #file-view-max { display: none;  }
+
+/* file add */
+
+#edit #file-add {
+	position: relative;
+}
+
+#edit #file-add .files {
+	display: none;
+	position: absolute;
+	top: 13px;
+	left: 50px;
+	width: 240px;
+	height: 200px;
+	padding: 7px 6px 5px 6px;
+	background-image: url('../txp_img/article_file_shadow.png');
+}
+
+#edit #file-add .files a.cancel img {
+	display: block;
+	float: right;
+	margin: 4px 13px 1px 0;
+}
+
+#edit #file-add .files ul {
+	clear: right;
+	list-style: none;
+	padding: 5px;
+	margin: 10px 10px 4px 10px;
+	height: 156px;
+	overflow: auto;
+	border-width: 1px 0 1px 0;
+	border-style: dotted;
+	border-color: grey;
+}
+
+#edit #file-add .files ul li {
+	margin-bottom: 5px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - */
+
+body.article table#edit td.right {
+	padding-left: 10px;
+}
+
+body.article table#edit td.right p.timestamp {
+	white-space: nowrap;
+}
+
+body.article #edit textarea#body {
+	height: 300px;
+}
+
+body.article #edit textarea#excerpt {
+	height: 100px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - */
+
+#article-edit-left {
+	padding-right: 18px;
+}
+
+#article-edit-left input.edit {
+	width: 100px;	
+}
+
+#article-edit-left div#images {
+}
+
+#article-edit-left div.custom-fields {
+	margin-top: 30px;
+}
+
+/* MAIN CONTENT COLUMN
+ ***************************************************************** */
+
+#edit #article-main p.title {
+	position: relative;
+}
+
+#edit #article-main p.title span.path {
+	display: block;
+	width: 423px;
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-size: 10px;
+	color: #666;
+	margin: 0px;
+	padding: 0px;
+	padding-bottom: 3px;
+	text-transform: uppercase;
+}
+
+#edit #article-main p.title span.title {
+	position: absolute;
+	left: 429px;
+	bottom: 3px;
+}
+
+#edit #article-main p.title input {
+	margin: 0px;
+}
+
+/* RIGHT CONTENT COLUMN
+ ***************************************************************** */
+
+body.edit #prev-next {
+	padding-top: 5px;
+	height: 28px;
+}
+
+#edit a.navlink {
+	padding: 3px 4px;
+}
+
+#edit a.navlink-active {
+	padding: 3px 4px;
+}
+
+/* MINI WINDOW
+ ***************************************************************** */
+ 
+body.window #content { 
+	margin-top: 20px;
+}
+
+body.window table#edit {
+	margin-top: 0px;
+	margin-left: 20px;
+	margin-right: 0px;
+	margin-bottom: 0;
+}
+
+body.window table#edit textarea.body {
+	width: 380px;
+	height: 210px;
+}
+
+body.window table#edit textarea.excerpt {
+	width: 380px;
+	height: 76px;
+}
+
+body.window table#edit p.advanced-options {
+	display: none;
+}
+
+body.window table#edit p.recent-articles {
+	display: none;
+}

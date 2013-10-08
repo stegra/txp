@@ -1,0 +1,4274 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Admin > Utilities</title>
+	<meta name="generator" content="BBEdit 8.0" />
+	<link type="text/css" rel="stylesheet" href="http://txp.steffigra.com/admin/utilities/css/lib/jquery.jscrollpane.css" media="all" />
+	<link type="text/css" rel="stylesheet" rel="stylesheet" href="http://txp.steffigra.com/admin/utilities/css/global.css">
+			<link type="text/css" rel="stylesheet" rel="stylesheet" href="http://txp.steffigra.com/admin/update/update.css">
+		
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/jquery-1.5.2.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/jquery.jscrollpane.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/jquery-cookie/jquery.cookie.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/html.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/my.array.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/my.object.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/lib/my.interval.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/utilities/js/global.js"></script>
+	<script type="text/javascript" src="http://txp.steffigra.com/admin/update/update.js"></script>
+	<style type="text/css">
+		body.diagnostics 			li#diagnostics span.name,
+		body.update_database 		li#update_database span.name,
+		body.clear_caches 			li#clear_caches span.name,
+		body.fix_posted_date 		li#fix_posted_date span.name,
+		body.fix_parent_positions	li#fix_parent_positions span.name,
+		body.update_cache_levels 	li#update_cache_levels span.name,
+		body.rebuild_path_indexes	li#rebuild_path_indexes span.name,
+		body.rebuild_pages			li#rebuild_pages span.name,
+		body.renumarate_positions	li#renumarate_positions span.name,
+		body.reorganize_images		li#reorganize_images span.name,
+		body.reorganize_files		li#reorganize_files span.name,
+		body.export_all				li#export_all span.name,
+		body.import_all				li#import_all span.name,
+		body.view_inspector			li#view_inspector span.name,
+		body.create_site			li#.create_site span.name,
+		body.create_download		li#.create_download span.name,
+		body.log_by_day				li#.log_by_day span.name
+		{ 
+			font-weight: bold;
+		}
+	</style>
+	<style type="text/css">
+		
+		#console h3 {
+			display: none;
+		}
+		
+	</style>
+</head>
+<body class="update_database">
+
+<div id="header">
+
+	<img src="http://txp.steffigra.com/admin/txp_img/textpattern.gif" height="15" width="368" alt="textpattern" />
+
+</div>
+
+<div id="content">
+
+	<table class="main">
+	<tr>
+		<td class="left">
+			
+			<div class="control">
+			
+				<div class="top"></div>
+				
+				<div id="control" class="scroll">
+				
+					<ul>
+						
+						<li id="diagnostics" class="item-1"><span class="name">Diagnostics</span> <span class="go"><a title="Diagnostics" href="index.php?go=diagnostics&372812">Go</a></span></li>
+				   <!-- <li id="crawler"><a href="include/crawler/index.php?372812" title="Site Crawler">Site Crawler...</a></li> -->
+						
+													<li id="tag_reference"><a href="include/tag_reference/index.php" title="Tag Reference">Tag Reference...</a></li>
+												
+						<li id="restore"><a href="include/restore/index.php?372812" title="Backup/Restore DB">Backup/Restore DB...</a></li>
+				   <!-- <li id="change_username"><a href="include/change_username/index.php?372812" title="Change User Name">Change User Name...</a></li> -->
+						
+													<li id="create_site"><a href="include/create_site/index.php?372812" title="Create New Site">Create New Site...</a></li>
+												
+						<li id="view_inspector"><span class="name">Inspector</span> <span class="go"><a title="Inspector" href="index.php?go=view_inspector&372812">Go</a></span></li>
+						<li id="update_database"><span class="name">Update DB</span> <span class="go"><a title="Update Database" href="index.php?go=update_database&372812">Go</a></span></li>
+						<li id="clear_caches"><span class="name">Clear Caches</span> <span class="go"><a title="Clear All Caches" href="index.php?go=clear_caches&372812">Go</a></span></li>
+						<li id="rebuild_path_indexes"><span class="name">Rebuild Path</span> <span class="go"><a title="Rebuild Path" href="index.php?go=rebuild_path_indexes&372812">Go</a></span></li>
+						<li id="rebuild_pages"><span class="name">Rebuild Pages</span> <span class="go"><a title="Rebuild Pages" href="index.php?go=rebuild_pages&372812">Go</a></span></li>
+						<li id="renumarate_positions"><span class="name">Renumerate Positions</span> <span class="go"><a title="Renumerate Positions" href="index.php?go=renumarate_positions&372812">Go</a></span></li>
+						<!--
+						<li id="reorganize_images"><span class="name">Reorganize Images</span> <span class="go"><a title="Reorganize Images" href="index.php?go=reorganize_images&372812">Go</a></span></li>
+						<li id="reorganize_files"><span class="name">Reorganize Files</span> <span class="go"><a title="Reorganize Files" href="index.php?go=reorganize_files&372812">Go</a></span></li>
+						<li id="export_all"><span class="name">Export</span> <span class="go"><a title="Export" href="index.php?go=export_all&372812">Go</a></span></li>
+						<li id="import_all"><span class="name">Import</span> <span class="go"><a title="Import" href="index.php?go=import_all&372812">Go</a></span></li>
+						<li id="create_download"><span class="name">Create Download Archive</span> <span class="go"><a title="Create Download Archive" href="index.php?go=create_download&372812">Go</a></span></li>
+						<li id="log_by_day"><span class="name">Log by Day</span> <span class="go"><a title="Log by Day" href="index.php?go=log_by_day&372812">Go</a></span></li>
+						-->
+					</ul>
+					
+				</div>
+				
+				<div class="footer"></div>
+			
+			</div>
+			
+		</td>
+	
+		<td class="right">
+		
+			<div class="console">
+			
+				<div id="console" class="scroll">
+				
+					<div class="pad">
+						
+						
+<h2>Test Site 3</h2>
+
+<p>Version: 4.2.0.1</p>
+
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Status` tinyint(4) NOT NULL DEFAULT 4
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Title` varchar(128) NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Title_html` varchar(128) NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `override_form` varchar(64) NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_content_value` MODIFY COLUMN `id` int NOT NULL AUTO_INCREMENT
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_content_value` MODIFY COLUMN `text_val` varchar(256) NOT NULL
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-1'>add column `session` to txp_users table</h3>
+
+<script type="text/javascript">document.getElementById('todo-1').scrollIntoView()</script>
+
+<pre class="dump">
+ALTER TABLE `ts3_txp_users` ADD COLUMN `session` text NOT NULL 
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-2'>add column `updated` to txp_users table</h3>
+
+<script type="text/javascript">document.getElementById('todo-2').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_users` ADD COLUMN `updated` int NULL DEFAULT NULL DEFAULT 0 AFTER `session`
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-3'>add column `NamePath` to presentation tables</h3>
+
+<script type="text/javascript">document.getElementById('todo-3').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `NamePath` varchar(256) NOT NULL AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `NamePath` varchar(256) NOT NULL AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `NamePath` varchar(256) NOT NULL AFTER `Name`
+</pre>
+<pre class="dump">
+DROP TABLE `ts3_txp_cache`
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-4'>create table txp_path</h3>
+
+<script type="text/javascript">document.getElementById('todo-4').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_path` (
+  `ID`      int NOT NULL DEFAULT 0,
+  `Type`    varchar(12) NOT NULL DEFAULT '',
+  `Reverse` tinyint NOT NULL DEFAULT 0,
+  `Level`   tinyint NOT NULL DEFAULT 0,
+  `P2`      int NULL DEFAULT NULL,
+  `P3`      int NULL DEFAULT NULL,
+  `P4`      int NULL DEFAULT NULL,
+  INDEX     path (`Type`(1),Reverse,P2,P3,P4)
+) ENGINE=MyISAM;
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-5'>create table txp_cache</h3>
+
+<script type="text/javascript">document.getElementById('todo-5').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_cache` (
+  `id`     int NOT NULL AUTO_INCREMENT,
+  `name`   varchar(255) NOT NULL DEFAULT '',
+  `page`   varchar(255) NOT NULL DEFAULT '',
+  `idx`    varchar(255) NOT NULL DEFAULT '',
+  `hash`   int NOT NULL DEFAULT 0,
+  `html`   text NOT NULL DEFAULT '',
+  `file`   tinyint NOT NULL DEFAULT 0,
+  `ref`    varchar(255) NOT NULL DEFAULT '',
+  `level`  tinyint NOT NULL DEFAULT 0,
+  `num`    int NOT NULL DEFAULT 0,
+  `size`   int NOT NULL DEFAULT 0,
+  `status` varchar(24) NOT NULL DEFAULT '',
+  PRIMARY  KEY (id)
+) ENGINE=MyISAM;
+</pre>
+
+
+<pre class="dump">
+there are no cached pages
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-6'>create table txp_custom</h3>
+
+<script type="text/javascript">document.getElementById('todo-6').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_custom` (
+  `id`      int NOT NULL AUTO_INCREMENT,
+  `name`    varchar(32) NOT NULL DEFAULT '',
+  `path`    varchar(128) NOT NULL DEFAULT '',
+  `title`   varchar(32) NOT NULL DEFAULT '',
+  `type`    varchar(16) NOT NULL DEFAULT '',
+  `input`   varchar(16) NOT NULL DEFAULT 'textfield',
+  `options` text NOT NULL DEFAULT '',
+  `label`   tinyint NOT NULL DEFAULT 0,
+  `default` varchar(32) NOT NULL DEFAULT '',
+  `parent`  varchar(64) NOT NULL DEFAULT '',
+  `help`    text NOT NULL DEFAULT '',
+  `status`  tinyint NOT NULL DEFAULT 0,
+  `lft`     smallint NOT NULL DEFAULT 0,
+  `rgt`     smallint NOT NULL DEFAULT 0,
+  PRIMARY   KEY (id),
+  INDEX     name (name(16))
+) ENGINE=MyISAM;
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_custom SET name = 'root',title = 'Root',parent = '',type = '',input = ''
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-7'>create table txp_group</h3>
+
+<script type="text/javascript">document.getElementById('todo-7').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_group` (
+  `id`            int NOT NULL AUTO_INCREMENT,
+  `type`          varchar(8) NOT NULL DEFAULT 'article',
+  `group_id`      int NOT NULL DEFAULT 0,
+  `instance_id`   int NOT NULL DEFAULT 0,
+  `field_id`      int NOT NULL DEFAULT 0,
+  `field_name`    varchar(32) NOT NULL DEFAULT '',
+  `field_parent`  int NOT NULL DEFAULT 0,
+  `field_path`    varchar(128) NOT NULL DEFAULT '',
+  `field_input`   varchar(16) NOT NULL DEFAULT '',
+  `field_options` text NOT NULL DEFAULT '',
+  `field_default` varchar(256) NOT NULL DEFAULT '',
+  `by_id`         int NOT NULL DEFAULT 0,
+  `by_name`       varchar(128) NOT NULL DEFAULT '',
+  `by_path`       varchar(255) NOT NULL DEFAULT '',
+  `by_parent`     int NOT NULL DEFAULT 0,
+  `by_class`      varchar(128) NOT NULL DEFAULT '',
+  `by_category`   varchar(128) NOT NULL DEFAULT '',
+  `by_sticky`     tinyint NOT NULL DEFAULT 0,
+  `by_level`      tinyint NOT NULL DEFAULT 0,
+  `status`        varchar(10) NOT NULL DEFAULT '',
+  `used`          int NOT NULL DEFAULT 0,
+  `value_count`   int NOT NULL DEFAULT 0,
+  `last_mod`      datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY         KEY (id),
+  INDEX           field_path (field_path(12))
+) ENGINE=MyISAM;
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-8'>create table txp_content_value</h3>
+
+<script type="text/javascript">document.getElementById('todo-8').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_content_value` (
+  `id`           int NOT NULL AUTO_INCREMENT,
+  `type`         varchar(8) NOT NULL DEFAULT 'article',
+  `article_id`   int NOT NULL DEFAULT 0,
+  `group_id`     int NOT NULL DEFAULT 0,
+  `instance_id`  int NOT NULL DEFAULT 0,
+  `field_id`     int NOT NULL DEFAULT 0,
+  `field_name`   varchar(64) NOT NULL DEFAULT '',
+  `field_parent` int NOT NULL DEFAULT 0,
+  `num_val`      decimal(10,2) NULL DEFAULT NULL,
+  `text_val`     varchar(256) NOT NULL DEFAULT '',
+  `status`       tinyint NOT NULL DEFAULT 0,
+  PRIMARY        KEY (id),
+  INDEX          name_text (field_name(8),text_val(12))
+) ENGINE=MyISAM;
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-9'>create table txp_sticky</h3>
+
+<script type="text/javascript">document.getElementById('todo-9').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_sticky` (
+  `id`    int NOT NULL DEFAULT 0,
+  `type`  varchar(12) NOT NULL DEFAULT 'article',
+  PRIMARY KEY (id,type)
+) ENGINE=MyISAM;
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_sticky (id,`type`) SELECT ID,'article' FROM ts3_textpattern WHERE Status = 5
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-10'>create table txp_tag</h3>
+
+<script type="text/javascript">document.getElementById('todo-10').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_tag` (
+  `group`       varchar(64) NOT NULL DEFAULT '',
+  `tag`         varchar(64) NOT NULL DEFAULT '',
+  `body`        tinyint NOT NULL DEFAULT 0,
+  `code`        text NOT NULL DEFAULT '',
+  `description` text NOT NULL DEFAULT '',
+  `pos`         int NOT NULL DEFAULT 1,
+  `lastmod`     datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY       KEY (tag)
+) ENGINE=MyISAM;
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-11'>create table txp_tag_attr</h3>
+
+<script type="text/javascript">document.getElementById('todo-11').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_tag_attr` (
+  `tag`       varchar(64) NOT NULL DEFAULT '',
+  `attribute` varchar(64) NOT NULL DEFAULT '',
+  `default`   varchar(64) NOT NULL DEFAULT '',
+  `comment`   text NOT NULL DEFAULT '',
+  `pos`       int NOT NULL DEFAULT 1,
+  PRIMARY     KEY (tag,attribute)
+) ENGINE=MyISAM;
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-12'>create table txp_window</h3>
+
+<script type="text/javascript">document.getElementById('todo-12').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_window` (
+  `user`     varchar(64) NOT NULL DEFAULT '',
+  `window`   int NOT NULL DEFAULT 0,
+  `settings` text NOT NULL DEFAULT '',
+  PRIMARY    KEY (user,window)
+) ENGINE=MyISAM;
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_users SET session = '',updated = 1 WHERE 1=1
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-13'>convert table textpattern</h3>
+
+<script type="text/javascript">document.getElementById('todo-13').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Name` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_textpattern SET ID 		= '2',
+		 Name 		= 'my-site',
+		 Title		= 'My Site', 
+		 Title_html = 'My Site',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_textpattern SET ID			= '3',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentID = 2 WHERE ParentID = 0 AND ID != 2
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `ImageData` varchar(512) NOT NULL AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `override_page` varchar(255) NOT NULL AFTER `override_form`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` drop column Image
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-14'>convert table txp_image</h3>
+
+<script type="text/javascript">document.getElementById('todo-14').scrollIntoView()</script>
+<pre class="dump">
+UPDATE ts3_txp_image SET name = TRIM(TRAILING ext FROM name) WHERE 1=1
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Status` smallint		NOT NULL DEFAULT 4 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Title` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` CHANGE `id` `ID` int 			NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` CHANGE `name` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` CHANGE `category` `Category1` varchar(255)	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` CHANGE `caption` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` CHANGE `date` `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` CHANGE `author` `AuthorID` varchar(32) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_image SET ID 		= '3',
+		 Name 		= 'images',
+		 Title		= 'Images', 
+		 Title_html = 'Images',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_image SET ID			= '4',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET ParentID = 3 WHERE ParentID = 0 AND ID != 3
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `copyright` varchar(100) NOT NULL AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `transparency` tinyint NOT NULL AFTER `thumb_h`
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-15'>add example image</h3>
+
+<script type="text/javascript">document.getElementById('todo-15').scrollIntoView()</script>
+<pre class="dump">
+INSERT INTO ts3_txp_image SET Name 		= 'big-sky',
+				 Title		= 'Big Sky', 
+				 LastMod	= NOW(),
+				 Posted		= NOW(),
+				 ParentID	= 3,
+				 ImageID	= 1,
+				 AuthorID	= 'textpattern',
+				 Level		= 2,
+				 Status		= 4,
+				 Position   = 1,
+				 ext		= '.jpg',
+				`Type`		= 'image',
+				`w`			= 400,
+				`h`			= 270,
+				thumb_w		= 100,
+				thumb_h		= 100,
+				thumbnail	= 2 
+				
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ImageID = '5' WHERE Name = 'welcome-to-your-site'
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-16'>convert table txp_file</h3>
+
+<script type="text/javascript">document.getElementById('todo-16').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Title` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `id` `ID` int 			NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `filename` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `category` `Category1` varchar(255)	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `description` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `status` `Status` smallint		NOT NULL DEFAULT 4
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `modified` `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `created` `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` CHANGE `author` `AuthorID` varchar(32) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_file SET ID 		= '1',
+		 Name 		= 'files',
+		 Title		= 'Files', 
+		 Title_html = 'Files',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_file SET ID			= '2',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET ParentID = 1 WHERE ParentID = 0 AND ID != 1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `ext` varchar(12) NOT NULL AFTER `Name`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET size = '', downloads = '0' WHERE ParentID = 0
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-17'>convert table txp_link</h3>
+
+<script type="text/javascript">document.getElementById('todo-17').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Status` smallint		NOT NULL DEFAULT 4 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Name` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` CHANGE `id` `ID` int 			NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` CHANGE `date` `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` CHANGE `category` `Category1` varchar(255)	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` CHANGE `linkname` `Title` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` CHANGE `description` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` CHANGE `author` `AuthorID` varchar(32) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_link SET ID 		= '4',
+		 Name 		= 'links',
+		 Title		= 'Links', 
+		 Title_html = 'Links',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_link SET ID			= '5',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_link SET ParentID = 4 WHERE ParentID = 0 AND ID != 4
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_link SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-18'>convert table txp_discuss</h3>
+
+<script type="text/javascript">document.getElementById('todo-18').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` CHANGE `parentid` `article_id` int NOT NULL DEFAULT 0
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Title` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `AuthorID` varchar(32) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` CHANGE `discussid` `ID` int 			NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` CHANGE `name` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` CHANGE `posted` `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` CHANGE `message` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` CHANGE `visible` `Status` smallint		NOT NULL DEFAULT 4
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_discuss SET ID 		= '2',
+		 Name 		= 'comments',
+		 Title		= 'Comments', 
+		 Title_html = 'Comments',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_discuss SET ID			= '3',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_discuss SET ParentID = 2 WHERE ParentID = 0 AND ID != 2
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_discuss SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-19'>convert table txp_category</h3>
+
+<script type="text/javascript">document.getElementById('todo-19').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Status` smallint		NOT NULL DEFAULT 4 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Body` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `AuthorID` varchar(32) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` CHANGE `id` `ID` int 			NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` CHANGE `name` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` CHANGE `type` `Type` varchar(8) 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` CHANGE `title` `Title` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_category SET ID 		= '14',
+		 Name 		= 'categories',
+		 Title		= 'Categories', 
+		 Title_html = 'Categories',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_category SET ID			= '15',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET ParentID = 14 WHERE ParentID = 0 AND ID != 14
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category AS t JOIN ts3_txp_category AS p ON t.parent = p.Name AND t.Type = p.Type SET t.ParentID = p.ID WHERE t.Parent NOT IN ('root','')
+</pre>
+<pre class="dump">
+DELETE  FROM ts3_txp_category WHERE Name = 'root' AND Title = 'root'
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET Posted = NOW(), LastMod = NOW() WHERE ParentID != 0
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` DROP COLUMN `parent`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `frontpage` tinyint NULL DEFAULT NULL DEFAULT 0 AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Articles` int NULL DEFAULT NULL DEFAULT 0 
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Images` int NULL DEFAULT NULL DEFAULT 0 AFTER `Articles`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Files` int NULL DEFAULT NULL DEFAULT 0 AFTER `Images`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Links` int NULL DEFAULT NULL DEFAULT 0 AFTER `Files`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Comments` int NULL DEFAULT NULL DEFAULT 0 AFTER `Links`
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-20'>convert table txp_page</h3>
+
+<script type="text/javascript">document.getElementById('todo-20').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Status` smallint		NOT NULL DEFAULT 4 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Title` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `AuthorID` varchar(32) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `ID` int 			NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` CHANGE `name` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` CHANGE `user_html` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_page SET ID 		= '4',
+		 Name 		= 'pages',
+		 Title		= 'Pages', 
+		 Title_html = 'Pages',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_page SET ID			= '5',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET ParentID = 4 WHERE ParentID = 0 AND ID != 4
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Body_xsl` text NULL DEFAULT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Pattern` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Body_xsl`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `NamePath` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Type = 'xsl' WHERE Type = '' AND Body_xsl NOT IN ('0','')
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Type = 'txp' WHERE Type = '' AND Body_xsl = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET AuthorID = 'steffi' WHERE AuthorID = ''
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-21'>convert table txp_form</h3>
+
+<script type="text/javascript">document.getElementById('todo-21').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Status` smallint		NOT NULL DEFAULT 4 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Title` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `AuthorID` varchar(32) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `ID` int 			NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` CHANGE `name` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` CHANGE `type` `Type` varchar(8) 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` CHANGE `Form` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_form SET ID 		= '14',
+		 Name 		= 'forms',
+		 Title		= 'Forms', 
+		 Title_html = 'Forms',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_form SET ID			= '15',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET ParentID = 14 WHERE ParentID = 0 AND ID != 14
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Body_xsl` text NULL DEFAULT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `NamePath` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET AuthorID = 'steffi' WHERE AuthorID = ''
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-22'>convert table txp_css</h3>
+
+<script type="text/javascript">document.getElementById('todo-22').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Status` smallint		NOT NULL DEFAULT 4 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Title` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `AuthorID` varchar(32) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `ID` int 			NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` CHANGE `name` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` CHANGE `css` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_css SET ID 		= '2',
+		 Name 		= 'style',
+		 Title		= 'Style', 
+		 Title_html = 'Style',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_css SET ID			= '3',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET ParentID = 2 WHERE ParentID = 0 AND ID != 2
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `NamePath` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Type = 'css' WHERE Type = '' AND ParentID != 0 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET AuthorID = 'steffi' WHERE AuthorID = ''
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-23'>convert table txp_custom</h3>
+
+<script type="text/javascript">document.getElementById('todo-23').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `AuthorID` varchar(32) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` CHANGE `id` `ID` int 			NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` CHANGE `name` `Name` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` CHANGE `title` `Title` varchar(128) 	NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` CHANGE `type` `Type` varchar(8) 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` CHANGE `options` `Body` mediumtext 		NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` CHANGE `help` `Excerpt` text 			NOT NULL DEFAULT ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` CHANGE `status` `Status` smallint		NOT NULL DEFAULT 4
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_custom SET ID 		= '2',
+		 Name 		= 'custom-fields',
+		 Title		= 'Custom Fields', 
+		 Title_html = 'Custom Fields',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_custom SET ID			= '3',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET ParentID = 2 WHERE ParentID = 0 AND ID != 2
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET Posted = NOW() + ID, LastMod = NOW() + ID WHERE Posted = 0
+</pre>
+<pre class="dump">
+SELECT ID FROM ts3_txp_custom WHERE `ParentID` = 0 LIMIT 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET Title = 'Custom Fields', Name = 'custom-fields', `Type` = 'folder',ParentID = 0,Level = 1, Status = 4 WHERE ID = 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET ParentID = 1 WHERE ParentID = '2'
+</pre>
+<pre class="dump">
+DELETE  FROM ts3_txp_custom WHERE ID = '2'
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_group SET field_parent = 0 WHERE field_parent = 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_content_value SET field_parent = 0 WHERE field_parent = 1
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-24'>convert table txp_log</h3>
+
+<script type="text/javascript">document.getElementById('todo-24').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `ParentPosted` datetime		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `ParentPosition` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `ParentStatus` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Children` int				NOT NULL DEFAULT -1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Level` tinyint			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `rgt` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `lft` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Position` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `uid` varchar(32)		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `textile_excerpt` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `textile_body` int				NOT NULL DEFAULT 1 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `OldStatus` varchar(4)		NOT NULL DEFAULT '0.0' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `FileID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `ImageID` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Excerpt_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Excerpt` text 			NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Body_html` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Body` mediumtext 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Title_html` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Title` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Class` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Type` varchar(8) 		NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Name` varchar(128) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Trash` tinyint	 		NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `LastModID` varchar(64) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `LastModMicro` varchar(30) 	NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `LastMod` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `AuthorID` varchar(32) 	NOT NULL DEFAULT '' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Expires` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00' FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Alias` int				NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `ParentID` int 			NOT NULL DEFAULT 0 FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` CHANGE `id` `ID` int 			NOT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` CHANGE `time` `Posted` datetime 		NOT NULL DEFAULT '0000-00-00 00:00:00'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` CHANGE `status` `Status` smallint		NOT NULL DEFAULT 4
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ID` int NOT NULL FIRST
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ParentID` int NOT NULL DEFAULT 0 AFTER `ID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Alias` int NOT NULL DEFAULT 0 AFTER `ParentID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Posted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Alias`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Expires` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `Posted`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `AuthorID` varchar(32) NOT NULL DEFAULT '' AFTER `Expires`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `LastMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `AuthorID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `LastModMicro` varchar(30) NOT NULL DEFAULT '0000-00-00 00:00:00 0000000000' AFTER `LastMod`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `LastModID` varchar(64) NOT NULL DEFAULT '' AFTER `LastModMicro`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Trash` tinyint NOT NULL DEFAULT 0 AFTER `LastModID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Name` varchar(128) NOT NULL DEFAULT '' AFTER `Trash`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Type` varchar(8) NOT NULL DEFAULT '' AFTER `Name`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Class` varchar(128) NOT NULL DEFAULT '' AFTER `Type`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Title` varchar(128) NOT NULL DEFAULT '' AFTER `Class`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Title_html` varchar(128) NOT NULL DEFAULT '' AFTER `Title`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Body` mediumtext NOT NULL DEFAULT '' AFTER `Title_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Body_html` mediumtext NOT NULL DEFAULT '' AFTER `Body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Excerpt` text NOT NULL DEFAULT '' AFTER `Body_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Excerpt_html` mediumtext NOT NULL DEFAULT '' AFTER `Excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ImageID` int NOT NULL DEFAULT 0 AFTER `Excerpt_html`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `FileID` int NOT NULL DEFAULT 0 AFTER `ImageID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Category1` varchar(255)	NOT NULL DEFAULT '' AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Category2` varchar(255)	NOT NULL DEFAULT '' AFTER `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 4 AFTER `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `OldStatus` varchar(4) NOT NULL DEFAULT '0.0' AFTER `Status`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `textile_body` int NOT NULL DEFAULT 1 AFTER `OldStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `textile_excerpt` int NOT NULL DEFAULT 1 AFTER `textile_body`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Keywords` varchar(255)	NOT NULL DEFAULT '' AFTER `textile_excerpt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `uid` varchar(32) NOT NULL DEFAULT '' AFTER `Keywords`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Position` int NOT NULL DEFAULT 1 AFTER `uid`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `lft` int NOT NULL DEFAULT 0 AFTER `Position`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `rgt` int NOT NULL DEFAULT 0 AFTER `lft`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Path` varchar(128)	NOT NULL DEFAULT '' AFTER `rgt`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Level` tinyint NOT NULL DEFAULT 0 AFTER `Path`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Children` int NOT NULL DEFAULT -1 AFTER `Level`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ParentStatus` tinyint NOT NULL DEFAULT 0 AFTER `Children`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ParentPosition` int NOT NULL DEFAULT 0 AFTER `ParentStatus`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ParentName` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentPosition`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ParentClass` varchar(255)	NOT NULL DEFAULT '' AFTER `ParentName`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ParentPosted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `ParentClass`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `P2` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `P3` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `P4` int NULL DEFAULT NULL
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` DROP PRIMARY KEY
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `ID` int NOT NULL PRIMARY KEY AUTO_INCREMENT
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_log SET ID 		= '1',
+		 Name 		= 'visitor-log',
+		 Title		= 'Visitor Log', 
+		 Title_html = 'Visitor Log',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 1,
+		 Status		= 4,
+		`Type` 		= 'folder',
+		 Position	= 1
+		
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_log SET ID			= '2',
+		 Name 		= 'TRASH',
+		 Title		= 'Trash', 
+		 Title_html = 'Trash',
+		 LastMod	= NOW(),
+		 Posted		= NOW(),
+		 AuthorID	= 'textpattern',
+		 Level		= 2,
+		 Status		= 2,
+		`Type` 		= 'trash',
+		 Position   = 0
+		
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_log SET ParentID = 1 WHERE ParentID = 0 AND ID != 1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern AS t JOIN ts3_textpattern AS p ON t.ParentID = p.ID SET 
+	t.ParentStatus = p.Status,
+	t.ParentPosition = p.Position,
+	t.ParentName = p.Name,
+	t.ParentClass = p.Class,
+	t.ParentPosted = p.Posted WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET ParentStatus = Status WHERE ParentID = 0
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_log SET OldStatus = CONCAT(4,'.',Level) WHERE Status = 2 AND Name != 'TRASH'
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `agent` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `ip`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` MODIFY COLUMN `Status` smallint NOT NULL DEFAULT 200
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-25'>create table txp_content_category</h3>
+
+<script type="text/javascript">document.getElementById('todo-25').scrollIntoView()</script>
+<pre class="dump">
+CREATE TABLE `ts3_txp_content_category` (
+  `article_id` int NOT NULL DEFAULT 0,
+  `name`       varchar(64) NOT NULL DEFAULT '',
+  `position`   tinyint NOT NULL DEFAULT 1,
+  `type`       varchar(12) NOT NULL DEFAULT '',
+  INDEX        id_type (article_id,type(2))
+) ENGINE=MyISAM;
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-26'>add category values</h3>
+
+<script type="text/javascript">document.getElementById('todo-26').scrollIntoView()</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-27'>update preferences</h3>
+
+<script type="text/javascript">document.getElementById('todo-27').scrollIntoView()</script>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'last_custom_field_import',
+`val`           = 0,
+`type`          = 2,
+`event`         = 'publish',
+`html`          = 'text_input',
+`position`      = 0,
+`user_name`     = ''
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'page_caching',
+`val`           = 0,
+`type`          = 1,
+`event`         = 'publish',
+`html`          = 'yesnoradio',
+`position`      = 220,
+`user_name`     = ''
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'mod_counter',
+`val`           = 1,
+`type`          = 2,
+`event`         = 'publish',
+`html`          = 'text_input',
+`position`      = 0,
+`user_name`     = ''
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'regular_image_size',
+`val`           = 500,
+`type`          = 1,
+`event`         = 'image',
+`html`          = 'text_input',
+`position`      = 1,
+`user_name`     = ''
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'thumbnail_image_size',
+`val`           = 100,
+`type`          = 1,
+`event`         = 'image',
+`html`          = 'text_input',
+`position`      = 3,
+`user_name`     = ''
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'regular_image_size_for',
+`val`           = 'longer',
+`type`          = 1,
+`event`         = 'image',
+`html`          = 'image_size_for',
+`position`      = 2,
+`user_name`     = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_prefs SET position = 3 WHERE name = 'thumbnail_image_size'
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'file_dir',
+`val`           = 'files',
+`type`          = 1,
+`event`         = 'admin',
+`html`          = 'text_input',
+`position`      = 40,
+`user_name`     = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_prefs SET val = '/home/steffi/txp0.steffigra.com/html/files',type = 2,position = 0 WHERE name = 'file_base_path'
+</pre>
+<pre class="dump">
+INSERT INTO ts3_txp_prefs SET 
+`prefs_id`      = 1,
+`name`          = 'base',
+`val`           = 'http://txp.steffigra.com/admin/',
+`type`          = 2,
+`event`         = 'admin',
+`html`          = 'text_input',
+`position`      = 0,
+`user_name`     = ''
+</pre>
+
+<p>Version: 4.2.0.2</p>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-28'>add `FileDir` and `FilePath` columns to txp_image table</h3>
+
+<script type="text/javascript">document.getElementById('todo-28').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `FileDir` int NULL DEFAULT NULL DEFAULT 0 AFTER `FileID`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `FilePath` varchar(128) NULL DEFAULT NULL DEFAULT '' AFTER `FileDir`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET ImageID = '5', 
+				 FileDir = '1', 
+				 FilePath = '1' WHERE id = 5
+</pre>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-29'>update image size in txp_image table</h3>
+
+<script type="text/javascript">document.getElementById('todo-29').scrollIntoView()</script>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<h3 id='todo-30'>add `Categories` column</h3>
+
+<script type="text/javascript">document.getElementById('todo-30').scrollIntoView()</script>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_textpattern` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_image` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_file` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_link SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_link SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_link SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_link` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_custom` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_category` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_discuss SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_discuss SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_discuss SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_discuss` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_page` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_form` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_css` DROP COLUMN `Category2`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` ADD COLUMN `Categories` varchar(255) NULL DEFAULT NULL DEFAULT '' AFTER `Category2`
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_log SET Categories = Category1 WHERE Categories = '' AND Category1 != '' AND Category2 = ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_log SET Categories = Category2 WHERE Categories = '' AND Category1 = '' AND Category2 != ''
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_log SET Categories = CONCAT(Category1,',',Category2) WHERE Categories = '' AND Category1 != '' AND Category2 != ''
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` DROP COLUMN `Category1`
+</pre>
+<pre class="dump">
+ALTER TABLE `ts3_txp_log` DROP COLUMN `Category2`
+</pre>
+<h3>update tree tables</h3><pre class="dump">
+UPDATE ts3_textpattern SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_textpattern SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_textpattern WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_image SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_image WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_file SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_file WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_link SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_link SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_link WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_custom SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_custom WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_category SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_category WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_discuss SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_discuss SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_discuss WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_page SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_page WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_form SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_form WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Path = '', Level = 0, Children = -1,P2 = NULL,P3 = NULL,P4 = NULL WHERE 1=1
+</pre>
+<pre class="dump">
+UPDATE ts3_txp_css SET Children = (SELECT COUNT(*) FROM (SELECT ParentID FROM ts3_txp_css WHERE Trash = 0 AND Name != 'TRASH') AS c WHERE c.ParentID = ID) WHERE 1
+</pre>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="footer">
+				
+							</div>
+			
+		</td>
+	</tr>
+	</table>
+
+</div>
+
+</body>
+</html>

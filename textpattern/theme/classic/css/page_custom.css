@@ -1,0 +1,18 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_list.css');
+
+#list td.input {
+	text-align: left;
+}
+
+#list td.options,
+#list td.body {
+	overflow: hidden;
+	max-width: 150px;
+}
+
+#list td.options input,
+#list td.body input {
+	width: 100%;
+}

@@ -1,0 +1,63 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../webfontkit/avenirltstd-roman-webfont.eot');
+    src: url('../webfontkit/avenirltstd-roman-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../webfontkit/avenirltstd-roman-webfont.woff') format('woff'),
+         url('../webfontkit/avenirltstd-roman-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* -------------------------------------------------------------------------- */
+
+body {
+	font-family: Avenir, Verdana, Arial, sans-serif;
+	font-size: 12px;
+}
+
+div.context   			{ color: #888; padding-left: 5px; font-size: 12px;}
+div.context b 			{ color: #333; }
+
+div#container 			{ margin-top: 5px;}
+div.test  	  			{ width: 450px; padding: 3px; float: left; border: 0px dotted red;}
+
+/* -------------------------------------------------------------------------- */
+
+pre.path 	  			{ padding: 3px 10px; color: #FFF; background-color: #555; margin:0px;}
+
+/* -------------------------------------------------------------------------- */
+
+div.message 			{ position: relative; min-height: 150px; background-color: #FAFAFA; margin: 0px;}
+div.message pre.query 	{ padding: 10px; margin: 0px; color: #444; }
+div.message pre.query span.sql 		{ color: #5d799f; }
+div.message pre.query span.sqlval 	{ color: #637623; }
+div.message p.error		{ padding: 10px; color: red; margin:0px; }
+
+/* -------------------------------------------------------------------------- */
+
+table 	  	  			{ border-collapse: collapse; font-size: 11px; width: 100%; }
+
+th 						{ padding: 2px; text-align: left; font-weight: normal; background-color: #DDD; }
+th.total				{ padding-left: 10px; }
+th.id					{ width: 35px; }
+th.level				{ width: 35px; }
+
+td						{ padding: 2px; }
+tr.line td 				{ padding: 0px; }
+tr.line td div 			{ border-bottom: 1px dotted grey; margin: 1px 0px;}
+tr.context td       	{ font-weight: bold; padding-top: 4px; padding-bottom: 0px; background-color: #F0F0F0; }
+tr.selected td 			{ background-color: #bcc77b; }
+
+td.title span			{ color: #444; }
+td.class span			{ color: #888; font-weight: normal; }
+
+tr.level-1 td.title 	{ padding-left: 10px; }
+tr.level-2 td.title 	{ padding-left: 20px;}
+tr.level-3 td.title 	{ padding-left: 30px; }
+tr.level-4 td.title 	{ padding-left: 40px; }
+tr.level-5 td.title 	{ padding-left: 50px; }
+tr.level-6 td.title 	{ padding-left: 60px; }
+tr.level-7 td.title 	{ padding-left: 70px; }
+tr.level-8 td.title 	{ padding-left: 80px; }
+tr.level-9 td.title 	{ padding-left: 90px; }
+tr.level-10 td.title 	{ padding-left: 100px; }

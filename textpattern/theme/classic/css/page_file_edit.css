@@ -1,0 +1,52 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_edit.css');
+
+/* ---------------------------------------------------------------------------------- */
+/* file edit page */
+
+body.file.edit #content table#list {
+	width: 400px;
+}
+
+body.file.edit #content table#list tr td {
+	border: 0px;
+}
+
+body.file.edit #content table#list td.replace {
+	display: none;
+}
+
+body.file.edit table.edit-pane object.play {
+	margin-left: 5px;
+	margin-bottom: -4px;
+}
+
+body.file.edit div.play-video {
+	position: relative;
+	background-color: black;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+body.file.edit div.play-video div.start {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-image: url('../txp_img/button_start_play.png');
+	background-position: center center;
+}
+
+body.file.edit div.play-video video {
+	display: none;
+	background-color: black;
+}
+
+body.file.edit div.play-video video.playing {
+	display: block;
+	background-color: black;
+}
+
+body.file.edit td.replace form.upload-form {
+	text-align: left;
+}

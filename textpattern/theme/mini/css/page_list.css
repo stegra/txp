@@ -1,0 +1,37 @@
+/*
+Remora Theme for Textpattern CMS
+Suckerfish menu: @see http://htmldog.com/articles/suckerfish/dropdowns/
+*/
+
+@import url("../../remora/css/page_list.css");
+
+#list tr#hr3 td {
+	display: none;
+}
+
+#list tr.main-article td.title .arrow {
+	display: none;
+}
+
+#list tr.footer {
+	z-index: 2000;
+}
+
+table#list tr.footer td {
+	position: fixed;
+	bottom: 0px;
+	left: 4%;
+	right: 5%;
+	padding: 0px;
+	background-color: white;
+	z-index: 100;
+}
+
+table#list tr.footer td div.pad {
+	margin-top: 1px;
+	border-top: 1px solid #DDD;
+	padding: 4px 15px 15px 15px;
+}
+
+
+

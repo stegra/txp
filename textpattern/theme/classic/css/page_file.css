@@ -1,0 +1,34 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_list.css');
+
+/* ---------------------------------------------------------------------------------- */
+/* file list page */
+
+body.file.list table#list td.download a {
+	display: block;
+	background-image: url('../txp_img/icon_file.png');
+	width: 12px;
+	height: 15px;
+	text-indent: -1000em;
+}
+
+body.file.list table#list td {
+	vertical-align: top;	
+}
+
+body.file.list table#list td p {
+	margin: 0;
+	height: 15px;
+	overflow: hidden;
+}
+
+body.file.list table#list td p.description {
+	color: #777;
+	margin-right: 20px;
+}
+
+body.file.list table#list .blank {
+	color: #888;
+	font-size: 9px;
+}

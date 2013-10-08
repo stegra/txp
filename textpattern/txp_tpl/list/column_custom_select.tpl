@@ -1,0 +1,1 @@
+<option value="custom.{$col_custom_id}">{$col_custom_title} {if $col_custom_show}&#10003;{/if}</option>

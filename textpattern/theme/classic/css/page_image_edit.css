@@ -1,0 +1,210 @@
+@import url('textpattern_mod.css');
+@import url('content_edit.css');
+
+/* ---------------------------------------------------------------------------------- */
+/* images edit page */
+
+table#edit {
+	margin-bottom: 10px;
+}
+
+table#edit td
+{
+	font-size: 11px;
+}
+
+table#edit td.prevnext {
+	text-align: center;
+	padding-bottom: 0px;
+	border-bottom: 1px solid #DDD;
+}
+
+table#edit td.top {
+	border: 0px dotted red;
+	min-width: 500px;
+}
+
+body#page-image #edit td.left {
+	padding: 10px 20px 0 0;
+	border-right: 1px solid #DDD;
+}
+
+div.image-box div.picture { 
+	margin: 5px;
+	max-width: 750px;
+	max-height: 500px;
+	overflow: auto;
+}
+
+div.image-box div.picture img {
+	background-color: #EEE;
+} 
+
+div#thumbnail-image-box div.picture {
+	position: relative;
+	float: left;
+	overflow: visible;
+	margin-bottom: 3px;
+}
+
+div#thumbnail-image-box div.picture img.dragover {
+	margin-top: -2px;
+	margin-left: -2px;
+	padding: 1px;
+	border: 1px dotted #888;
+}
+
+div.image-box form {
+	clear: left;
+	padding: 4px 5px 10px 5px;
+	border-top: 1px solid #DDD;
+}
+
+table#edit table td.crop
+{
+	padding-right: 1px;
+}
+
+img.crop {
+	padding: 1px;
+}
+
+div.size {
+	float: left;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+div.resize {
+	float: right; 
+	text-align: right; 
+	margin-bottom: 10px;
+}
+
+td.bottom div.size,
+td.bottom div.resize {
+	margin-bottom: 0px;
+}
+
+div.resize img.sel {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #7F7F7F;
+}
+
+div.resize img.new {
+	border-width: 1px;
+	border-style: dotted;
+	border-color: #999999;
+}
+
+input.title {
+	width: 172px;
+}
+
+input.name {
+	width: 172px;
+}
+
+input.alt-text {
+	width: 275px;
+}
+
+input.copyright {
+	width: 275px;
+}
+
+.category select {
+	min-width: 175px;
+}
+
+textarea.caption {
+	width: 275px;
+	height: 100px;
+}
+
+p.metadata {
+	width: 275px;
+}
+
+p.metadata span {
+	display: block;
+	margin-top: 2px;
+	color: #777;
+}
+
+div.resize input.resize {
+	margin-right: 10px;
+}
+
+.upload-search input.smallerbox
+{
+	margin-right: 10px;
+	width: 55px;
+}
+
+form.replace-image {
+	margin-top: 40px;
+}
+
+form.replace-image input.file,
+form.replace-thumb input.file
+{
+	border: 0;
+	background-color: white;
+}
+
+input.replace,
+input.create
+{
+	margin-top: 4px;
+	width: 60px;
+}
+
+form.replace-image select.existing
+{
+	margin-top: 6px;
+	width: 280px;
+}
+
+#replace-image {
+	display: none;
+}
+
+#replace-thumb {
+	display: none;
+}
+
+table#edit .effect-filters {
+	margin-top: 30px;
+}
+
+table#edit .effect-filters p {
+	margin: 0px;
+}
+
+table#edit .effect-filters ul {
+	margin-left: 0px;
+	margin-top: 0px;
+	list-style: none;
+	border-top: 1px solid #999;
+	border-left: 0px solid #999;
+	background-color: #FFF;
+	height: 17px;
+	width: 277px;
+}
+
+table#edit .effect-filters ul li {
+	float: left;
+	margin-left: 0px;
+	margin-right: 10px;
+	padding: 2px 4px;
+}
+
+table#edit .effect-filters ul li.current {
+	background-color: #E5E5E5;
+}
+
+table#edit .effect-filters ul li.current a {
+	color: black; 
+}

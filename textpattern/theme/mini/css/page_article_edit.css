@@ -1,0 +1,19 @@
+/*
+Remora Theme for Textpattern CMS
+Suckerfish menu: @see http://htmldog.com/articles/suckerfish/dropdowns/
+*/
+
+@import url("page_article.css");
+
+#edit td#article-col-2 {
+	padding-top: 10px;
+}
+
+#edit p.body textarea#body {
+	height: 250px;
+}
+
+#edit p.excerpt textarea#excerpt {
+	height: 75px;
+}
+

@@ -1,0 +1,139 @@
+.alt-select {
+	position: relative;
+	display: inline-block;
+}
+
+.alt-select .cover {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	height: 20px;
+	z-index: 2;
+}
+
+.alt-select select {
+	position: relative;
+	z-index: 1;
+}
+
+.alt-select #js select {
+	position: relative;
+	top: auto;
+	width: auto;
+}
+
+.alt-select ul {
+	display: none;
+	position: absolute;
+	z-index: 3;
+	list-style: none;
+	left: 0px;
+	right: 0px;
+	margin: 0px;
+	padding: 4px 0px;
+	border: 1px solid #c4c4c4;
+	background-color: white;
+	font-size: 11px;
+	font-family: Verdana;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	-webkit-box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+}
+
+.alt-select ul li {
+	margin: 0px;
+	padding: 1px 10px 1px 6px;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	text-align: left;
+}
+
+.alt-select ul li a {
+	display: block;
+	text-align: left;
+	letter-spacing: 0px;
+	padding-left: 14px;
+	text-decoration: none;
+	color: black;
+}
+
+.alt-select ul li.selected a {
+	background-image: url('img_selected.png');
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+
+.alt-select ul li.selected.label a {
+	background-image: none;
+}
+
+.alt-select ul li.selected.hover a:hover {
+	background-position: 0px -14px;
+	color: white;
+}
+
+.alt-select ul li.hover {
+	border-top: 1px solid #5a81f0;
+	border-bottom: 1px solid #225ff6;
+	background-color: #225ff6;
+	background-image: url('img_hover.png');
+	background-repeat: repeat-x;
+}
+
+.alt-select ul li.hover a {
+	color: white;
+}
+
+.alt-select ul li.label.hover a {
+	color: black;
+}
+
+.alt-select ul li.line.hover,
+.alt-select ul li.label.hover {
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	background-color: transparent;
+	background-image: none;
+	color: black;
+}
+
+.alt-select ul li.label.hover a:hover {
+	color: black;
+}
+
+.alt-select ul li.line {
+	padding: 3px 0px;
+}
+
+.alt-select ul li.line div {
+	padding: 0px;
+}
+
+.alt-select ul li span {
+	float: right;
+	color: #999;
+	min-width: 32px;
+}
+
+.alt-select ul li.toggle span {
+	min-width: 18px;
+}
+
+.alt-select ul li.hover span {
+	color: white;
+}
+
+.alt-select ul li hr {
+	display:block;
+	border: 0;
+	color: #c4c4c4;
+	background-color: #c4c4c4;
+	height: 1px;
+	width: 100%;
+	text-align: left;
+	padding: 0px;
+	margin: 0px;
+}

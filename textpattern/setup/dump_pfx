@@ -1,0 +1,45 @@
+pfx=""
+file="txp.sql"
+
+if [ $1 ]; then
+	pfx=$1_
+	file=txp_$1.sql
+fi
+
+mysqldump -u steffi \
+--password=happyday \
+--skip-add-locks \
+txp \
+${pfx}textpattern \
+${pfx}txp_cache \
+${pfx}txp_category \
+${pfx}txp_content_category \
+${pfx}txp_content_value \
+${pfx}txp_css \
+${pfx}txp_custom \
+${pfx}txp_discuss \
+${pfx}txp_discuss_ipban \
+${pfx}txp_discuss_nonce \
+${pfx}txp_file \
+${pfx}txp_form \
+${pfx}txp_group \
+${pfx}txp_image \
+${pfx}txp_lang \
+${pfx}txp_link \
+${pfx}txp_log \
+${pfx}txp_page \
+${pfx}txp_path \
+${pfx}txp_plugin \
+${pfx}txp_prefs \
+${pfx}txp_section \
+${pfx}txp_sticky \
+${pfx}txp_tag \
+${pfx}txp_tag_attr \
+${pfx}txp_users \
+${pfx}txp_window \
+> $file
+
+#${pfx}txp_update \
+
+# remove table prefix
+#sed -i 's/`tac/`/g' txp_$1.sql

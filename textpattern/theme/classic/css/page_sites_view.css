@@ -1,0 +1,61 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_list.css');
+
+body {
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+}
+
+#nav {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	height: 40px;
+	z-index: 10;
+}
+
+#nav .bg {
+	height: 35px;
+	background-color: #FFCC33;
+	background-image: url('../txp_img/textpattern.gif');
+	background-repeat: no-repeat;
+	background-position: 0px 9px;
+	-moz-box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+	box-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+}
+
+#nav form {
+	display: block;
+	float: right;
+	margin-top: 7px;
+	margin-right: 80px;
+}
+
+#nav form select {
+	min-width: 150px;
+}
+
+#nav form a {
+	font-size: 20px;
+	line-height: 5px;
+}
+
+#display {
+	position: absolute;
+	top: 35px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	border: 0px dotted red;
+	z-index: 1;
+}
+
+iframe {
+	width: 100%;
+	height: 100%;
+	border: 0px;
+}

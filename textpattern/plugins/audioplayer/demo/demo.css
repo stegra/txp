@@ -1,0 +1,11 @@
+.audio-player a.download {
+	display: block;
+}
+
+.audio-player.button {
+	margin: 5px;
+}
+
+.audio-player.button a.download {
+	display: none;
+}

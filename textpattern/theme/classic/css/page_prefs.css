@@ -1,0 +1,147 @@
+tr#prefs-custom-heading { display: none; }
+tr#prefs-custom_1_set 	{ display: none; }
+tr#prefs-custom_2_set 	{ display: none; }
+tr#prefs-custom_3_set 	{ display: none; }
+tr#prefs-custom_4_set 	{ display: none; }
+tr#prefs-custom_5_set 	{ display: none; }
+tr#prefs-custom_6_set 	{ display: none; }
+tr#prefs-custom_7_set 	{ display: none; }
+tr#prefs-custom_8_set 	{ display: none; }
+tr#prefs-custom_9_set 	{ display: none; }
+tr#prefs-custom_10_set 	{ display: none; }
+
+#content form.create {
+	margin-top: 15px;
+}
+
+#content form.create input.smallerbox {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#content table.custom-fields {
+	border-bottom: 1px solid #ddd;
+	width: 350px;
+}
+
+#content tr.field-header td {
+	margin: 0;
+	padding: 1px 2px;
+	border-top: 1px solid #ddd;
+	border-bottom: 0;
+}
+
+#content tr.field-header table td {
+	border-bottom: 0;
+	border-top: 0px solid #ddd;
+}
+
+#content tr.field-header table td.title {
+	width: 20%;
+}
+
+#content tr.field-header table td.title div {
+	white-space: nowrap;
+}
+
+#content tr.field-header table td.info {
+	width: 90%;
+	color: #999;
+}
+
+#content tr.field-header table td.info div {
+	height: 15px;
+	overflow: hidden;
+}
+
+#content tr.field-header table td.delete {
+	width: 30px;
+}
+
+#content table#list tr.field-header table td.level-1 { padding-left: 12px }
+#content table#list tr.field-header table td.level-2 { padding-left: 20px }
+#content table#list tr.field-header table td.level-3 { padding-left: 28px }
+#content table#list tr.field-header table td.level-4 { padding-left: 36px }
+#content table#list tr.field-header table td.level-5 { padding-left: 44px }
+
+#content td {
+	/* border-top: 1px dotted #ddd;
+	border-bottom: 0; */
+}
+
+#content table#list {
+	position: relative;
+	top: 0px;
+}
+
+#content table#list td {
+	padding: 5px;
+}
+
+#content table#list td.pref-tab {
+	padding: 3px;
+}
+
+#content table#list h2.pref-heading {
+	text-transform: capitalize;
+}
+
+#content form table#list tr.hidden {
+	display: none;
+}
+
+#content form table#list td.noline {
+	height: auto;
+	padding: 3px;
+	white-space: nowrap;
+}
+
+#page-prefs #content form table#list {
+	width: 470px;
+}
+
+#page-prefs #content form table#list td.label {
+	text-align: right;
+	vertical-align: middle;
+	width: 45%;
+	white-space: nowrap;
+}
+
+#page-prefs #content form table#list tr#help td.label {
+	vertical-align: top;
+	padding-top: 9px;
+}
+
+#page-prefs #content form table#list tr#help a.pophelp {
+	margin-top: 5px;
+}
+
+#content table#list td input.smallerbox {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#content table#list td input.edit {
+	width: 140px;
+	margin: 0px;
+}
+
+#content table#list td select.edit,
+#content table#list td select.list {
+	width: 143px;
+	margin-right: 1px;
+}
+
+#content table#list td textarea.edit {
+	width: 138px;
+	float: left;
+	margin-right: 2px;
+}
+
+#page-prefs #content table#list td.delete form.delete {
+	float: right;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* mini window style */
+

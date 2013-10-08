@@ -1,0 +1,12 @@
+@import url('textpattern_mod.css');
+@import url('page_list.css');
+@import url('content_list.css');
+
+#content table#list {
+	padding: 0px;
+	width: 50%;
+}
+
+#content td.class {
+	text-transform: capitalize;
+}
