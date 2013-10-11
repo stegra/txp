@@ -967,7 +967,24 @@ $LastChangedRevision: 3267 $
 				safe_update('txp_image',"FilePath = '$id_path', ImageID = $id","ID = $id");
 				
 				if (!is_dir($image_path)) {
-					mkdir($image_path,0777,true);
+					@mkdir($image_path,0777,true);
+				}
+				
+				if (!is_dir($image_path)) {
+					
+					$id_path = '1';
+					$image_path = IMPATH.$id_path;
+					
+					if (is_dir($image_path)) {
+						
+						safe_update('txp_image',"FileDir = '$id_path', FilePath = '$id_path'","ID = $id");
+					
+					} else {
+						
+						if ($app_mode == 'async') { echo 'ERROR'; }
+						
+						return;
+					}
 				}
 				
 				$shiftedfile = $image_path.'/'.$filename;
@@ -979,7 +996,7 @@ $LastChangedRevision: 3267 $
 					
 					// if (is_dir(IMPATH.$id)) rmdir(IMPATH.$id);
 					
-					$message = $shiftfile.sp.gTxt('upload_dir_perms');
+					$message = $shiftedfile.sp.gTxt('upload_dir_perms');
 					
 					if ($app_mode == 'async') {
 						echo $message; return;
