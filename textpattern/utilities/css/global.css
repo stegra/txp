@@ -1,0 +1,322 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../../theme/classic/webfontkit/avenirltstd-roman-webfont.eot');
+    src: url('../../theme/classic/webfontkit/avenirltstd-roman-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../theme/classic/webfontkit/avenirltstd-roman-webfont.woff') format('woff'),
+         url('../../theme/classic/webfontkit/avenirltstd-roman-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+	font-family: Avenir, Verdana;
+	margin-top: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin: 0px;
+}
+
+#header {
+	display: none;
+	margin: 0px;
+	padding: 0px;
+	background-color: #f5c84c;
+	background-image: url('../images/bg_yellow.gif');
+}
+
+#content {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+table.main {
+	width: 100%;
+	margin: 0px;
+}
+
+td {
+	vertical-align: top;
+	border: 0px dotted grey;
+}
+
+td,th {
+	padding: 2px 5px;
+	font-size: 12px;
+}
+
+table.main td.left {
+	width: 275px;
+}
+
+a:link,a:visited
+{
+	color: #996633;
+	text-decoration: none;
+}
+
+h4 {
+	margin-top: 16px;
+	margin-left: 5px;
+}
+
+.error {
+	color: red;
+}
+
+.left .footer p {
+	margin-top: 0px;
+}
+
+.left .footer {
+	margin-top: 5px;
+}
+
+.right .footer {
+	margin-top: 5px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* CONTROL */
+
+.control .top {
+	display: none;
+}
+
+.control .scroll {
+	width: 265px;
+	height: 474px;
+	overflow: auto;
+	border-top: 1px solid #BBB;
+	border-bottom: 1px solid #BBB;
+	outline: none;
+}
+
+.control .scroll ul {
+	list-style: none;
+	margin-left: 0px;
+	padding-left: 0px;
+	margin-bottom: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	width: 250px;
+}
+
+.control .scroll ul li {
+	font-size: 12px;
+	padding: 4px 8px;
+	border-top: 1px dotted grey;
+}
+
+.control .scroll ul li.item-1 {
+	border-top: 0px;
+}
+
+.control .scroll ul li span.count {
+	display:block;
+	width: auto;
+	margin-top: 4px;
+	padding-left: 3px;
+	padding-right: 3px;
+	float: right;
+	color: #BBB;
+	font-size: 12px;
+	text-align: right;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+input.submit, a.button {
+	border-color: #ffffff #999999 #999999 #ffffff;
+	border-style: solid;
+	border-width: 1px;
+	margin-left: 0px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+	margin-top: 0px;
+	padding: 7px 5px 5px 7px;
+	width: 65px;
+	background: #990000;
+	color: #ffffff;
+	letter-spacing: 1px;
+	cursor: pointer;
+	outline: none;
+	font-family: Avenir, Verdana;
+	font-size: 12px;
+}
+
+input.submit:hover {
+	background: #ae1601;
+}
+
+span.go {
+	float: right;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* CONSOLE */
+
+.console {
+	position: relative;
+	border-width: 1px 0px 1px 1px;
+	border-style: solid;
+	border-color: #BBB;
+	padding: 0px;
+	margin: 0px;
+	height: 474px;
+	background-color: #F9F9F9;
+	overflow: hidden;
+	background-image: url('../images/scrollbar_back.gif');
+	background-repeat: repeat-y;
+	background-position: right;
+}
+
+.console .scroll-cover {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 12px;
+	height: 474px;
+	background-color: #e4e4e4;
+}
+
+.console .scroll {
+	height: 474px;
+	overflow: auto;
+	border: 0px dotted red;
+}
+
+.console .scroll .pad {
+	margin: 2px 20px 2px 14px;
+	border: 0px dotted red;
+}
+
+.console.setup {
+	padding: 10px;
+	border: 0px;
+	background-image: none;
+	font-family: Monaco;
+	font-size: 12px;
+	height: auto;
+	overflow: auto;
+}
+
+.console.setup h2 {
+	font-size: 12px;
+}
+
+.console ul {
+	margin: 0px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+body.view_inspector .console .pad {
+	margin: 2px 3px;
+}
+
+body.view_inspector .console .dump .item {
+	border-bottom: 1px dotted grey;
+	padding: 4px 8px;
+}
+
+body.view_inspector .footer a.button {
+	background: #999999;
+}
+
+body.view_inspector .footer a.button:hover {
+	background: #990000;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* SCROLLBARS */
+
+.jspVerticalBar {
+	width: 12px;
+}
+
+.jspHorizontalBar {
+	height: 12px;
+}
+
+.jspTrack {
+	background: #e4e4e4;
+}
+
+.jspDrag {
+	background: #bfbfbf;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* DIAGNOSTICS */
+
+body.diagnostics .console h1 {
+	font-size: 14px;
+	font-weight: normal;
+	margin-top: 12px;
+	font-family: Times;
+}
+
+body.diagnostics .console div.not-ok {
+	line-height: 16px;
+	color: red;
+}
+
+body.diagnostics .console table {
+	margin-top: 0px;
+	border-collapse: collapse;
+	margin-left: -4px;
+}
+
+body.diagnostics .console table td {
+	border-bottom: 1px dotted #CCC;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* IMPORT */
+
+body.import_all .console .pad {
+	margin-top: 10px;
+}
+
+body.import_all .console table {
+	border-collapse: collapse;
+}
+
+body.import_all .console table th {
+	text-align: left;
+	border-bottom: 1px solid grey;
+}
+
+body.import_all .console table th,
+body.import_all .console table td {
+	padding: 6px 30px 0px 5px;
+}
+
+body.import_all .console table tr.total td {
+	border-top: 1px solid grey;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* Create Download & Update  */
+
+body.create_download .console p {
+	
+	padding: 0px;
+	margin-top: 16px;
+	margin-bottom: 2px;
+}
+
+body.create_download .console ul {
+	list-style: none;
+	margin-left: 0px;
+	padding-left: 0px;
+}
+
+body.create_download .console ul li {
+	font-size: 10px;
+	font-family: Monaco;
+	color: grey;
+}

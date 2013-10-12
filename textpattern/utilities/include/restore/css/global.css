@@ -1,0 +1,43 @@
+.control .top {
+	display: block;
+	border-top: 1px solid #BBB;
+	height: 30px;
+}
+
+.control .top table {
+	width: 100%;
+}
+
+.control .top table td {
+	vertical-align: middle;
+	border: 0px dotted red;
+}
+
+.control .top table select {
+	width: 160px;
+	float: right;
+	margin-right: 3px;
+}
+
+.control .scroll {
+	height: 443px;
+	
+}
+
+.console .scroll {
+	padding: 0px 0px;
+}
+
+.console .scroll p {
+	font-family: Monaco;
+}
+
+.footer p {
+	float: left;
+}
+
+.footer p.new {
+	float: right;
+	margin-top: 20px;
+	margin-right: 10px;
+}

@@ -1,0 +1,206 @@
+body {
+	margin: 0px 20px;
+}
+
+#content {
+	margin-left: 220px;
+	padding: 0px;
+}
+
+/* HEADER 
+---------------------------------------------------- */
+
+h1 {
+	border-bottom: 1px dotted #CCC;
+	padding-bottom: 10px;
+	margin-bottom: 5px;
+	margin-top: 0px;
+	font-weight: normal;
+	font-family: Georgia, Times, serif;
+	font-size: 20px;
+	color: #555;
+	width:200px; 
+	
+}
+
+/* TAG LIST 
+---------------------------------------------------- */
+
+ul {
+	list-style: none; 
+	width:200px; 
+	margin: 0px; 
+	padding: 0px; 
+	font-size: 12px;
+	font-family: Monaco;
+}
+
+ul.groups {
+	position: absolute; 
+}
+
+li {
+	margin-bottom: 4px;
+	padding-bottom: 0px;
+	border-bottom: 1px dotted #CCC;
+}
+
+ul li a {
+	color: blue;
+	padding-left: 5px;
+	text-decoration: none;
+	border-bottom: 0px dotted blue;
+	font-family: Georgia, Times, serif;
+}
+
+ul li a:hover {
+	text-decoration: none;
+	color: red;
+	border-bottom: 0px dotted red;
+}
+
+ul li.selected a {
+	color: #555;
+	font-weight: bold;
+}
+
+ul li.group {
+	padding-bottom: 4px;
+}
+
+ul li.group.closed ul {
+	display: none;
+}
+
+ul ul li {
+	margin-top: 4px;
+	padding-top: 4px;
+	border-top: 1px dotted #CCC;
+	border-bottom: 0px dotted #CCC;
+}
+
+ul ul li a {
+	padding-left: 17px;
+}
+
+ul li.misc {
+	padding-bottom: 4px;
+}
+
+ul li.misc a {
+	padding-left: 17px;
+}
+
+/* MAIN CONTENT
+---------------------------------------------------- */
+
+.tag {
+	margin-top: -25px;
+	border: 0px dotted red;
+}
+
+.tag h2 {
+	font-weight: normal;
+	font-size: 24px;
+	color: #777;
+	font-weight: normal;
+	border-top: 1px dotted grey;
+	padding-top: 5px;
+	margin-top: 0px;
+}
+
+.tag h2 code {
+	font-weight: normal;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+.tag h3 {
+	font-size: 20px;
+	font-weight: normal;
+	border-bottom: 1px solid #EEE;
+	font-family: Georgia, Times, serif;
+	color: #555;
+}
+
+.tag table {
+	width: 98%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.tag th {
+	text-align: left;
+	font-weight: normal;
+	font-family: Georgia, Times, serif;
+	font-size: 16px;
+	color: #555;
+}
+
+.tag th.name {
+	padding-left: 30px;
+}
+
+.tag td {
+	padding-bottom: 5px;
+}
+
+.tag td.line {
+	border-top: 1px solid #EEE;
+}
+
+.tag td.name,
+.tag td.default {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 15px;
+	margin-top: 5px;
+	color: #555;
+}
+
+.tag td.name {
+	width: 100px;
+	padding-left: 30px;
+	padding-right: 10px;
+	color: #111;
+}
+
+.tag td.default {
+	width: 80px;
+}
+
+.tag td.info {
+	font-style: italic;
+	font-size: 15px;
+	color: #555;
+}
+
+.tag-1 h2 {
+	border-top: 0px;
+	margin-top: 20px;
+	padding-top: 0px;
+}
+
+.tag pre.code {
+	width: 95%;
+	height: auto;
+	font-family: Monaco;
+	font-size: 12px;
+	color: #555;
+	line-height: 10px;
+	padding: 10px;
+	background-color: #EEE;
+}
+
+.tag a.code {
+	font-family: Monaco;
+	font-size: 13px;
+}
+
+.tag p.examples code {
+	display: block;
+	white-space: pre;
+	line-height: 20px;
+	font-family: Monaco;
+	color: #555;
+	font-size: 12px;
+	margin-top: -12px;
+}
