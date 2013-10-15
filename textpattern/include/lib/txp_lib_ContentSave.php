@@ -164,11 +164,11 @@
 			return false;
 		}
 		
-		if (!is_array($multiedit) and isset($incoming['sLastMod']) and strlen($incoming['sLastMod']) and $old['sLastMod'] != $incoming['sLastMod'])
+		/* if (!is_array($multiedit) and isset($incoming['sLastMod']) and strlen($incoming['sLastMod']) and $old['sLastMod'] != $incoming['sLastMod'])
 		{	
 			$event_edit(array(gTxt('concurrent_edit_by', array('{author}' => htmlspecialchars($old['LastModID']))), E_ERROR), TRUE);
 			return false;
-		}
+		} */
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
