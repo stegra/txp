@@ -16,6 +16,18 @@
 			$ImageID = assert_int(gps('ImageID',0));
 		}
 		
+		/* if the image that is being added is a folder image 
+		 * use the ImageID of the folder 
+		 */
+		
+			$FolderImageID = safe_field("ImageID","txp_image",
+				"ID = $ImageID AND Type = 'folder' AND Trash = 0");
+	
+			if ($FolderImageID) {
+		
+				$ImageID = $FolderImageID;
+			}
+		
 		$set = array(
 			'ImageID' => $ImageID
 		);
