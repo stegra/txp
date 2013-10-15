@@ -367,6 +367,10 @@ function show_article_image(data) {
 function hide_article_image() {
 	
 	$(".image.view").removeClass('view').addClass('add');
+	
+	var id = $("input#article-image-id").val();
+	
+	$("input#article-image-id").val(-id);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
