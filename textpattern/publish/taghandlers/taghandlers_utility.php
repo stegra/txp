@@ -305,9 +305,15 @@
 	}
 	
 //------------------------------------------------------------------------
-	function line_tag($atts)
+	function line_tag($atts,$thing=NULL)
 	{	
-		return n.n."<!-- ".str_pad('', 120, "- ")."-->".n.n; 
+		if ($thing) {
+			$content = parse($thing).' ';
+		} else {
+			$content = str_pad('', 120, "- ");
+		}
+		
+		return n.n."<!-- ".$content."-->".n.n; 
 	}
 
 //------------------------------------------------------------------------
