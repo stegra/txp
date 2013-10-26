@@ -908,7 +908,7 @@ $LastChangedRevision: 3256 $
 					$exclude ORDER BY ".($sort ? $sort : 'name ASC'));
 			}
 		}
-
+		
 		if ($rs)
 		{
 			$out = array();
@@ -2714,9 +2714,21 @@ $LastChangedRevision: 3256 $
 	}
 
 // -------------------------------------------------------------
+	function search_result_score($atts)
+	{
+		global $thisarticle;
+		
+		return $thisarticle['score'];
+	}
+
+// -------------------------------------------------------------
 	function search_result_title($atts)
 	{
-		return permlink($atts, '<txp:title />');
+		global $thisarticle;
+		
+		// return permlink($atts, '<txp:title />');
+		
+		return $thisarticle['title'];
 	}
 
 // -------------------------------------------------------------

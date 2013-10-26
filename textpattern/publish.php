@@ -755,6 +755,24 @@ $LastChangedRevision: 3258 $
 	}
 
 // -------------------------------------------------------------------------------------
+	function article_search($atts, $thing = NULL) {
+		
+		global $q;
+		
+		if ($q) {
+			
+			$atts['search'] = 1;
+			
+			if (!isset($atts['status'])) $atts['status'] = '*';
+			if (!isset($atts['pageby'])) $atts['pageby'] = 10;
+			
+			return article($atts,$thing);
+		}
+		
+		return '';
+	}
+	
+// -------------------------------------------------------------------------------------
 
 // =====================================================================================
 	function filterFrontPage() {

@@ -19,6 +19,7 @@
 		}
 		
 		set_flag($flags,'SQL');
+		set_flag($flags,'COUNT');
 		
 		$q = safe_rows_treex($context,$path,'t.ID',$table,$where,$flags);
 		
@@ -122,8 +123,6 @@
 			'name'  => fetch('Name',$table,'ID',$id),
 			'path'  => array($level => $id)
 		);
-		
-		
 		
 		// re-index the path array with the levels for keys
 		
@@ -478,14 +477,22 @@
 		$q['where']['trashed'] = 't.'.$q['where']['trashed'];
 		
 		if ($q['order']) {
-		
-			if (!preg_match('/\./',$q['order'])) {
-				
-				if ($q['order'] != 'RAND()') {
 			
-					$q['order'] = 't.'.$q['order'];
+			$order = explode(',',$q['order']);
+			
+			foreach ($order as $key => $item) {
+		
+				list($item_name,$item_dir) = explode(' ',trim($item)); 
+				
+				if (!preg_match('/\./',$item_name)) {
+					
+					if ($item_name != 'RAND()' and $item_name != 'score') {
+						$order[$key] = 't.'.$item_name.' '.$item_dir;
+					}
 				}
 			}
+			
+			$q['order'] = implode(', ',$order);
 		}
 		
 		// -------------------------------------------------------------
@@ -505,7 +512,7 @@
 		$select = implode(',',$select);
 		$table  = str_replace(' JOIN LEFT ',' LEFT ',implode(' JOIN ',$from));
 		$where  = implode(' AND ',$where).' ';
-		$order  = ($order) ? 'ORDER BY '.$order.' ' : '';
+		$order  = ($order and !$return_count) ? 'ORDER BY '.$order.' ' : '';
 		$limit  = ($limit) ? 'LIMIT '.$limit : '';
 		$group  = ($group) ? 'GROUP BY '.$group.' ' : '';
 		
@@ -524,7 +531,7 @@
 			return safe_column($select,$table,$where.$group.$order.$limit,$sortcol);
 		
 		} else {
-		
+			
 			return safe_rows_start($select,$table,$where.$group.$order.$limit,0,0);
 		}
 	}

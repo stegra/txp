@@ -9,7 +9,7 @@
 
 <?php
 	
-	// VERSION: 4.2.0.10
+	// VERSION: 4.2.0.11
 	
 	if (!defined('TXP_UPDATE'))
 		exit("Nothing here. You can't access this file directly.");

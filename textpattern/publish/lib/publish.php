@@ -60,6 +60,7 @@
 			'return'	=> '',		// return a specific value instead of the whole article
 			'section'   => '',		// unused
 			'table'		=> '',		// select items from other content tables
+			'search'	=> 0,		// do search from query
 			'excerpted' => '',
 			'author'    => '',
 			'sort'      => '',
@@ -225,8 +226,8 @@
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// SEARCH
 		
-		if ($q && !$iscustom && !$issticky)
-		{
+		// if ($q && !$iscustom && !$issticky)
+		// {
 			/* include_once txpath.'/publish/search.php';
 
 			$s_filter = ($searchall ? filterSearch() : '');
@@ -248,13 +249,13 @@
 			// searchall=0 can be used to show search results for the current section only
 			if ($searchall) $section = '';
 			if (!$sort) $sort = 'score desc'; */
-		}
-		else {
+		// }
+		// else {
 			
-			$match = $search = '';
+			// $match = $search = '';
 			
-			if (!$sort) $sort = 'Posted DESC';
-		}
+			// if (!$sort) $sort = 'Posted DESC';
+		// }
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Building query parts
@@ -290,6 +291,32 @@
 		$month     = (!$month)     ? '' : " and Posted like '".doSlash($month)."%'";
 		$id        = (!$id)        ? '' : " and ID IN (".join(',', array_map('intval', do_list($id))).")";
 		*/
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// Search
+		
+		if ($search and $q) {
+			
+			// include_once txpath.'/publish/search.php';
+			
+			$q = doSlash($q);
+			
+			$cols = array('t.Title','t.Body');
+
+			$columns[] = 'MATCH ('.join(', ', $cols).") AGAINST ('$q') AS score";
+			for ($i = 0; $i < count($cols); $i++)
+			{
+				$cols[$i] = "$cols[$i] RLIKE '$q'";
+			}
+			
+			$where['search'] = '('.join(" OR ", $cols).')';
+			
+			if (!$sort) $sort = 'score DESC';
+			
+		} else {
+			
+			if (!$sort) $sort = 'Posted DESC';
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Section
@@ -748,9 +775,13 @@
 				$item['col'] = 'Categories';
 			}
 			
+			if (!$custom and $item['col'] != 'score' ) {
+			 	$sort[$key]['col'] = 't.'.$item['col'];
+			}
+			
 			$item = implode(' ',$item);
 			
-			$sort[$key] = ($custom) ? $item : 't.'.$item;
+			$sort[$key] = $item;
 		}
 		
 		$sort = implode(',',$sort);
@@ -1162,6 +1193,10 @@
 		if ($table == 'txp_link') {
 			$thisarticle['url'] = $url;
 		}
+		
+		if (isset($rs['score'])) {
+			$thisarticle['score'] = $score;
+		}
 
 		$thisarticle['custom_fields'] = '';
 		
@@ -1355,7 +1390,7 @@
 			if (isset($sort[0])) {
 				
 				$sortby  = $sort[0];
-				$sortdir = isset($sort[1]) ? $sort[1] : 'asc';
+				$sortdir = isset($sort[1]) ? $sort[1] : 'ASC';
 				
 				$out[] = array('col' => $sortby, 'dir' => $sortdir, 'custom' => false);
 			}
