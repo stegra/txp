@@ -514,6 +514,10 @@
 			} else {
 			
 				$category = preg_split_att($category);
+				$category_type = 'article';
+				
+				$category_type = ($table == 'textpattern')
+					? 'article' : str_replace('txp_','',$table);
 				
 				foreach($category as $key => $value) {
 				
@@ -531,13 +535,13 @@
 						
 						$value = substr($value,3);
 						
-						$tables['pcategory'] = "LEFT JOIN txp_content_category AS `pcategory` ON t.parentid = pcategory.article_id AND pcategory.type = 'article'";
+						$tables['pcategory'] = "LEFT JOIN txp_content_category AS `pcategory` ON t.parentid = pcategory.article_id AND pcategory.type = '$category_type'";
 						
 						$category[$key] = makeWhereSQL('pcategory.name',$value);
 						
 					} else {	
 						
-						$tables['category'] = "LEFT JOIN txp_content_category AS `category` ON t.id = category.article_id AND category.type = 'article'";
+						$tables['category'] = "LEFT JOIN txp_content_category AS `category` ON t.id = category.article_id AND category.type = '$category_type'";
 		
 						$category[$key] = makeWhereSQL('category.name',$value);
 					}
@@ -551,7 +555,7 @@
 		// Select Child Articles
 		
 		// TO BE REMOVED 
-		
+		/*
 		if ($parent and $parent != '*') {
 		
 			foreach (do_list($parent) as $parent) {
@@ -571,7 +575,7 @@
 			if (isset($where['parent'])) 
 				$where['parent'] = '('.implode(' OR ',$where['parent']).')';
 		}
-		
+		*/
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Alias
 		

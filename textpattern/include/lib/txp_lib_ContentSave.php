@@ -638,6 +638,8 @@
 				// $categories = "SELECT GROUP_CONCAT(CONCAT_WS('.',tcc.name,tcc.position) ORDER BY tcc.name ASC) FROM ".$PFX."txp_content_category AS tcc WHERE tcc.article_id = t.ID AND tcc.type = '$content_type'";
 				// safe_update("$textpattern AS t","Categories = ($categories)","1=1");
 			}
+			
+			update_category_count();
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

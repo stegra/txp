@@ -242,8 +242,47 @@
 	}
 
 // -----------------------------------------------------------------------------
-// update category count
+// update Categories field from txp_content_category table
 	
+	function update_categories() 
+	{
+		global $PFX,$content_tables;
+		
+		foreach ($content_tables as $type => $table) {
+			
+			if (table_exists($table,$PFX)) {
+				
+				$WIN['table'] = $table;
+				
+				echo hed($table);
+				
+				$ids = safe_column('ID',$table,"1=1");
+				
+				$total = 0;
+				
+				foreach ($ids as $id) {
+					
+					$name = "CONCAT(name,'.',position) AS name";
+					
+					$categories = safe_column(array('position',$name),'txp_content_category',"type = '$type' AND article_id = $id AND name != 'NONE' ORDER BY position ASC");
+					
+					if ($categories) {
+						$categories = implode(',',$categories);
+						safe_update($table,"Categories = '$categories'","ID = $id",1);
+						$total += 1;
+					}
+				}
+				
+				pre("Total: $total");
+			}
+		}
+		
+		update_category_count();
+	}
+	
+// -----------------------------------------------------------------------------
+// update category count
+/*	
 	function update_category_count() 
 	{
 		global $PFX;
@@ -282,7 +321,7 @@
 			}
 		}
 	}
-
+*/
 // -----------------------------------------------------------------------------
 // update file download count
 	

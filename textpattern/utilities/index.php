@@ -242,6 +242,7 @@
 		body.update_category_count		li#update_category_count span.name,
 		body.update_file_summary 		li#update_file_summary,
 		body.update_site_content_count 	li#update_site_content_count span.name,
+		body.update_categories			li#update_categories span.name,
 		body.renumarate_positions		li#renumarate_positions span.name,
 		body.reorganize_images			li#reorganize_images span.name,
 		body.reorganize_files			li#reorganize_files span.name,
@@ -296,8 +297,9 @@
 						<li id="rebuild_path_indexes"><span class="name">Rebuild Path</span> <span class="go"><a title="Rebuild Path" href="index.php?go=rebuild_path_indexes&<?php echo $nocache; ?>">Go</a></span></li>
 						<li id="rebuild_pages"><span class="name">Rebuild Pages</span> <span class="go"><a title="Rebuild Pages" href="index.php?go=rebuild_pages&<?php echo $nocache; ?>">Go</a></span></li>
 						<li id="update_image_count"><span class="name">Update Image Count</span> <span class="go"><a title="Update Image Count" href="index.php?go=update_image_count&<?php echo $nocache; ?>">Go</a></span></li>
-						<li id="update_category_count"><span class="name">Update Category Count</span> <span class="go"><a title="Update Category Count" href="index.php?go=update_category_count&<?php echo $nocache; ?>">Go</a></span></li>
+					<!-- <li id="update_category_count"><span class="name">Update Category Count</span> <span class="go"><a title="Update Category Count" href="index.php?go=update_category_count&<?php echo $nocache; ?>">Go</a></span></li> -->
 						<li id="update_file_summary"><span class="name">Update File Summary</span> <span class="go"><a title="Update File Summary" href="index.php?go=update_file_summary&<?php echo $nocache; ?>">Go</a></span></li>
+						<li id="update_categories"><span class="name">Update Categories</span> <span class="go"><a title="Update Categories" href="index.php?go=update_categories&<?php echo $nocache; ?>">Go</a></span></li>
 						
 						<?php if (!$PFX and table_exists('txp_site')) { ?>
 							<li id="update_site_content_count"><span class="name">Update Site Content Count</span> <span class="go"><a title="Update Site Content Count" href="index.php?go=update_site_content_count&<?php echo $nocache; ?>">Go</a></span></li>

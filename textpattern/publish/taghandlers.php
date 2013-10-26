@@ -2270,7 +2270,8 @@ $LastChangedRevision: 3256 $
 			'title'   => 1,
 			'link'	  => 0,		// number of page href parts to use for the link href
 			'sep'	  => ', ',
-			'exclude' => ''
+			'exclude' => '',
+			'limit'	  => 0
 		), $atts));
 		
 		if (!strlen($thisarticle['categories'])) return '';
@@ -2278,34 +2279,39 @@ $LastChangedRevision: 3256 $
 		$categories = explode(',',$thisarticle['categories']);
 		$exclude = explode(',',$exclude);
 		
+		foreach($categories as $key => $category) {
+			
+			if ($exclude and in_array($category,$exclude)) {
+				
+				unset($categories[$key]);
+			}
+		}
+		
+		if ($limit) {
+			$categories = array_slice($categories,0,$limit);
+		}
+					
 		if ($title) {
 			
 			foreach($categories as $key => $category) {
 				
-				if ($exclude and in_array($category,$exclude)) {
+				if (!isset($titles[$category])) {
 					
-					unset($categories[$key]);
-					
-				} else {
+					$title = $titles[$category] = safe_field("Title","txp_category","Name = '$category'");
 				
-					if (!isset($titles[$category])) {
-						
-						$title = $titles[$category] = safe_field("Title","txp_category","Name = '$category'");
+				} else {
 					
-					} else {
-						
-						$title = $titles[$category];
-					}
-					
-					if ($link) {
-						
-						$path = path_tag(array(),'req',$link);
-						
-						$title = '<a href="http://'.$siteurl.'/'.$path.'/'.$category.'/index.html">'.$title.'</a>';
-					}
-					
-					$categories[$key] = $title;
+					$title = $titles[$category];
 				}
+				
+				if ($link) {
+					
+					$path = path_tag(array(),'req',$link);
+					
+					$title = '<a href="http://'.$siteurl.'/'.$path.'/'.$category.'/index.html">'.$title.'</a>';
+				}
+				
+				$categories[$key] = $title;
 			}
 		}
 		

@@ -1957,6 +1957,37 @@ $LastChangedRevision: 3271 $
 	}
 
 // -------------------------------------------------------------
+	function update_category_count() 
+	{
+		global $PFX;
+		
+		// update category count
+		// including articles that are in the trash
+		
+		safe_update("txp_category AS c",
+			"Articles = (SELECT COUNT(*) FROM ".$PFX."txp_content_category AS cc 
+				JOIN ".$PFX."textpattern AS t ON cc.article_id = t.ID 
+				WHERE c.Name = cc.name AND cc.type = 'article' AND t.Trash <= 2)",
+			"c.Type != 'folder'");
+		
+		safe_update("txp_category AS c",
+			"Images = (SELECT COUNT(*) FROM ".$PFX."txp_content_category AS cc 
+				JOIN ".$PFX."txp_image AS t ON cc.article_id = t.ID 
+				WHERE c.Name = cc.name AND cc.type = 'image' AND t.Trash <= 2)",
+			"c.Type != 'folder'");
+			
+		safe_update("txp_category AS c",
+			"Files = (SELECT COUNT(*) FROM ".$PFX."txp_content_category AS cc 
+				JOIN ".$PFX."txp_image AS t ON cc.article_id = t.ID 
+				WHERE c.Name = cc.name AND cc.type = 'file' AND t.Trash <= 2)",
+			"c.Type != 'folder'");
+			
+		update_summary_field('txp_category','Articles');
+		update_summary_field('txp_category','Images');
+		update_summary_field('txp_category','Files'); 
+	}
+	
+// -------------------------------------------------------------
 	function markup_comment($msg)
 	{
 		global $prefs;

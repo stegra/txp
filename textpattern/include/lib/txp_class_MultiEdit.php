@@ -1260,6 +1260,8 @@
 				
 				$parents = safe_column("ID,ParentID",$this->table,"ID IN (".in($changed).")");
 				foreach($parents as $pid) renumerate($pid,0,0,$this->table);
+				
+				update_category_count();
 			}
 			
 			return $changed;

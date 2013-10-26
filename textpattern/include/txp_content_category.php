@@ -44,7 +44,7 @@ $LastChangedRevision: 3203 $
 				'Customs'  	=> array('title' => 'Custom', 	'on' => 0, 'editable' => 0, 'pos' => 15),
 				'AuthorID'	=> array('title' => 'Author', 	'on' => 0, 'editable' => 0, 'pos' => 16),
 				'Status'	=> array('title' => 'Status',	'on' => 0, 'editable' => 0, 'pos' => 17),
-				'Position'  => array('title' => 'Position', 'on' => 0, 'editable' => 0, 'pos' => 18, 'short' => 'Pos.')
+				'Position'  => array('title' => 'Position', 'on' => 0, 'editable' => 1, 'pos' => 18, 'short' => 'Pos.')
 			);
 			
 			if (!column_exists('txp_category','Plural')) {
@@ -81,7 +81,7 @@ $LastChangedRevision: 3203 $
 // -------------------------------------------------------------
 	function category_multi_edit() 
 	{	
-		global $WIN;
+		global $WIN,$PFX;
 		
 		$method   = ps('edit_method');
 		$selected = ps('selected',array());
@@ -202,10 +202,26 @@ $LastChangedRevision: 3203 $
 									"by_class = '$Name'",
 									"by_class = '".$oldName."'
 									 AND type = '$type'");
+									 
+							$categories = "(SELECT GROUP_CONCAT(cc.name,'.',cc.position ORDER BY cc.position ASC) FROM ".$PFX."txp_content_category AS cc WHERE c.article_id = cc.article_id AND cc.type = '$type') AS categories";
+							$rows = safe_column(array("c.article_id",$categories),"txp_content_category AS c","c.name = '$Name' AND c.type = '$type'");
+							
+							foreach ($rows as $article_id => $categories) {
+								safe_update($table,"Categories = '$categories'","ID = $article_id");
+							}
+							
+							$is_duplicate = safe_count('txp_category',
+								"Name = '$Name' AND ID != $ID AND Trash = 0 AND Type != 'folder'");
+								
+							if ($is_duplicate) {
+								safe_delete('txp_category',"ID = $ID");
+							}
 						}
 					}
 				}
 			}
+			
+			update_category_count();
 			
 			$selected = array();
 		}
