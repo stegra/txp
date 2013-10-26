@@ -17,7 +17,7 @@
 		}
 		
 		/* if the image that is being added is a folder image 
-		 * use the ImageID of the folder 
+		 * use the ImageID of the folder
 		 */
 		
 			$FolderImageID = safe_field("ImageID","txp_image",
