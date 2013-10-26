@@ -967,7 +967,7 @@ $LastChangedRevision: 3267 $
 				safe_update('txp_image',"FilePath = '$id_path', ImageID = $id","ID = $id");
 				
 				if (!is_dir($image_path)) {
-					@mkdir($image_path,0777,true);
+					@mkdir($image_path,0777,true); 
 				}
 				
 				if (!is_dir($image_path)) {
