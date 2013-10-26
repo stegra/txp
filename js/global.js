@@ -50,7 +50,7 @@ $(document).ready(function(){
 		
 		if (linkhost && (linkhost != sitehost)) {
 			
-			window.open(href,'external','width=1000,height=700');
+			window.open(href,'external','width=1000,height=700,scrollbars=yes,toolbar=yes');
 			
 			return false;	
 		}
@@ -61,7 +61,17 @@ $(document).ready(function(){
 	
 	$('body.instructions #mainContent a').click(function() {
 	
-		window.open($(this).attr('href'),'instructions','width=920,height=550');
+		window.open($(this).attr('href'),'instructions','width=920,height=550,toolbar=yes');
+		
+		return false;
+	});
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// open edit page links in a new window
+	
+	$('a.edit').click(function() {
+	
+		window.open($(this).attr('href'),'edit-article','width=950,height=625');
 		
 		return false;
 	});
