@@ -220,7 +220,7 @@
 				
 		} else {
 			
-			$table = (isset($thisarticle)) ? $thisarticle['table'] : 'textpattern';
+			$table = 'textpattern';
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
