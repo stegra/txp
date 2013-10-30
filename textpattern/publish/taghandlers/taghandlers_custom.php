@@ -204,6 +204,14 @@
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// default value 
+		
+		if (!$out and strlen($default)) {
+		
+			$out[] = $default;
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
 		if ($thing) {
 		
