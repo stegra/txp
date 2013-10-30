@@ -467,7 +467,7 @@
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Name
 		
-		if ($name and $name != '!*') {
+		if ($name and $name != '!*' and $name != '*') {
 			
 			$where['name'] = makeWhereSQL("t.Name",$name);
 		}
@@ -519,6 +519,8 @@
 				$category_type = ($table == 'textpattern')
 					? 'article' : str_replace('txp_','',$table);
 				
+				$category_count = 1;
+				
 				foreach($category as $key => $value) {
 				
 					if (in_list($value,'AND,OR,(,)')) continue;
@@ -531,23 +533,32 @@
 					
 						$category[$key] = "t.Categories != ''";
 					
-					} elseif (substr($value,0,3) == '../') {
+					} else {
 						
-						$value = substr($value,3);
+						$parent_category = false;
 						
-						$tables['pcategory'] = "LEFT JOIN txp_content_category AS `pcategory` ON t.parentid = pcategory.article_id AND pcategory.type = '$category_type'";
+						if (substr($value,0,3) == '../') {
+							$value = substr($value,3);
+							$parent_category = true;
+						}
 						
-						$category[$key] = makeWhereSQL('pcategory.name',$value);
+						$tbl = 'category'.$category_count;
 						
-					} else {	
+						$tables['category'][] = ($parent_category)
+							? "LEFT JOIN txp_content_category AS `$tbl` ON t.parentid = $tbl.article_id AND $tbl.type = '$category_type'"
+							: "LEFT JOIN txp_content_category AS `$tbl` ON t.id = $tbl.article_id AND $tbl.type = '$category_type'";
 						
-						$tables['category'] = "LEFT JOIN txp_content_category AS `category` ON t.id = category.article_id AND category.type = '$category_type'";
-		
-						$category[$key] = makeWhereSQL('category.name',$value);
+						$category[$key] = makeWhereSQL($tbl.'.name',$value);
 					}
+					
+					$category_count += 1;
 				}
 				
 				$where['category'] = '('.implode(' ',$category).')';
+				
+				if (isset($tables['category'])) {
+					$tables['category'] = implode(n,$tables['category']);
+				}
 			}
 		}
 		
