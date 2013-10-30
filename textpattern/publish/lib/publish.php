@@ -721,7 +721,13 @@
 				$columns[] = "category.name AS Category";
 				$tables[]  = "txp_content_category AS `category` ON t.ID = category.article_id";
 				$groupby   = " GROUP BY category.name"; 
+			
+			} elseif (str_begins_with(strtolower($groupby),'custom_')) {
 				
+				// TODO: multiple groupby fields 
+				
+				$groupby = " GROUP BY ".substr($groupby,7)." ";
+			
 			} else {
 			
 				$subquery_where = '';
