@@ -1,9 +1,21 @@
 <?php
 	
-	$field  = gps('field');
+	$id  	= assert_int(gps('id',0));
+	$screen = assert_int(gps('screen',0));
 	$sort   = gps('sort','agent');
 	$delete = assert_int(gps('delete',0));
 	$values = '';
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+	if ($id) {
+			
+		safe_update('txp_log_agent',"width = $screen","id = $id");
+		
+		echo $id;
+		
+		exit;
+	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
@@ -31,7 +43,8 @@
 		
 		$values .= '<tr class="'.$odd_even.'">';
 		$values .= '<td>'.$agent.'</td>';
-		$values .= '<td>'.$width.'</td>';
+	 //	$values .= '<td>'.$width.'</td>';
+	    $values .= '<td><input size="4" id="'.$id.'" type="text" value="'.$width.'"/></td>';
 		$values .= '<td>'.$count.'</td>';
 		$values .= '<td><a class="delete" title="Delete" href="?go=user_agent_log&sort='.$sort.'&delete='.$id.'">x</a></td>';
 		$values .= '</tr>'; 
@@ -43,6 +56,7 @@
 	<title>User Agent Log</title>
 	<link rel="stylesheet" href="/textpattern/utilities/include/user_agent_log/css/style.css?12351111111111111" type="text/css">
 	<script src="/textpattern/js/lib/jquery-1.7.1.min.js" language="javascript"></script>
+	<script src="/textpattern/utilities/include/user_agent_log/script.js" language="javascript"></script>
 </head>
 <body>
 

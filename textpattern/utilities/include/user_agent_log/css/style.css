@@ -99,7 +99,7 @@ table.values td {
 	border-bottom: 1px solid #DDD;
 }
 
-table.values tr.odd td {
+table.values tr.even td {
 	background-color: #DDD;
 }
 
