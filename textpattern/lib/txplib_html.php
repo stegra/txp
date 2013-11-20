@@ -1262,7 +1262,7 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 		
 		if (preg_match('/\<body[^\>]*\>/',$html,$match)) {
 			
-			preg_match_all('/\s+([a-z]+)\=\"(.+?)\"/',$match[0],$matches);
+			preg_match_all('/\s+([a-z\-]+)\=\"(.+?)\"/',$match[0],$matches);
 			
 			if (count($matches[0])) {
 				$atts = array_flip($matches[1]);
@@ -1390,6 +1390,14 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 		$html = preg_replace('/<(ul|ol|li)>(\s+)?<\/\1>/','',$html);
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		// add log id to body tag
+		
+		if (isset($pretext['logid'])) {
+			
+			$html = preg_replace('/\<body(\s|\>)/','<body data-logid="'.$pretext['logid'].'"'."$1",$html);
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 		// add a class attribute for body tag
 		
 		$html = add_body_class($html);
@@ -1502,6 +1510,10 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 		$html = preg_replace('/(<\/a>)\s([\.\?\!])/',"$1$2",$html);
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		$html = preg_replace_callback('/href\=\"\/admin\/([a-z0-9\_\/]+)"/','expand_admin_url',$html);
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// add base url to all admin links
 		
 		if ($prefs['base']) {
@@ -1571,6 +1583,34 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 		return $html;
 	}
 
+//--------------------------------------------------------------------------------------
+// simple textile
+
+	function expand_admin_url($matches) 
+	{	
+		global $siteurl;
+		
+		$path = $matches[1];
+		
+		$regexp = array(
+			'/^([a-z]+)$/'								=> 'index.php?event=$1', 									
+			'/^([a-z]+)\/([a-z]+)$/'					=> 'index.php?event=$1&step=$2', 							
+			'/^([a-z]+)\/([a-z]+)\/([a-z]+)$/'			=> 'index.php?event=$1&step=$2&sort=$3&dir=asc',			
+			'/^([a-z]+)\/(\d+)$/'						=> 'index.php?event=$1&id=$2',							
+			'/^([a-z]+)\/([a-z]+)\/(\d+)$/'				=> 'index.php?event=$1&step=$2&id=$3',					
+			'/^([a-z]+)\/([a-z]+)\/(\d+)\/([a-z]+)$/'	=> 'index.php?event=$1&step=$2&id=$3&sort=$4&dir=asc'	
+		);
+		
+		foreach ($regexp as $find => $replace) {
+			
+			if ($path != $matches[1]) break;
+			
+			$path = preg_replace($find,$replace,$matches[1]);
+		}
+		
+		return 'href="http://'.$siteurl.'/admin/'.$path.'&win=new&mini=1" class="admin-link"';
+	}
+	
 //--------------------------------------------------------------------------------------
 // simple textile
 

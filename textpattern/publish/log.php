@@ -54,34 +54,96 @@ $LastChangedRevision: 3247 $
 		$out['host'] = $host;
 		$out['status'] = $status;
 		$out['method'] = serverSet('REQUEST_METHOD');
+		
 		if (preg_match("/^[^\.]*\.?$mydomain/i", $out['ref'])) $out['ref'] = "";
-
+		
+		$out['agent'] = logit_agent(serverSet('HTTP_USER_AGENT'));
+		
 		if ($r=='refer') {
 			if (trim($out['ref']) != "") { insert_logit($out); }
 		} else insert_logit($out);
 	}
 
 // -------------------------------------------------------------
+	function logit_agent($agent) {
+		
+		$agent = doSlash($agent);
+		
+		$id = fetch('id','txp_log_agent','agent',$agent);
+		
+		if ($id) {
+			
+			safe_update('txp_log_agent',"count = count + 1","id = $id");
+		
+		} else {
+			
+			$id = safe_insert('txp_log_agent',"agent = '$agent'");
+		}
+		
+		return $id;
+	}
+
+// -------------------------------------------------------------
 	function insert_logit($in)
 	{
-		global $DB;
+		global $DB,$txp_user,$pretext,$expire_logs_after;
 		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		$expire_logs_after = assert_int($expire_logs_after);
+		
+		safe_delete('txp_log', 
+			"Posted < date_sub(now(), interval $expire_logs_after day) AND Type = 'page'");
+
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
 		$in = doSlash($in);
 		extract($in);
 		
-		if (!isset($page)) $page = 'index.html';
+		$req   = explode('?',$uri);
 		
-		$page = explode('/',trim($page));
-		$page = array_pop($page);
-		$page = trim(preg_replace('/\.html?/','',trim($page)));
-		if (!strlen($page)) $page = 'index';
+		$page  = array_shift($req);
+		$page  = preg_replace('/\.(html?|xml)/','',$page);
+		$page  = ltrim($page,'/');
+		$page  = (!strlen($page)) ? 'index' : $page;
+		$page  = explode('/',$page);
+		$name  = array();
+		$title = array();
 		
-		$name   = make_name($page);
-		$title  = doSlash(make_title($page));
-		$parent = fetch("ID","txp_log","ParentID",0); 
-		$user	= safe_field("name","txp_users","1=1 ORDER BY privs ASC LIMIT 1");
+		foreach ($page as $key => $item) {
+			
+			if ($key > 0 and $item == 'index') continue;
+			
+			$name[]  = make_name($item);
+		    $title[] = doSlash(make_title($item));
+		}
+		
+		$q = array_shift($req);
+		
+		if ($q) {
+		
+			$q = explode('&',$q);
+			
+			foreach ($q as $item) {
+				
+				$name[] = make_name($item);
+				
+				if ($item == 'preview') {
+				
+					$title[] = '(Preview)';
+				
+				} elseif (str_begins_with($item,'pg')) {
+					
+					$title[] = 'Page '.substr($item,3);
+				} 
+			}
+		}
+		
+		$name  = implode('-',$name);
+		$title = implode(' ',$title);
+		
+		$parent = fetch("ID","txp_log","ParentID",0);
+		$user   = ($txp_user) ? $txp_user : 'textpattern'; 
 		
 		$id = safe_insert("txp_log", 
 			"Posted = now(),
@@ -91,11 +153,14 @@ $LastChangedRevision: 3247 $
 			 ip     = '$ip',
 			 host   = '$host',
 			 refer  = '$ref',
-			 Status = '$status',
+			 agent  = '$agent',
+			 Status = '4',
 			 method = '$method',
 			 ParentID = $parent,
 			 Type     = 'page',
 			 AuthorID = '$user'");
+		
+		$pretext['logid'] = $id; 
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -149,6 +214,25 @@ $LastChangedRevision: 3247 $
 		}
 	}
 
+//-------------------------------------------------------------
+	function log_screensize()
+	{
+		$id = assert_int(gps('id',0));
+		$current_width = assert_int(gps('screensize',0));
+		
+		if ($id and $current_width) {
+			
+			safe_update('txp_log',"agent_width = $current_width","ID = $id");
+			
+			$agent = fetch('agent','txp_log','ID',$id);
+			$width = fetch('width','txp_log_agent','id',$agent);
+			
+			if ($width == 0 or $width > $current_width) {
+				safe_update('txp_log_agent',"width = $current_width","id = $agent");
+			}
+		}
+	}
+	
 // -------------------------------------------------------------
 	function cacheit($html,$name='')
 	{

@@ -101,15 +101,15 @@ $LastChangedRevision: 3203 $
 				'ip' 	 	=> array('title' => 'IP', 	   	'on' => 0, 'editable' => 0, 'pos' => 4),
 				'page'		=> array('title' => 'Page', 	'on' => 1, 'editable' => 0, 'pos' => 5),
 				'refer'    	=> array('title' => 'Referer',  'on' => 0, 'editable' => 0, 'pos' => 6),
-				'location'  => array('title' => 'Location', 'on' => 1, 'editable' => 0, 'pos' => 7),
-				'City'	    => array('title' => 'City',		'on' => 0, 'editable' => 0, 'pos' => 8),
-				'Region'    => array('title' => 'Region',   'on' => 0, 'editable' => 0, 'pos' => 9),
-				'Country'   => array('title' => 'Country',  'on' => 0, 'editable' => 0, 'pos' => 10),
+			 //	'location'  => array('title' => 'Location', 'on' => 1, 'editable' => 0, 'pos' => 7),
+			 //	'City'	    => array('title' => 'City',		'on' => 0, 'editable' => 0, 'pos' => 8),
+			 // 'Region'    => array('title' => 'Region',   'on' => 0, 'editable' => 0, 'pos' => 9),
+			 // 'Country'   => array('title' => 'Country',  'on' => 0, 'editable' => 0, 'pos' => 10),
 				'method'	=> array('title' => 'Method',	'on' => 0, 'editable' => 0, 'pos' => 11),
 				'Status'	=> array('title' => 'Status',	'on' => 0, 'editable' => 0, 'pos' => 12)
 			);
 			
-			$WIN['columns']['location']['sel'] = "IF(Country!='',CONCAT_WS('/',Country,Region,City),'')";
+			// $WIN['columns']['location']['sel'] = "IF(Country!='',CONCAT_WS('/',Country,Region,City),'')";
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -207,7 +207,7 @@ $LastChangedRevision: 3203 $
 		save_session($EVENT);
 		save_session($WIN);
 	}
-	
+
 //-------------------------------------------------------------
 
 	function log_list_old($message = '')

@@ -195,6 +195,11 @@
 		exit;
 	}
 	
+	if ($action == 'user_agent_log') {
+		include_once txpath.'/utilities/include/user_agent_log/index.php';
+		exit;
+	}
+	
 	if ($PFX == 'hrp_') { 
 		// $action = 'clean_article_body_html';
 		// $action = 'make_excerpts';
@@ -290,6 +295,8 @@
 						<li id="restore"><a href="index.php?go=restore&<?php echo $nocache; ?>" title="Backup/Restore DB">Backup/Restore DB...</a></li>
 				   <!-- <li id="change_username"><a href="include/change_username/index.php?<?php echo $nocache; ?>" title="Change User Name">Change User Name...</a></li> -->
 						<li id="custom_field_values"><a href="index.php?go=custom_field_values&<?php echo $nocache; ?>" title="Custom Field Values">Custom Field Values...</a></li>
+						<li id="user_agent_log"><a href="index.php?go=user_agent_log&<?php echo $nocache; ?>" title="User Agent Log">User Agent Log...</a></li>
+						
 						
 						<li id="view_inspector"><span class="name">Inspector</span> <span class="go"><a title="Inspector" href="index.php?go=view_inspector&<?php echo $nocache; ?>">Go</a></span></li>
 						<li id="update_database"><span class="name">Update DB</span> <span class="go"><a title="Update Database" href="index.php?go=update_database&<?php echo $nocache; ?>">Go</a></span></li>

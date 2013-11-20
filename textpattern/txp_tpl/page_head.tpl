@@ -6,6 +6,7 @@
 	<meta http-equiv="pragma" content="no-cache"/>
 	<meta http-equiv="cache-control" content="no-cache"/>
 	<meta name="robots" content="noindex, nofollow" />
+	<meta name='url' content="{$cleanurl}">
 	
 	<title>{$sitename} &#8250; {$area_title} &#8250; {$page_title}</title>
 

@@ -996,17 +996,16 @@ $GLOBALS['DB'] = new DB;
 		$extra   = '';
 		
 		if (count($info)) {
-		
-			if (strcasecmp($info[0],'NOT')) {
+			
+			if (strtolower($info[0]) == 'not') {
 				array_shift($info);
 				array_shift($info);
-			} elseif (strcasecmp($info[0],'NULL')) {
+			} elseif (strtolower($info[0]) == 'null') {
 				$null = "NULL";
 			}
 			
 			if (count($info)) {
-				
-				if (strcasecmp($info[0],'DEFAULT')) {
+				if (strtolower($info[0]) == 'default') {
 					array_shift($info);
 					$default = "DEFAULT ".array_shift($info);
 				}
@@ -2288,6 +2287,8 @@ eod;
 	}
 
 //-------------------------------------------------------------
+// update the parent info of the children for given ID 
+
 	function update_parent_info($table,$id=0,$debug=0) 
 	{
 		if (column_exists($table,'ParentName')) {
@@ -2301,7 +2302,8 @@ eod;
 				$parent[$key] = n.t."t.Parent".$column." = p.".$column;
 			}
 			
-			$where = ($id) ? "t.ID = $id" : "1=1";
+			// $where = ($id) ? "t.ID = $id" : "1=1";
+			$where = ($id) ? "t.ParentID = $id" : "1=1";
 			
 			safe_update("$table AS t JOIN $table AS p ON t.ParentID = p.ID",impl($parent),$where,$debug);
 			safe_update($table,"ParentStatus = Status","ParentID = 0",$debug); 

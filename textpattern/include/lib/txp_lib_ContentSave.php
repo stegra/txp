@@ -399,7 +399,7 @@
 				$oldClass = $old['Class'];
 				
 				if ($old['Categories'] != implode(',',$Category)) {
-					$Category = explode(',',$oldCategories);
+					$Category = explode(',',$old['Categories']);
 				}
 				
 				if (in_array($oldClass,$Category)) {
@@ -445,17 +445,24 @@
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Sticky 
 		
-		if (isset($in['Sticky']) and table_exists("txp_sticky")) {
-			
-			if ($in['Sticky']) {
-			 
-				if ($Status == 4) $in['Status'] = $Status = 5;
-				if ($Status == 3) $in['Status'] = $Status = 7;
+		if (table_exists("txp_sticky")) {
+		
+			if (isset($in['Sticky'])) {
 				
+				if ($in['Sticky']) {
+				 
+					if ($Status == 4) $in['Status'] = $Status = 5;
+					if ($Status == 3) $in['Status'] = $Status = 7;
+					
+				} else {
+					
+					if ($Status == 5) $in['Status'] = $Status = 4;
+					if ($Status == 7) $in['Status'] = $Status = 3;
+				}
+			
 			} else {
 				
-				if ($Status == 5) $in['Status'] = $Status = 4;
-				if ($Status == 7) $in['Status'] = $Status = 3;
+				if ($old['Sticky']) $in['Sticky'] = 0;
 			}
 		}
 		
@@ -862,13 +869,25 @@
 			if ($in['custom_field_id'] and $in['custom_field_id'] != 'NONE') {
 			
 				// $class = ($Class and $old['Class'] != $Class) ? $Class : $old['Class'];
+				$parent_class = fetch('Class',$textpattern,'ID',$old['ParentID']);
 				
-				$group_by_columns['id']       = (gps('apply_to_id')) ? $ID : 0;
-				$group_by_columns['parent']   = (gps('apply_to_parent')) ? $old['ParentID'] : 0;
-				$group_by_columns['class']    = (gps('apply_to_class')) ? $Class : '';
-				$group_by_columns['category'] = impl(gps('apply_to_category'));
-				$group_by_columns['sticky']   = gps('apply_to_sticky',0);
-				$group_by_columns['name']     = gps('apply_to_name',0);
+				$group_by_columns['id']			     = (gps('apply_to_id')) ? $ID : 0;
+				$group_by_columns['parent']          = (gps('apply_to_parent')) ? $old['ParentID'] : 0;
+				$group_by_columns['class']           = (gps('apply_to_class')) ? $Class : '';
+				$group_by_columns['parent_class']    = (gps('apply_to_parent_class')) ? $parent_class : '';
+				$group_by_columns['category']        = impl(gps('apply_to_category'));
+				$group_by_columns['parent_category'] = impl(gps('apply_to_parent_category'));
+				$group_by_columns['sticky']          = gps('apply_to_sticky',0);
+				$group_by_columns['name']            = gps('apply_to_name',0);
+				
+				// set by_id to 0 if there are any other group by values
+				
+				foreach ($group_by_columns as $name => $val) {
+					
+					if ($name != 'id' and $val) {
+						$group_by_columns['id'] = 0;
+					} 
+				}
 				
 				add_custom_field($ID,$in['custom_field_id'],$group_by_columns);
 			}

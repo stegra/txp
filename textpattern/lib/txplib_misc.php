@@ -1957,7 +1957,7 @@ $LastChangedRevision: 3271 $
 	}
 
 // -------------------------------------------------------------
-	function update_category_count() 
+	function update_category_count($debug=0) 
 	{
 		global $PFX;
 		
@@ -1968,19 +1968,19 @@ $LastChangedRevision: 3271 $
 			"Articles = (SELECT COUNT(*) FROM ".$PFX."txp_content_category AS cc 
 				JOIN ".$PFX."textpattern AS t ON cc.article_id = t.ID 
 				WHERE c.Name = cc.name AND cc.type = 'article' AND t.Trash <= 2)",
-			"c.Type != 'folder'");
+			"c.Type != 'folder'",$debug);
 		
 		safe_update("txp_category AS c",
 			"Images = (SELECT COUNT(*) FROM ".$PFX."txp_content_category AS cc 
 				JOIN ".$PFX."txp_image AS t ON cc.article_id = t.ID 
 				WHERE c.Name = cc.name AND cc.type = 'image' AND t.Trash <= 2)",
-			"c.Type != 'folder'");
+			"c.Type != 'folder'",$debug);
 			
 		safe_update("txp_category AS c",
 			"Files = (SELECT COUNT(*) FROM ".$PFX."txp_content_category AS cc 
 				JOIN ".$PFX."txp_image AS t ON cc.article_id = t.ID 
 				WHERE c.Name = cc.name AND cc.type = 'file' AND t.Trash <= 2)",
-			"c.Type != 'folder'");
+			"c.Type != 'folder'",$debug);
 			
 		update_summary_field('txp_category','Articles');
 		update_summary_field('txp_category','Images');
@@ -3625,6 +3625,20 @@ function make_title($name) {
 		return $html;
 	}
 
+// -------------------------------------------------------------------------------------
+
+	function add_common_javascript(&$html) 
+	{
+		global $prefs,$production_status;
+		
+		$base = (!$prefs['base']) ? '/admin/' : $prefs['base'];
+		$nocache = ($production_status != 'live') ? '?'.rand(100000,999999) : '';
+		
+		$html = preg_replace('/(<\/body>)/',t.'<script type="text/javascript" src="'.$base.'js/publish/global.js'.$nocache.'"></script>'.n.'</body>',$html);
+		
+		return $html;
+	}
+	
 // -------------------------------------------------------------------------------------
 // new
 

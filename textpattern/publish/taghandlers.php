@@ -2130,6 +2130,24 @@ $LastChangedRevision: 3256 $
 		return if_variable($atts,$thing,'article');
 	}
 
+//------------------------------------------------------------------------
+
+	function if_no_body($atts, $thing = NULL)
+	{
+		global $thisarticle;
+		
+		return (!strlen(trim($thisarticle['body']))) ? parse($thing) : '';
+	}
+
+//------------------------------------------------------------------------
+
+	function if_no_excerpt($atts, $thing = NULL)
+	{
+		global $thisarticle;
+		
+		return (!strlen(trim($thisarticle['excerpt']))) ? parse($thing) : '';
+	}
+	
 // -------------------------------------------------------------
 
 	function category1($atts, $thing = NULL)
@@ -3792,6 +3810,41 @@ $LastChangedRevision: 3256 $
 		return parse(EvalElse($thing, $test));
 	}
 
+// -------------------------------------------------------------
+
+	function screen_size($atts) 
+	{
+		global $pretext;
+		
+		$logid = $pretext['logid'];
+		
+		$width = safe_field('width',"txp_log AS l JOIN txp_log_agent AS a ON l.agent = a.id","l.ID = $logid");
+		
+		return ($width) ? $width : 0;
+	}
+	
+// -------------------------------------------------------------
+
+	function if_screen_size($atts, $thing = NULL) {
+		
+		extract(lAtts(array(
+			'value'	=> ''
+		), $atts));
+		
+		$size = screen_size($atts);
+		
+		if (!$size) {
+			
+			$test = true;
+		
+		} else {
+		
+			$test = evalAtt($size,$value);
+		}
+		
+		return parse(EvalElse($thing, $test));
+	}
+	
 // =============================================================================
 
 	function eE($txt) // convert email address into unicode entities

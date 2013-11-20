@@ -66,6 +66,22 @@ $LastChangedRevision: 3265 $
 		$event_js = txpath.DS.'js'.DS.'txp_event'.DS.'txp_event_'.$event.'.js';
 		$event_js = (is_file($event_js)) ? 'js/txp_event/txp_event_'.$event.'.js' : '';
 		
+		// build clean admin url 
+		
+		$cleanurl_sortby = (isset($WIN['sortby']) and $WIN['sortby'] !== 'Posted')
+			? $WIN['sortby'] : '';
+		
+		$cleanurl_id = (isset($WIN['docid']) and $WIN['docid'] and ROOTNODEID != $WIN['docid'])
+			? $WIN['docid'] : '';
+		
+		$cleanurl  = '/admin/'.$event;
+		$cleanurl .= ($mode == 'edit') ? '/'.$mode : '';
+		$cleanurl .= ($mode == 'list' and $cleanurl_sortby) ? '/'.$mode : '';
+		$cleanurl .= ($event == 'prefs' and gps('step') != 'prefs_list') ? '/'.gps('step') : '';
+		$cleanurl .= ($cleanurl_id) ? '/'.$cleanurl_id : '';
+		$cleanurl .= ($mode == 'list' and $cleanurl_sortby) ? '/'.$cleanurl_sortby : '';
+		
+		$smarty->assign('cleanurl',$cleanurl);
 		$smarty->assign('lang',LANG);
 		$smarty->assign('lang_dir',gTxt('lang_dir'));
 		$smarty->assign('body_id',$body_id);

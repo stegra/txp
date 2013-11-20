@@ -970,12 +970,12 @@ $LastChangedRevision: 3267 $
 					@mkdir($image_path,0777,true); 
 				}
 				
-				if (!is_dir($image_path)) {
+				if (!is_dir($image_path) or !is_writable($image_path)) {
 					
 					$id_path = '1';
 					$image_path = IMPATH.$id_path;
 					
-					if (is_dir($image_path)) {
+					if (is_dir($image_path) and is_writable($image_path)) {
 						
 						safe_update('txp_image',"FileDir = '$id_path', FilePath = '$id_path'","ID = $id");
 					
@@ -989,7 +989,23 @@ $LastChangedRevision: 3267 $
 				
 				$shiftedfile = $image_path.'/'.$filename;
 				
-				if (!shift_uploaded_file($file, $shiftedfile)) {
+				shift_uploaded_file($file, $shiftedfile);
+				
+				if (!is_file($shiftedfile)) {
+						
+					$id_path = '1';
+					$image_path = IMPATH.$id_path;
+					
+					if (is_dir($image_path) and is_writable($image_path)) {
+					
+						safe_update('txp_image',"FileDir = '$id_path', FilePath = '$id_path'","ID = $id");
+						
+						$shiftedfile = $image_path.'/'.$filename;
+						shift_uploaded_file($file, $shiftedfile);
+					}
+				}
+				
+				if (!is_file($shiftedfile)) {
 					
 					safe_delete("txp_image","ID = '$id'");
 					safe_alter("txp_image", "auto_increment=$id");
@@ -1003,7 +1019,7 @@ $LastChangedRevision: 3267 $
 					}
 					
 					image_list(array($message, E_ERROR));
-					
+				
 				} else {
 					
 					$original = $image_path.'/'.$name.$ext;

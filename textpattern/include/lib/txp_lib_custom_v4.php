@@ -8,6 +8,33 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
+		$all_groupby = array(
+			'by_table',
+			'by_id',
+			'by_name',
+			'by_path',
+			'by_parent',
+			'by_parent_category',
+			'by_parent_class',
+			'by_class',
+			'by_category',
+			'by_sticky',
+			'by_level'
+		);
+		
+		foreach ($all_groupby as $key => $col) {
+		
+			if (!column_exists('txp_group',$col)) {
+				unset($all_groupby[$key]);
+			}
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		$parent_article_id = fetch('ParentID',$WIN['table'],'ID',$article_id);
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
 		$group_id = 0;
 		$groupby  = array();
 		$append   = false;
@@ -29,6 +56,7 @@
 			// add field as a new group
 			
 			$groupby['category'] = expl($groupby['category']);
+			$groupby['parent_category'] = expl($groupby['parent_category']);
 		
 			if ($event != 'utilities') {
 			
@@ -45,13 +73,29 @@
 						unset($groupby['category'][$key]);
 					}
 				}
+				
+				foreach($groupby['parent_category'] as $key => $name) {
+					
+					$name = doSlash($name);
+					
+					if (!strlen($name)) {
+						unset($groupby['category'][$key]);
+						continue;
+					}
+					
+					if (!getCount("txp_content_category","article_id = $parent_article_id AND name = '$name'")) {
+						unset($groupby['category'][$key]);
+					}
+				}
 			}
 			
 			// sorting in alhabetical order so that the order in 
 			// which categories are entered does not matter
 			sort($groupby['category']); 
+			sort($groupby['parent_category']); 
 			
 			$groupby['category'] = implode(',',$groupby['category']);
+			$groupby['parent_category'] = implode(',',$groupby['parent_category']);
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			
@@ -105,7 +149,7 @@
 			// add field to an existing group
 			
 			$groupby = safe_row(
-				"by_id,by_parent,by_class,by_category,by_sticky",
+				impl($all_groupby),
 				"txp_group",
 				"group_id = $group_id");
 			
@@ -355,6 +399,15 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
+		$parent_article_id = 0;
+		
+		if ($article_id) {
+		
+			$parent_article_id = fetch("ParentID",$WIN['table'],"ID",$article_id);
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
 		$table   = (!$table) ? $WIN['table'] : $table;
 		$content = $WIN['content'];
 		$field_value_id = 0; 
@@ -385,6 +438,10 @@
 		
 		if (column_exists("txp_group","by_parent_class")) {
 			$columns[] = 'g.by_parent_class';
+		}
+		
+		if (column_exists("txp_group","by_parent_category")) {
+			$columns[] = 'g.by_parent_category';
 		}
 		
 		if (!$article_id and column_exists("txp_group","used")) {
@@ -427,8 +484,9 @@
 		
 		foreach($fields as $field) {
 			
-			$key = array();
-			$by  = array();
+			$tables = array("$table AS t");
+			$key 	= array();
+			$by  	= array();
 			
 			$matching_articles = array();
 			
@@ -479,7 +537,11 @@
 			}
 			
 			if (isset($by_parent_class) and $by_parent_class) {
-				$by['parent_class'] = "t.ParentClass = '$by_parent_class'";
+				
+				// $by['parent_class'] = "t.ParentClass = '$by_parent_class'";
+				
+				$by['parent_class'] = "parent.Class = '$by_parent_class'";
+				$tables['parent'] = "$table AS parent ON t.ParentID = parent.ID";
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -513,13 +575,14 @@
 			
 			} else {
 				
-				$matching_articles = safe_column("ID","$table AS t",doAnd($where),0,0);
+				$matching_articles = safe_column("t.ID",implode(' JOIN ',$tables),doAnd($where),0,0);
 				
 				$saved_matching_articles[$key] = $matching_articles;
 			}
 			
 			// pre('----------------------------');
-			// pre("$field_id $field_name (by id:$by_id, by_parent:$by_parent) $status");
+			// pre("group:$group_id field:$field_id/$field_name instance:$instance_id (by id:$by_id, by_parent:$by_parent) $status");
+			// pre($matching_articles);
 			// $used = count($matching_articles);
 			// pre("used: $used value count: $old_value_count/$new_value_count");
 			
@@ -541,6 +604,8 @@
 			
 			$new_status = '';
 			
+			$tables[] = "txp_content_value AS v ON t.ID = v.article_id";
+			
 			if ($status == 'add' or $status == 'restore') {
 				
 				if ($matching_articles) {
@@ -550,12 +615,12 @@
 					$where['field']    = "v.field_id = $field_id";
 					$where['group']    = "v.group_id = $group_id"; 
 					
-					if (safe_count("$table AS t JOIN txp_content_value AS v ON t.ID = v.article_id",doAnd($where),0)) {
+					if (safe_count(implode(' JOIN ',$tables),doAnd($where))) {
 						
 						$where['group'] = "v.status = 0"; 
 						
 						safe_update(
-							"$table AS t JOIN txp_content_value AS v ON t.ID = v.article_id",
+							implode(' JOIN ',$tables),
 							"v.status = 1",doAnd($where));
 					
 					} else {
@@ -599,14 +664,14 @@
 					
 					$where['val'] = "(NOT ISNULL(v.num_val) OR v.text_val != '')";
 					
-					if (safe_count("$table AS t JOIN txp_content_value AS v ON t.ID = v.article_id",doAnd($where))) {
+					if (safe_count(implode(' JOIN ',$tables),doAnd($where))) {
 					
 						// when field has any values  
 						// set status to '0' in the value table and 
 						// set status to 'removed' or 'trashed' in group table
 						
 						safe_update(
-							"$table AS t JOIN txp_content_value AS v ON t.ID = v.article_id",
+							implode(' JOIN ',$tables),
 							"v.status = 0",doAnd($where));
 						
 						$new_status = ($status == 'remove') ? 'removed' : 'trashed';
@@ -619,7 +684,7 @@
 						// delete any instances from the value table
 						
 						safe_delete(
-							"$table AS t JOIN txp_content_value AS v ON v.article_id = t.id",
+							implode(' JOIN ',$tables),
 							doAnd($where),0,'v');
 						
 						// and from the group table
@@ -644,10 +709,20 @@
 					$where['id'] = "t.ID = $article_id"; 
 					
 					safe_update(
-						"$table AS t JOIN txp_content_value AS v ON t.ID = v.article_id",
+						implode(' JOIN ',$tables),
 						"v.status = 0",doAnd($where));
 				}
 			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// deactivate field values from articles that no longer have a matching group
+			
+				
+			$ids = safe_column('id','txp_content_value',
+				"tbl = '$table'
+				 AND group_id = $group_id
+				 AND field_id = $field_id
+				 AND status = 1");
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// update txp_group table with new status
@@ -1126,11 +1201,20 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
+		$parent_id = fetch("ParentID",$table,"ID",$article_id);
+		
 		$class = safe_field(
 				"c.Title",
 				"$table AS t 
 				 JOIN txp_category AS c",
 				"t.ID = $article_id 
+				 AND t.Class = c.Name");
+		
+		$parent_class = safe_field(
+				"c.Title",
+				"$table AS t 
+				 JOIN txp_category AS c",
+				"t.ID = $parent_id 
 				 AND t.Class = c.Name");
 		
 		$categories = safe_rows(
@@ -1144,13 +1228,25 @@
 				 AND tc.Class  != 'yes'
 				 ORDER BY tcc.position ASC");
 		
+		$parent_categories = safe_rows(
+				"tc.Name,tc.Title",
+				"txp_content_category AS tcc 
+				 JOIN txp_category AS tc",
+				"tcc.article_id = $parent_id 
+				 AND tcc.type   = '$content' 
+				 AND tcc.name  != 'NONE'
+				 AND tcc.name   = tc.Name
+				 AND tc.Class  != 'yes'
+				 ORDER BY tcc.position ASC");
+		
+		$parent_categories = array();
+				 
 		$sticky = safe_field("Status",$table,
 				"ID = $article_id AND Trash = 0 AND Status = 5");
 				
 		$title = safe_field("Title",$table,
 				"ID = $article_id AND Trash = 0");
 		
-		$parent_id = fetch("ParentID",$table,"ID",$article_id);
 		$parent_title = safe_field("Title",$table,"ID = $parent_id");
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1161,6 +1257,8 @@
 		$smarty->assign('article_categories',$categories);
 		$smarty->assign('article_sticky',$sticky);
 		$smarty->assign('article_parent',maxwords($parent_title,25));
+		$smarty->assign('article_parent_class',$parent_class);
+		$smarty->assign('article_parent_categories',$parent_categories);
 		
 		return n.n.$smarty->fetch('article/field_add.tpl');
 	}	

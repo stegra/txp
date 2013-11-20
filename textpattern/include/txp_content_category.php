@@ -42,8 +42,8 @@ $LastChangedRevision: 3203 $
 				'Links'  	=> array('title' => 'Links', 	'on' => 1, 'editable' => 0, 'pos' => 13),
 				'Comments'  => array('title' => 'Comments', 'on' => 0, 'editable' => 0, 'pos' => 14),
 				'Customs'  	=> array('title' => 'Custom', 	'on' => 0, 'editable' => 0, 'pos' => 15),
-				'AuthorID'	=> array('title' => 'Author', 	'on' => 0, 'editable' => 0, 'pos' => 16),
-				'Status'	=> array('title' => 'Status',	'on' => 0, 'editable' => 0, 'pos' => 17),
+				'AuthorID'	=> array('title' => 'Author', 	'on' => 0, 'editable' => 1, 'pos' => 16),
+				'Status'	=> array('title' => 'Status',	'on' => 0, 'editable' => 1, 'pos' => 17),
 				'Position'  => array('title' => 'Position', 'on' => 0, 'editable' => 1, 'pos' => 18, 'short' => 'Pos.')
 			);
 			

@@ -203,7 +203,7 @@ $LastChangedRevision: 3203 $
 									
 									$set[] = "name = '$oldname'";
 									$error = "Please enter a unique user name!";
-								
+									
 								} else {
 									
 									foreach ($tables as $table) {

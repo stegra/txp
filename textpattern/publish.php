@@ -114,12 +114,10 @@ $LastChangedRevision: 3258 $
 
 		//Initialize the current user
 	$txp_user = NULL;
+	doAuth();
 	
 		// set preview mode
-	if ($preview = isset($_GET['preview'])) { 
-		doAuth();
-	}
-	define('PREVIEW',($preview and $txp_user));
+	define('PREVIEW',(isset($_GET['preview']) and $txp_user));
 	
 		//i18n: $textarray = load_lang('en-gb');
 	$textarray = load_lang(LANG);
@@ -153,6 +151,15 @@ $LastChangedRevision: 3258 $
 	$pretext = array_merge($pretext, pretext($s,$prefs));
 	callback_event('pretext_end'); 
 	extract($pretext);
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	if (isset($_POST['screensize'])) {
+	
+		log_screensize();
+		
+		exit;
+	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
@@ -645,7 +652,9 @@ $LastChangedRevision: 3258 $
 		$runtime = getmicrotime('runtime');
 		
 		if ($content_type == 'html') {
-		
+			
+			add_common_javascript($html);
+			
 			if ($production_status != 'live' or 
 			   ($production_status == 'live' and PREVIEW)) {
 				

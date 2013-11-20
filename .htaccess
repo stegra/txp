@@ -6,9 +6,16 @@ RewriteBase /
 # ------------------------------------------------------------------------------
 # Admin
 
-RewriteRule ^(~\w+/)?admin/?$			$1admin/index.php 				[R]
-RewriteRule ^(~\w+/)?admin/index.php	textpattern/index.php
-RewriteRule ^(~\w+/)?admin/(.+) 		textpattern/$2
+RewriteRule ^(~\w+/)?admin/?$									$1admin/index.php 											[R]
+RewriteRule ^(~\w+/)?admin/([a-z]+)$							$1admin/index.php?event=$2 									[R]
+RewriteRule ^(~\w+/)?admin/([a-z]+)/([a-z]+)$					$1admin/index.php?event=$2&step=$3 							[R]
+RewriteRule ^(~\w+/)?admin/([a-z]+)/([a-z]+)/([a-z]+)$			$1admin/index.php?event=$2&step=$3&sort=$4&dir=asc			[R]
+RewriteRule ^(~\w+/)?admin/([a-z]+)/(\d+)$						$1admin/index.php?event=$2&id=$3							[R]
+RewriteRule ^(~\w+/)?admin/([a-z]+)/([a-z]+)/(\d+)$				$1admin/index.php?event=$2&step=$3&id=$4					[R]
+RewriteRule ^(~\w+/)?admin/([a-z]+)/([a-z]+)/(\d+)/([a-z]+)$	$1admin/index.php?event=$2&step=$3&id=$4&sort=$5&dir=asc	[R]
+
+RewriteRule ^(~\w+/)?admin/index.php				textpattern/index.php
+RewriteRule ^(~\w+/)?admin/(.+) 					textpattern/$2
 
 # ------------------------------------------------------------------------------
 # check html file in sites/html cache directory for sub sites

@@ -206,10 +206,11 @@ $LastChangedRevision: 3203 $
 		$ID 	 = ($ID) ? $ID : assert_int(gps('ID',0));
 		$name 	 = gps('Name');
 		$options = gps('Body');
+		$input   = gps('input');
 		
 		if (content_save($ID,$multiedit) !== false) {
 			
-			if ($ID and in_list(gps('input'),'select,selectgroup,checkbox,radio')) {
+			if ($ID and in_list($input,'select,selectgroup,checkbox,radio')) {
 				
 				$path = '';
 				

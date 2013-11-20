@@ -452,22 +452,29 @@
 			return $incoming; 
 		}
 		
+		$body    = trim($incoming['Body']);
+		$excerpt = trim($incoming['Excerpt']);
+		
 		if ($incoming['textile_body'] == LEAVE_TEXT_UNTOUCHED) {
 
 			$incoming['Body_html'] = trim($incoming['Body']);
 
 		} elseif ($incoming['textile_body'] == USE_TEXTILE) {
 			
-			$incoming['Body_html']  = $textile->TextileThis(trim($incoming['Body']));
+			// allow double quotes within textile link titles
+			$body = str_replace(' ""',' "&#34;',$body);
+			$body = str_replace('"":','&#34;":',$body);
+			 
+			$incoming['Body_html']  = $textile->TextileThis($body);
 			$incoming['Title_html'] = textile_title(trim($incoming['Title']));
 			
 		} elseif ($incoming['textile_body'] == CONVERT_LINEBREAKS) {
 
-			$incoming['Body_html'] = nl2br(trim($incoming['Body']));
+			$incoming['Body_html'] = nl2br($body);
 			
 		} elseif ($incoming['textile_body'] == CONVERT_PARAGRAPHS) {
 			
-			$incoming['Body_html'] = nl2p(trim($incoming['Body']));
+			$incoming['Body_html'] = nl2p($body);
 		}
 		
 		if (!isset($incoming['textile_excerpt']) or !isset($incoming['Excerpt'])) { 
@@ -477,21 +484,25 @@
 		
 		if ($incoming['textile_excerpt'] == LEAVE_TEXT_UNTOUCHED) {
 
-			$incoming['Excerpt_html'] = trim($incoming['Excerpt']);
+			$incoming['Excerpt_html'] = trim($excerpt);
 
 		} elseif ($incoming['textile_excerpt'] == USE_TEXTILE) {
+		
+			// allow double quotes within textile link titles
+			$excerpt = str_replace(' ""',' "&#34;',$excerpt);
+			$excerpt = str_replace('"":','&#34;":',$excerpt);
 
-			$incoming['Excerpt_html'] = $textile->TextileThis(trim($incoming['Excerpt']));
+			$incoming['Excerpt_html'] = $textile->TextileThis($excerpt);
 
 		} elseif ($incoming['textile_excerpt'] == CONVERT_LINEBREAKS) {
 
-			$incoming['Excerpt_html'] = nl2br(trim($incoming['Excerpt']));
+			$incoming['Excerpt_html'] = nl2br($excerpt);
 			
 		} elseif ($incoming['textile_excerpt'] == CONVERT_PARAGRAPHS) {
 
-			$incoming['Excerpt_html'] = nl2p(trim($incoming['Excerpt']));
+			$incoming['Excerpt_html'] = nl2p($excerpt);
 		}
-
+		
 		return $incoming;
 	}
 

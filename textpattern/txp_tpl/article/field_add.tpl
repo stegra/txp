@@ -55,6 +55,18 @@
 			
 		{/if}
 		
+		{if $article_parent_class}
+			
+			<input id="custom-apply-parent-class" type="checkbox" name="apply_to_parent_class" value="1" class="edit"/> 
+			<label for="custom-apply-parent-class">in <b><span>{$article_parent_class}</span></b></label><br/>
+			
+		{/if}
+		
+		{section name=i loop=$article_parent_categories}
+			<input id="custom-apply-parent-category" type="checkbox" name="apply_to_parent_category[]" value="{$article_parent_categories[i].Name}" class="edit"/> 
+			<label for="custom-apply-parent-category">in <b><span>{$article_parent_categories[i].Title}</span></b></label><br/>
+		{/section}
+		
 	</p>
 	
 </div>

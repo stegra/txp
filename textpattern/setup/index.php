@@ -328,6 +328,14 @@ eod;
  		if (is_file($txpsql)) {
  			
  			@system("mysql -h $dhost -u $duser --password=$dpass $dbb < $txpsql");
+ 			
+ 			if (!mysql_query("describe `textpattern`")) { 
+ 				
+ 				echo '<div class="error">Database archive import failed. 
+ 				Try importing the archive by other means.</div>';	
+ 				
+ 				exit;
+ 			}
  		}
  		
  		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -422,15 +430,15 @@ eod;
 					// create database and log directories 
 					
 					if (!is_dir("$path_to_site/database")) {
-						mkdir("$path_to_site/database",0711);
+						@mkdir("$path_to_site/database",0711);
 					}
 					
 					if (!is_dir("$path_to_site/log")) {
-						mkdir("$path_to_site/log",0777);
+						@mkdir("$path_to_site/log",0777);
 					}
 					
 					if (!is_dir("$path_to_site/tmp")) {
-						mkdir("$path_to_site/tmp",0777);
+						@mkdir("$path_to_site/tmp",0777);
 					}
 					
 					// set RewriteBase in htaccess if url is IP address and using tilda ~
