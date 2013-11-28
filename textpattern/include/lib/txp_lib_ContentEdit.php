@@ -251,6 +251,10 @@
 		
 		$ImageID = ($ID) ? fetch("ImageID",$table,"ID",$ID) : 0;
 		
+		// check if the image actually exists in the txp_image table
+		$ImageID = safe_field('ID','txp_image',"ID = $ImageID AND Trash = 0 AND Type = 'image'");
+		$ImageID = ($ImageID) ? $ImageID : 0;
+		
 		if ($ID and $ImageID > 0) {
 			
 			$td['image'] .= '<div class="image view">'.n;
