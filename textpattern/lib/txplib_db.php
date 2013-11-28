@@ -1462,36 +1462,53 @@ $GLOBALS['DB'] = new DB;
 	{
 		$where = ($where) ? array($where) : array();
 		
-		if (!$trash) $where[] = "Trash = 0";
-		$orderby = " ORDER BY lft ASC";
+		$as = 't';
+		
+		if (preg_match('/JOIN/',$table)) {
+			
+			$table1 = explode(' JOIN ',$table);
+			
+			$as = explode(' AS ',$table1[0]);
+			$as = array_pop($as);
+			
+			$table1 = array_shift($table1);
+			
+		} else {
+			
+			$table1 = $table;
+			$table .= ' AS '.$as;
+		}
+		
+		if (!$trash) $where[] = "$as.Trash = 0";
+		$orderby = " ORDER BY $as.lft ASC";
 		
 		if (!is_array($root)) {
 			
 			if (!$root) {
 			
-				$where[] = "ParentID != 0";
-				$where[] = "Name != 'TRASH'";
+				$where[] = "$as.ParentID != 0";
+				$where[] = "$as.Name != 'TRASH'";
 				
 				return safe_rows($things,$table,doAnd($where).$orderby,$debug);
 			}
 			
 			$root = (!is_numeric($root)) 
-				? safe_column("ID",$table,$root) 
+				? safe_column("ID",$table1,$root) 
 				: array($root);
 		}
 		
 		$out = array();
-		$maxlevel = fetch("MAX(Level)",$table);
+		$maxlevel = fetch("MAX(Level)",$table1);
 		
 		foreach ($root as $id) {
 			
-			$row = safe_row("Children,Path,Level",$table,"ID = '$id'",'',$debug);
+			$row = safe_row("Children,Path,Level",$table1,"ID = '$id'",'',$debug);
 			
 			
 			if ($row and $row['Children'] != 0) { 
 			
 				if ($row['Children'] == -1) {
-					$row['Children'] = safe_count($table,"ParentID = $id");
+					$row['Children'] = safe_count($table1,"ParentID = $id");
 				}
 				
 				if ($row['Children']) {
@@ -1505,7 +1522,7 @@ $GLOBALS['DB'] = new DB;
 						if (count($path)) {
 						
 							foreach($path as $key => $value) {
-								$where['p'][] = "P".($key+2)." = $value";
+								$where['p'][] = $as.".P".($key+2)." = $value";
 							}
 							
 							$where['p'] = implode(' AND ',$where['p']);
@@ -1524,29 +1541,46 @@ $GLOBALS['DB'] = new DB;
 	
 //-------------------------------------------------------------
 	function safe_count_tree($root, $table, $where='1=1', $debug=0)
-	{
+	{	
 		$where = (is_array($where)) ? $where : array($where);
 		
+		$as = 't';
+		
+		if (preg_match('/ JOIN /',$table)) {
+			
+			$table1 = explode(' JOIN ',$table);
+			
+			$as = explode(' AS ',$table1[0]);
+			$as = array_pop($as);
+			
+			$table1 = array_shift($table1);
+			
+		} else {
+			
+			$table1 = $table;
+			$table .= ' AS '.$as;
+		}
+		
 		if (!is_numeric($root)) {
-			$root = safe_field("ID",$table,$root);
+			$root = safe_field("ID",$table1,$root);
 		}
 		
 		if (!$root) return array();
 		
-		$row = safe_row("Children,Path,Level",$table,"ID = $root");
+		$row = safe_row("Children,Path,Level",$table1,"ID = $root");
 		
 		if ($row and $row['Children'] != 0) { 
 		
 			if ($row['Children'] == -1) {
-				$row['Children'] = safe_count($table,"ParentID = $root");
+				$row['Children'] = safe_count($table1,"ParentID = $root");
 			}
 				
 			if ($row['Children']) {
 				
-				if ($root != fetch("ID",$table,"ParentID",0)) {
+				if ($root != fetch("ID",$table1,"ParentID",0)) {
 					
 					$path = $path = $row['Path'];
-					$maxlevel = fetch("MAX(Level)",$table);
+					$maxlevel = fetch("MAX(Level)",$table1);
 					$path = ($path) ? explode('/',$path) : array();
 					if (($row['Level']) > 1) array_push($path,$root);
 					
@@ -1555,14 +1589,14 @@ $GLOBALS['DB'] = new DB;
 						if (count($path)) {
 						
 							foreach($path as $key => $value) {
-								$where[] = "P".($key+2)." = $value";
+								$where[] = $as.".P".($key+2)." = $value";
 							}
 						}
 					}
 					
 				} else {
 				
-					$where[] = "ID != $root AND Name != 'TRASH'";
+					$where[] = "$as.ID != $root AND $as.Name != 'TRASH'";
 				}
 				
 				return ($where) ? safe_count($table,doAnd($where),$debug) : 0;
