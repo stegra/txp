@@ -72,6 +72,7 @@ txp.init = function() {
 		if ($(this).hasClass('filter')) return;
 		if ($(this).hasClass('pophelp')) return;
 		if ($(this).hasClass('oggfile')) return;
+		if ($(this).hasClass('dismiss')) return false;
 		
 		if ($(this).parents('.alt-select').length) return;
 		if ($(this).parents('.audio-player').length) return;
@@ -132,6 +133,16 @@ txp.init = function() {
 	$("a.pophelp").click( function () {
 			    	
 		txp.popup($(this).attr('href'),'pophelp',400,400);
+		
+		return false;
+    });
+    
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// dismiss warning
+	
+	$("span.warning a.dismiss").click( function () {
+			    	
+		$('span.warning').hide();
 		
 		return false;
     });

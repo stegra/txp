@@ -106,6 +106,43 @@ table#pagetop .tabs a b {
 	font-weight: normal;
 }
 
+tr#nav-primary td#messagepane span.warning {
+	display: block;
+	position: fixed;
+	top: 200px;
+	left: 400px;
+	width: 250px;
+	min-height: 50px;
+	background-color: white;
+	background-image: url('../../../txp_img/warning.png');
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	padding: 10px 10px 10px 60px;
+	text-align: left;
+	border-width: 1px 1px 1px 1px;
+	border-color: #DDD;
+	border-style: solid;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	-webkit-box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	z-index: 1000;
+}
+
+tr#nav-primary td#messagepane span.warning a.dismiss {
+	display: block;
+	float: right;
+	color: #963;
+	margin-top: 15px;
+	margin-right: 10px;
+}
+
+tr#nav-primary td#messagepane span.warning a.dismiss:hover {
+	color: black;
+}	
+	
 /* links
 ----------------------------------------------- */
 

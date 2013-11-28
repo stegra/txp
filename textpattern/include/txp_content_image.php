@@ -223,6 +223,7 @@ $LastChangedRevision: 3267 $
 		$method   = gps('edit_method');
 		$selected = gps('selected',array());
 		$old	  = array();
+		$warning  = '';
 		
 		// -----------------------------------------------------
 		// PRE-PROCESS
@@ -271,6 +272,43 @@ $LastChangedRevision: 3267 $
 			$selected = array_map('assert_int', $selected);
 		
 			$old = safe_column("ID,Name","txp_image","ID IN (".in($selected).")");
+		}
+		
+		if ($method == 'trash') {
+			
+			$no_trash = array();
+			
+			// do not allow images or folders that contain images that 
+			// are attached to articles to be trashed 
+			
+			$selected = array_map('assert_int', $selected);
+			
+			foreach ($selected as $key => $id) {
+				
+				$type = fetch('Type','txp_image','ID',$id);
+				
+				if ($type == 'image') {
+					
+					if (safe_count('textpattern',"ImageID = $id AND Trash = 0")) {
+						unset($selected[$key]);
+						$no_trash[] = $id;
+					}
+					
+				} elseif ($type == 'folder') {
+					
+					if (safe_count_tree($id,
+						"txp_image AS i JOIN textpattern AS t ON i.ID = t.ImageID",
+						"i.Type = 'image' AND t.Trash = 0")) {
+						unset($selected[$key]);
+						$no_trash[] = $id;
+					}
+				}
+			}
+			
+			if ($no_trash) {
+				
+				$warning = 'Images that are attached to articles must be removed from those articles before they can be put in the trash!';	
+			}
 		}
 		
 		// -----------------------------------------------------
@@ -356,19 +394,24 @@ $LastChangedRevision: 3267 $
 				
 				// remove trashed images from articles in textpattern table
 				
-				safe_update("textpattern","ImageID = -ABS(ImageID)","ImageID IN (".impl($trashed).")");
+				// safe_update("textpattern","ImageID = -ABS(ImageID)","ImageID IN (".impl($trashed).")");
 				
 				// refresh folder images
 				
-				$folders = safe_column("ParentID","txp_image","ID IN (".impl($trashed).")");
+				if ($trashed) {
 				
-				refresh_folder_image($folders);
+					$folders = safe_column("ParentID","txp_image","ID IN (".impl($trashed).")");
+				
+					refresh_folder_image($folders);
+				}
 			}
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
 		$WIN['checked'] = $selected;
+		
+		if ($warning) $message .= '<span class="warning">'.$warning.'<a href="#" class="dismiss">OK</a></span>';
 		
 		image_list($message);
 	}
