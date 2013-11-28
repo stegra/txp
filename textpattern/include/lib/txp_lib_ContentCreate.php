@@ -380,6 +380,8 @@
 		if (!IMPORT and !TXP_UPDATE) { 
 		
 			apply_custom_fields($ID);
+			
+			update_path($ID,'SELF'); 
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
