@@ -138,10 +138,10 @@ $LastChangedRevision: 3267 $
 		// ---------------------------------------------------------------------
 		// add existing images from ftp folder
 		
-		/* if (!is_file(IMPATH_FTP.'_LOCK')) {
+		if (!is_file(IMPATH_FTP.'_LOCK')) {
 			
 			event_add_existing_files('jpg,jpeg,png,gif');
-		} */
+		}
 		// pre($WIN);
 		// ---------------------------------------------------------------------
 		// PAGE TOP
@@ -624,6 +624,18 @@ $LastChangedRevision: 3267 $
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// maximum size of thumbnail 
+		
+		$thumb_w_max = $rw;
+		$thumb_h_max = $rh;
+		
+		$dl = new DirList(IMPATH.$FilePath,'lastmod DESC');
+	
+		if ($alt_thumb = $dl->getFile('/_THUMB/')) {
+			list($thumb_w_max,$thumb_h_max) = getimagesize(IMPATH.$FilePath.'/'.$alt_thumb);
+		}
+			
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// current thumbnail style
 		
 		$class1 = ($thumbnail == 1) ? ' sel' : '';
@@ -644,6 +656,8 @@ $LastChangedRevision: 3267 $
 		$smarty->assign('thumb_h_by',false);
 		$smarty->assign('thumb_w_new',$tw);
 		$smarty->assign('thumb_h_new',$th);
+		$smarty->assign('thumb_w_max',$thumb_w_max);
+		$smarty->assign('thumb_h_max',$thumb_h_max);
 		$smarty->assign('thumb_custom',$thumbnail);
 		$smarty->assign('horizontal',$rw >= $rh);
 		$smarty->assign('class1',$class1);
@@ -715,7 +729,31 @@ $LastChangedRevision: 3267 $
 				
 				$rt = new ImageManipulation($name.'_THUMB',$alt_ext,$image_path,0,1,'',1);
 				$rt->ext_t = $ext;
-				$rt->thumbnail($thumb_w,$thumb_h,$thumbnail,'t');
+				
+				if ($thumbnail != '4') {
+				
+					image_resize_t($id,$thumb_w,$thumb_h);
+					
+				} else {
+				
+					if ($thumb_w > $thumb_h) {
+						
+						if ($w > $h) {
+							image_resize_t($id,$thumb_w);
+						} else {
+							image_resize_t($id,0,$thumb_w);
+						}
+					
+					} else {
+						
+						if ($w > $h) {
+							image_resize_t($id,$thumb_h);
+						} else {
+							image_resize_t($id,0,$thumb_h);
+						}
+					}
+				}
+				/*
 				$rt->thumbnail(150,150,0,'xx',90);
 				$rt->thumbnail(100,100,0,'x',90);
 				$rt->thumbnail(50,50,0,'y',90);
@@ -734,8 +772,8 @@ $LastChangedRevision: 3267 $
 				}
 				
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - -
-				
-				echo $id;
+				*/
+				echo "/$id";
 			}
 		}
 	}
@@ -895,7 +933,7 @@ $LastChangedRevision: 3267 $
 			// replacement image
 			
 		 // $category = fetch('category','txp_image','id',$id);
-			$file     = $_FILES['thefile']['tmp_name'];
+		 	$file     = $_FILES['thefile']['tmp_name'];
 			$name     = $_FILES['thefile']['name'];
 			$old_name = fetch('name','txp_image','id',$id);
 			$old_ext  = fetch('ext','txp_image','id',$id);
@@ -1074,7 +1112,36 @@ $LastChangedRevision: 3267 $
 						
 						copy($original,$regular);
 						
-						image_resize_r($id);
+						if ($old_name) {
+							
+							// match size of new image to the one it is replacing
+							
+							if (is_file($image_path.'/'.$old_name.'_r'.$old_ext)) {
+								
+								list($old_rw,$old_rh) = getimagesize($image_path.'/'.$old_name.'_r'.$old_ext);
+							
+								if ($old_rw > $old_rh) {
+									
+									if ($wide) {
+										image_resize_r($id,$old_rw);
+									} else {
+										image_resize_r($id,0,$old_rw);
+									}
+								
+								} else {
+									
+									if ($wide) {
+										image_resize_r($id,$old_rh);
+									} else {
+										image_resize_r($id,0,$old_rh);
+									}
+								}
+							}
+						
+						} else {
+						
+							image_resize_r($id);
+						}
 					}
 					
 					// make thumbnails (if there is no uploaded thumbnail existing)
@@ -1198,7 +1265,7 @@ $LastChangedRevision: 3267 $
 					} else if ($app_mode == 'async') {
 						
 						if (is_file($image_path.'/'.$name.$ext)) {
-							echo $id; return;
+							echo "/$id"; return;
 						}
 						
 					} else {
@@ -1331,7 +1398,7 @@ $LastChangedRevision: 3267 $
 		$height = assert_int(gps('new_height',$height));
 		$crop   = assert_int(gps('crop',$crop));
 		
-		$rs = safe_row("*,ext AS ext_r,Name AS name","txp_image","ID = '$id'");
+		$rs = safe_row("*,ext,ext AS ext_r,Name AS name","txp_image","ID = '$id'");
 		
 		if ($rs) {
 			
@@ -1342,38 +1409,47 @@ $LastChangedRevision: 3267 $
 			if (!$crop) $crop = $thumbnail;
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// use alternate thumbnail file if any  
 			
-			$ext = $ext_r;
+			$dl = new DirList($image_path,'lastmod DESC');
 			
-			foreach (dirlist($image_path) as $file) {
+			if ($alt_thumb = $dl->getFile('/_THUMB/')) {
 				
-				foreach (do_list('.jpg,.png,.gif') as $alt_ext) {
-					
-					if ($file == $name.'_THUMB'.$alt_ext) {
-						
-						$name = $name.'_THUMB'; 
-						$ext  = $alt_ext;
-						break;
-					}
-				}
+				$name = get_file_name($alt_thumb); 
+				$ext  = '.'.get_file_ext($alt_thumb);
 			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			
 			$rt = new ImageManipulation($name,$ext,$image_path,0,1,'',$thumbnail);
 			
 			// make public thumbnail
 			
 			$rt->ext_t = $ext_r;
-			$rt->thumbnail($width,$height,$crop,'t');
+			$size = $rt->thumbnail($width,$height,$crop,'t');
 				
+			if ($size) {
+				$width  = array_shift($size);
+				$height = array_shift($size);
+			}
+			 
 			// make admin thumbnails same as public unless public is rectangular
 			
-			if ($crop != 4) {
+			$admin_crop = $crop;
 			
-				$rt->thumbnail(150,150,$crop,'xx',90);
-				$rt->thumbnail(100,100,$crop,'x',90);
-				$rt->thumbnail(50,50,$crop,'y',90);
-				$rt->thumbnail(20,20,$crop,'z',100);
+			if ($admin_crop == 4) {
+				
+				if ($width > $height) {
+					$admin_crop = 2;
+				} else {
+					$admin_crop = 1;
+				}
 			}
+				
+			$rt->thumbnail(150,150,$admin_crop,'xx',90);
+			$rt->thumbnail(100,100,$admin_crop,'x',90);
+			$rt->thumbnail(50,50,$admin_crop,'y',90);
+			$rt->thumbnail(20,20,$admin_crop,'z',100);
 			
 			// save crop setting for this image
 			
@@ -1471,17 +1547,17 @@ $LastChangedRevision: 3267 $
 		
 		if (isset($_POST['alt'])) {
 			
-			$set['alt'] = "'$alt'";
+			$set['alt'] = "'".trim($alt)."'";
 		}
 		
 		if (isset($_POST['caption'])) {
 			
-			$set['Body'] = "'$caption'";
+			$set['Body'] = "'".trim($caption)."'";
 		}
 		
 		if (isset($_POST['copyright'])) {
 			
-			$set['copyright'] = "'$copyright'";
+			$set['copyright'] = "'".trim($copyright)."'";
 		}
 		
 		$set['LastMod'] = "NOW()";
@@ -1647,16 +1723,24 @@ $LastChangedRevision: 3267 $
 	}
 
 //------------------------------------------------------------------------------
-	function image_add_folder($parentid=0,$name) 
+	function image_add_folder($parentid=0,$title='') 
 	{
+		global $app_mode;
+		
 		if (!$parentid) {
 			$parentid = safe_field('ID','txp_image',"ParentID = 0 AND Trash = 0");
 		}
 		
+		if (!$title) {
+			$title = make_title(gps('title',$title));
+		}
+		
 		list($message,$ID,$status) = content_create($parentid,array(
-			'Title' => $name,
+			'Title' => $title,
 			'Type'	=> 'folder'
 		),'txp_image','image');
+		
+		if ($app_mode == 'async') { echo "/$ID"; }
 		
 		return $ID;
 	}

@@ -93,6 +93,15 @@ $LastChangedRevision: 3260 $
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
+		if ($linenum = gps('linenum')) {
+		
+			$WIN['linenum'] = $linenum;
+			
+			save_session($WIN);
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
 		$html = pagetop(gTxt('pages').' &#8250; '.$Title,$message);
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -390,6 +399,8 @@ $LastChangedRevision: 3260 $
 			$WIN['scroll'] = gps('scroll',0);
 		
 			update_lastmod($id);
+			
+			clear_cache(); 
 		
 			return page_edit($message);
 		}
@@ -853,6 +864,14 @@ $LastChangedRevision: 3260 $
 			$out_tag_attr[] = "name='".array_shift($atts)."'";
 		}
 		
+		// txp:var tag alias for query
+		
+		if ($out_tag_name == 'q' and $atts) {
+			
+			$out_tag_name = "var";
+			$out_tag_attr[] = "name='q.".array_shift($atts)."'";
+		}
+		
 		// txp:image_src tag
 		
 		if ($out_tag_name == 'image_src' and $atts) {
@@ -861,6 +880,17 @@ $LastChangedRevision: 3260 $
 			
 			if (in_list($val,'o,r,t,xx,y,z,')) {
 				$out_tag_attr[] = "size='$val'";
+			}
+		}
+		
+		// txp:selected tag with two attributes
+		
+		if ($out_tag_name == 'selected' and $atts) {
+			
+			$out_tag_attr[] = "page='".'$txp.'.array_shift($atts)."'";
+			
+			if (count($atts)) {
+				$out_tag_attr[] = "sel='".'$txp.'.array_shift($atts)."'";
 			}
 		}
 		

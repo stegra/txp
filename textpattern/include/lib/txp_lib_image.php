@@ -32,11 +32,11 @@
 			'ImageID' => $ImageID
 		);
 		
-		$do_save($id,$set);
+		$do_save($id,$set); 
 		
 		if ($app_mode == 'async') {
 			
-			echo $ImageID; exit;
+			echo $ImageID;
 			
 		} else {
 			
@@ -112,10 +112,12 @@
 		
 		if ($app_mode == 'async') {
 			
-			echo $html; exit;
-		} 
+			echo $html;
 		
-		return $html;
+		} else {
+		
+			return $html;
+		}
 	}
 
 // -------------------------------------------------------------------------------------
@@ -126,8 +128,6 @@
 		$id = assert_int(gps('article'));
 		
 		safe_update($WIN['table'],"ImageID = -ABS(ImageID)","ID = $id OR Alias = $id");
-		
-		exit;
 	}
 
 //--------------------------------------------------------------------------------------
@@ -241,7 +241,7 @@
 			else if ($image) 
 				$where = "id = '$image'";
 			else
-				exit;
+				return;
 			
 			// safe_update("txp_article_image","$name = '$value'",$where);
 		
@@ -265,8 +265,6 @@
 			// to save
 			
 			// if ($article) update_lastmod($article);
-			
-			exit;
 		}
 	}
 	

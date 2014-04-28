@@ -117,7 +117,21 @@ $LastChangedRevision: 3258 $
 	doAuth();
 	
 		// set preview mode
-	define('PREVIEW',(isset($_GET['preview']) and $txp_user));
+		
+	if ($txp_user and isset($_GET['preview'])) {
+		define('PREVIEW',true);
+		set_cookie('txp_sitemode_preview','on');
+	} elseif ($txp_user and cs('txp_sitemode_preview') == 'on') {
+		define('PREVIEW',true);
+	} else {
+		define('PREVIEW',false);
+	}	
+	
+	// set edit mode 
+		
+	if ($txp_user and isset($_GET['edit'])) {
+		set_cookie('txp_sitemode_edit','on');		
+	}	
 	
 		//i18n: $textarray = load_lang('en-gb');
 	$textarray = load_lang(LANG);
@@ -151,6 +165,15 @@ $LastChangedRevision: 3258 $
 	$pretext = array_merge($pretext, pretext($s,$prefs));
 	callback_event('pretext_end'); 
 	extract($pretext);
+	
+	if ($ev = gps('event')) {
+		
+		$area  = (isset($areas[$ev])) ? $areas[$ev] : '';
+		
+		$inc = txpath.'/include/txp_'.$area.'_'.$ev.'.php';
+		
+		// echo "($inc)";
+	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
@@ -196,7 +219,7 @@ $LastChangedRevision: 3258 $
 		header("Content-type: text/html; charset=utf-8");
 		exit(popComments(gps('parentid'))); 
 	}
-
+		
 	// we are dealing with a download
 	if (@$s == 'file_download') {
 	
@@ -305,7 +328,7 @@ $LastChangedRevision: 3258 $
 		
 		$out = makeOut(
 			'id','s','t','n','c','cl','q','pg','p',
-			'month','page','pophelp','custom','site','path'
+			'month','page','pophelp','custom','site','path','sort'
 		); 
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -410,6 +433,8 @@ $LastChangedRevision: 3258 $
 		
 		if (gps('contact')) $page_caching = false;
 		if (gps('nocache')) $page_caching = false;
+		if (cs('txp_sitemode_edit') == 'on') 	$page_caching = false;
+		if (cs('txp_sitemode_preview') == 'on') $page_caching = false;
 	
 		if ($page_caching and $html = trycache()) {
 			
@@ -422,7 +447,7 @@ $LastChangedRevision: 3258 $
 
 		if (!$is_404) $out['s'] = (empty($out['s'])) ? 'default' : $out['s'];
 		
-		$out['lg'] = get_language();
+		$out['lg'] = get_language($out['qs']);
 		
 		if (!empty($out['q'])) $s = 'search'; // new
 		
@@ -432,7 +457,20 @@ $LastChangedRevision: 3258 $
 		$name    = $out['n'];
 		$pophelp = $out['pophelp'];
 		$lg 	 = $out['lg'];
-
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// advanced search 
+		
+		foreach ($_POST as $n => $v) {
+			
+			if (substr($n,0,2) == 'q_') {
+			
+				$n = make_name(substr($n,2));
+				
+				$out['q.'.$n] = doSlash($v);
+ 			}
+		}
+		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// site
 		
@@ -575,13 +613,14 @@ $LastChangedRevision: 3258 $
 // -------------------------------------------------------------------------------------
 	function textpattern() {
 		
-		global $pretext,$prefs,$qcount,$qtime,$production_status,$txptrace,$has_article_tag,$html,$inspector;
+		global $txp_user,$pretext,$prefs,$qcount,$qtime,$production_status,$txptrace,$has_article_tag,$html,$inspector;
 		
 		extract($pretext); 
 		
 		// inspect('textpattern()','h2','textpattern');
 		// inspect($pretext);
-		callback_event('textpattern');
+		// callback_event('textpattern'); 
+		plugin_callback();
 		
 		if ($status == '404') txp_die(gTxt('404_not_found'), '404');
 		if ($status == '410') txp_die(gTxt('410_gone'), '410');
@@ -590,6 +629,9 @@ $LastChangedRevision: 3258 $
 		$content_type = (preg_match('/\.xml$/',$request_uri)) ? 'xml' : 'html';
 		
 		$page_caching = $prefs['page_caching'];
+		if (PREVIEW) 							$page_caching = false;
+		if (cs('txp_sitemode_edit') == 'on') 	$page_caching = false;
+		if (!empty($pretext['html'])) 			$page_caching = false;
 		
 		if ($html) {
 			// inspect("Cached: $request_uri",'line','textpattern');
@@ -628,9 +670,7 @@ $LastChangedRevision: 3258 $
 			$html = ($prefs['allow_page_php_scripting']) ? evalString($html) : $html;
 			$html = tidy_html($html); 
 			
-			if (!PREVIEW and $page_caching and empty($pretext['html'])) {
-				cacheit($html);
-			}
+			if ($page_caching) cacheit($html);
 			
 		} else {
 		
@@ -638,7 +678,8 @@ $LastChangedRevision: 3258 $
 			$html = tidy_html($html);
 		}
 		
-		callback_event('textpattern_html');
+		// callback_event('textpattern_html');
+		plugin_callback(2);
 		
 		// useful for clean urls with error-handlers
 		txp_status_header('200 OK');
@@ -654,6 +695,10 @@ $LastChangedRevision: 3258 $
 		if ($content_type == 'html') {
 			
 			add_common_javascript($html);
+			
+			if ($txp_user) {
+				add_toolbar_iframe($html);
+			}
 			
 			if ($production_status != 'live' or 
 			   ($production_status == 'live' and PREVIEW)) {
@@ -681,7 +726,8 @@ $LastChangedRevision: 3258 $
 				// '&shy;&shy;' is *no* tribute to Kajagoogoo, but an attempt to avoid prematurely terminating HTML comments
 		}
 		
-		callback_event('textpattern_end');
+		// callback_event('textpattern_end');
+		plugin_callback(3);
 	}
 
 // =============================================================================
@@ -1316,6 +1362,26 @@ $LastChangedRevision: 3258 $
 			$where['status'] = "Status IN (3,4,5,7)";
 		}
 		
+		// check second to last position in path for an existing ID 
+		if (count($path) >= 2) {
+		
+			if (preg_match('/^\d+$/',$path[count($path)-2])) {
+				
+				$id = $path[count($path)-2];
+				
+				$id_level = safe_field('Level',"textpattern","ID = $id AND Trash = 0 AND Status IN (4,5)");
+				
+				if ($id_level) {
+					$context['id'] = $id;
+					$context['level'] = $id_level;
+					array_pop($path);
+					array_pop($path);
+					$context['path'] = array_merge($context['path'],$path);
+					return $context;
+				}
+			}
+		}
+				
 		$rows = safe_column("ID","textpattern",doAnd($where),0,0);
 		
 		if ($rows) {
@@ -2167,8 +2233,44 @@ $LastChangedRevision: 3258 $
 }
 
 //--------------------------------------------------------------------------------------
-	function get_language()
+	function get_language($qs)
 {
+	global $prefs;
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	if (isset($prefs['languages']) and $prefs['languages']) {
+		
+		$uri = trim($_SERVER["REQUEST_URI"],'/');
+		$path = (str_begins_with($uri,'~'))
+			? '/'.reset(explode('/',$uri)).'/'
+			: '/';
+			
+		if ($lg = get('lg','',$prefs['languages'])) { 
+			
+			setcookie('txp_lang',$lg,0,$path);
+		
+		} else {
+	
+			$languages = str_replace(',','|',$prefs['languages']);
+		
+			if (preg_match('/^('.$languages.')\b/',$qs,$matches)) {
+			
+				$lg = $matches[1];
+			
+				setcookie('txp_lang',$lg,0,$path);
+			
+			} else {
+				
+				$lg = cs('txp_lang');
+			}
+		}
+		
+		if ($lg) return $lg;
+	}
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	 
   	$accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 	
 	$language_pages = array(
@@ -2234,6 +2336,22 @@ $LastChangedRevision: 3258 $
 	}
 	
 	return $language_nofound;
+}
+
+//--------------------------------------------------------------------------------------
+
+function add_toolbar_iframe(&$html) 
+{
+	global $prefs,$production_status;
+	
+	$base = (!$prefs['base']) ? '/admin/' : $prefs['base'];
+	$nocache = ($production_status != 'live') ? '?'.rand(100000,999999) : '';
+	
+	$insert = '<iframe id="toolbar" src="/admin/plugins/toolbar/toolbar.html"></iframe>
+	<script type="text/javascript" src="/admin/plugins/toolbar/top.js"></script>
+	<link rel="stylesheet" type="text/css" href="/admin/plugins/toolbar/iframe.css"/>';
+
+	$html = preg_replace('/(<\/body>)/',n.t.$insert.n.'</body>',$html);
 }
 
 ?>

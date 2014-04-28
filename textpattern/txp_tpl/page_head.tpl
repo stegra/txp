@@ -47,7 +47,7 @@
 			
 	</script>
 	
-	<script type="text/javascript" src="{$base}js/lib/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="{$base}js/lib/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="{$base}js/lib/jquery-cookie/jquery.cookie.js"></script>
 	<script type="text/javascript" src="{$base}js/lib/jquery-ui/js/jquery-ui-1.10.2.custom.min.js"></script>
 	<script type="text/javascript" src="{$base}js/lib/jquery-ui/js/jquery.drop.js"></script>

@@ -795,7 +795,9 @@
 		
 		// temporary fix until all root node ids are replaced by 0
 		$root = fetch("ID","txp_custom","ParentID",0);
-		safe_update("txp_group","field_parent = 0","field_parent = $root");
+		if (safe_count("txp_group","field_parent = $root")) {
+			safe_update("txp_group","field_parent = 0","field_parent = $root");
+		}
 		
 		$columns = array(
 			 'g.id',

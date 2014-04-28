@@ -157,8 +157,11 @@
 	function contact_form($atts,$thing=NULL)
 	{
 		$atts['contact'] = 1;
-		$atts['form'] = 'contact-form';
 		$atts['show_preview'] = '0';
+		
+		if (!isset($atts['form'])) {
+			$atts['form'] = 'contact-form';
+		}
 		
 		return comments_form($atts,$thing);
 	}
@@ -168,8 +171,8 @@
 
 	function comments_form($atts,$thing=NULL)
 	{
-		global $thisarticle, $has_comments_preview;
-
+		global $prefs, $thisarticle, $has_comments_preview;
+		
 		extract(lAtts(array(
 			'class'        => __FUNCTION__,
 			'form'         => 'comment-form',
@@ -179,11 +182,14 @@
 			'msgstyle'     => '',
 			'show_preview' => empty($has_comments_preview),
 			'wraptag'      => '',
-			'contact'	   => 0	
+			'contact'	   => 0,
+			'action'	   => '',
+			'preview'	   => 0,
+			'backpage'	   => ''
 		), $atts));
-
+		
 		assert_article();
-
+		
 		$thisid = $thisarticle['thisid'];
 		
 		$out = '';

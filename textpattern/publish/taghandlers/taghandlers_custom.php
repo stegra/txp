@@ -53,6 +53,8 @@
 			);
 		}
 		
+		
+		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
 		$previous = ''; // TEMPORARY FIX for duplicate values
@@ -64,7 +66,7 @@
 			// if ($previous == $field['info']) continue;
 			
 			if ($limit != '*' and $count > $limit) continue;
-			 
+			
 			if ($value = $field['value']) { 
 				
 				$out[$key] = array(
@@ -110,6 +112,10 @@
 					}
 				} 
 				
+				if ($info[1] == 'textarea') {
+					// $out[$key]['value'] = preg_replace('/[\n\r]+/',"<br/>\n",$value);
+				}
+				
 				// TEMPORARY FIX for duplicate values
 				// $previous = $field['info'];
 				$count += 1;
@@ -142,16 +148,30 @@
 					
 				} elseif ($format == 'textile') {
 				
-					include_once txpath.'/lib/classTextile_mod.php';
-					$textile = new TextileMod();
+					include_once txpath.'/lib/classTextile.php';
+					$textile = new TextileTXP();
 					$value = $textile->TextileThis($value);
-				
+					
 				} elseif ($format == 'label') {
 				
 					$value = $label;
 				
 				} elseif ($format == 'number') {
 				
+					$value = str_replace(',','',$value);
+					
+				} elseif ($format == 'ordinal') {
+					
+					if (preg_match('/1[1-3]$/',$value)) 
+						$value .= 'th';
+					elseif (preg_match('/1$/',$value)) 
+						$value .= 'st';
+					elseif (preg_match('/2$/',$value)) 
+						$value .= 'nd';	
+					elseif (preg_match('/3$/',$value)) 
+						$value .= 'rd';	
+					else	
+						$value .= 'th';	
 				
 				} elseif (strlen($format)) {
 				

@@ -208,7 +208,7 @@
 // alias for article_count tag	
 
 	function article_num($atts) 
-	{
+	{	
 		return article_count($atts);
 	}
 
@@ -240,17 +240,55 @@
 	function article_count($atts,$thing = NULL) 
 	{
 		global $thisarticle, $is_article_list;
+		global $unique_articles;
+		global $thispage;
+		
 		assert_article();
 		
 		extract(lAtts(array(
-			'pad' => '',
-			'lt'  => '',
-			'gt'  => '',
-			'eq'  => '',
-			'mod' => ''
+			'pad' 	=> '',
+			'lt'  	=> '',
+			'gt'  	=> '',
+			'eq'  	=> '',
+			'mod' 	=> '',
+			'group' => ''
 		),$atts));
 		
 		$num = ($is_article_list) ? $thisarticle['count'] : 1;
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// start numbering from 1 on each page 
+		
+		if ($num > 1 and is_array($thispage)) {
+			
+			$page   = $thispage['pg'];
+			$pageby = $thispage['pageby'];
+			
+			if ($page > 1) {
+				$num = $num - (($page - 1) * $pageby);
+			}
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// group numbers by unique ids or parent ids
+		
+		if (in_list($group,'parent,thisid')) {
+		
+			$id = $thisarticle[$group];
+			
+			if (is_array($unique_articles)) {
+				
+				if (!isset($unique_articles[$id])) {
+					$unique_articles[$id] = count($unique_articles) + 1;
+				}
+				
+			} else {
+			
+				$unique_articles = array($id => 1);
+			}
+			
+			$num = $unique_articles[$id];
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 		
@@ -280,7 +318,7 @@
 			$padchar = substr($pad,0,1);
 		
 		} else {
-		
+			
 			return $num;
 		}
 		
@@ -361,18 +399,46 @@
 //------------------------------------------------------------------------
 	function article_edit_link($atts,$thing=NULL)
 	{
-		global $siteurl;
+		global $siteurl, $txp_user;
 		
-		if (PREVIEW) {
+		extract(lAtts(array(
+			'class'  => '',
+			'title'	 => 'Edit',
+			'event'  => 'article',
+			'table'	 => 'textpattern',
+			'path'	 => '',
+			'column' => '',
+			'open'	 => '',
+			'sort'	 => '',
+			'focus'  => ''
+		),$atts));
+		
+		if (!$txp_user) return;
+		
+		if (cs('txp_sitemode_edit') == 'on' or isset($_GET['edit'])) {
 			
-			if ($thing) {
+			if (isset($atts['class'])) unset($atts['class']);
+			if (isset($atts['title'])) unset($atts['title']);
+					
+			if (!$thing) {
 				
-				return parse($thing);
+				$href = 'http://'.$siteurl.article_edit_url($atts);	
+				
+				$class = (!$class) ? make_name($title) : $class;
+				$link  = "Edit <span>&#187;</span>";
+			
+				return '<a class="edit '.$class.'" title="'.$title.'" href="'.$href.'">'.$link.'</a>';
+			
+			} else {
+				
+				$GLOBALS['article_edit_link'] = $atts;
+					
+				$thing = parse($thing);
+				
+				unset($GLOBALS['article_edit_link']);
+				
+				return $thing;
 			}
-				
-			$url = article_edit_url();
-				
-			return '<a class="edit" href="http://'.$siteurl.'/'.$url.'">Edit &#187;</a>';
 		}
 	}
 
@@ -381,7 +447,161 @@
 	{
 		global $thisarticle;
 		
-		return 'admin/index.php?event=article&step=edit&win=new&mini=1&id='.$thisarticle['thisid'];
+		if (isset($GLOBALS['article_edit_link'])) {
+		
+			$atts = $GLOBALS['article_edit_link'];
+		}
+		
+		extract(lAtts(array(
+			'event'  => 'article',
+			'table'	 => 'textpattern',
+			'path'	 => '',
+			'column' => '',
+			'open'	 => '',
+			'sort'	 => '',
+			'focus'  => ''
+		),$atts));
+		
+		$table = ($table != 'textpattern') ? 'txp_'.$table : $table;
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		$url = '/admin/index.php?&win=new&mini=1';
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// event 
+		
+		if ($column or $sort or $open) $event = 'list';
+		
+		
+		$url .= '&event='.$event;
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// step 
+		
+		$step = 'edit';
+		
+		if ($event == 'list') $step = 'list';
+		
+		$url .= '&step='.$step;
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// id 
+		
+		$id = $thisarticle['thisid'];
+		
+		if ($path) {
+			
+			// get ids from path 
+			
+			$path = expl(trim($path,'/'),'/');
+			$parentid = $id = ROOTNODEID;
+			
+			while ($path and $parentid) {
+				
+				$name = make_name(array_shift($path));
+				
+				$id = safe_field('ID',$table,
+					"Name = '$name' AND ParentID = $parentid AND Trash = 0");
+				
+				$parentid = ($id) ? $id : 0;
+			}
+		}
+		
+		$url .= '&id='.$id;
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// sort by column  
+		
+		if ($sort == 'position') {
+			$url .= '&sort=position&dir=asc';
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// folders to open 
+		
+		if ($open) {
+		
+			$open = expl($open);
+		
+			foreach ($open as $key => $path) {
+				
+				$parentid = $id;
+				$path = expl($path,'/');
+				
+				$open[$key] = array();
+				
+				while ($path and $parentid) {
+				
+					$name = array_shift($path);
+					
+					if ($name != '*') {
+						
+						$open_id = safe_field('ID',$table,
+							"Name = '$name' AND ParentID = $parentid AND Trash = 0");
+					} else {
+						
+						$open_id = safe_column('t.ID',"$table AS t JOIN $table AS c ON t.ID = c.ParentID",
+							"t.ParentID = $parentid AND t.Trash = 0 AND c.Trash = 0 GROUP BY t.ID");
+						
+						$open_id = impl($open_id);
+					}	
+							
+					$open[$key][] = $open_id;
+					
+					$parentid = ($open_id) ? $open_id : 0;
+				}
+				
+				if ($open_id) {
+					$open[$key] = impl($open[$key]);
+				} else {
+					unset($open[$key]);
+				}
+			}
+			
+			if ($open) {
+				$url .= '&open='.impl($open);
+			}
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		//	columns to show 
+		
+		if ($column) {
+		
+			$column = expl($column);
+			
+			foreach ($column as $key => $name) {
+				
+				$name = make_name($name);
+				
+				$field_id = safe_field('ID','txp_custom',
+					"Name = '$name' AND Type NOT IN ('trash','folder') AND Trash = 0");
+				
+				if ($field_id) {
+				
+					$column[$key] = 'custom.'.$field_id;
+				
+				} else {
+				
+					$column[$key] = $name;
+				}
+			}
+			
+			$url .= '&columns='.impl($column);
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// focus a form input field
+		
+		if ($focus) {
+			
+			$url .= '#'.$focus;
+		}
+				
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		return $url;
 	}
 	
 // =============================================================================

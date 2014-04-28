@@ -16,3 +16,11 @@
 #list td.body input {
 	width: 100%;
 }
+
+table#list td.name.view {
+	white-space: nowrap;
+}
+
+table#list td.input.view {
+	white-space: nowrap;
+}

@@ -184,6 +184,7 @@ $LastChangedRevision: 3256 $
 			}
 
 			$sp = ($level > 2) ? str_repeat(sp.sp.sp,$level-2) : '';
+			// $sp = ($level > 2) ? str_repeat('***',$level-2) : '';
 
 			if (($truncate > 3) && (strlen(utf8_decode($title)) > $truncate)) {
 				$htmltitle = ' title="'.htmlspecialchars($title).'"';

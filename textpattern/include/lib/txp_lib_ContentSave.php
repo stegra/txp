@@ -298,7 +298,7 @@
 		$name_space = ($textpattern == 'txp_form') ? '_' : '-';
 		
 		if (isset($in['Title'])) {
-		
+			
 			if ($old['Title'] != $in['Title']) {
 				
 				// title has changed
@@ -333,8 +333,17 @@
 		// Keywords
 		
 		if (isset($in['Keywords'])) {
-		
+			
 			$in['Keywords'] = doSlash(trim(preg_replace('/( ?[\r\n\t,])+ ?/s', ',', preg_replace('/ +/', ' ', ps('Keywords'))), ', '));
+			$in['Keywords'] = strip_tags($in['Keywords']); 
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// Description
+		
+		if (isset($in['Description'])) {
+		
+			$in['Description'] = strip_tags($in['Description']); 
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -543,7 +552,7 @@
 			$set['LastModID'] = "'$txp_user'";
 			
 			if (in_array('url_title',$columns)) {
-				$set['url_title'] = "Name";
+				$set['url_title'] = "'$Name'";
 			}
 			
 			$saved = safe_update($textpattern,$set,"ID='$ID'",0);
@@ -697,12 +706,17 @@
 					 
 					$type = fetch('Type',"txp_custom","Name",doSlash($name));
 					
-					$set = array("text_val = '$value'");
+					$set = array();
 						
 					if ($type == 'number') {
-						$set[] = "num_val = '$value'";
+						$text_value = preg_replace('/[^\d\.\,]/','',$value);
+						$set[] = "text_val = '$text_value'";
+						$num_value = preg_replace('/\,/','',$value);
+						$set[] = "num_val = '$num_value'";
+					} else {
+						$set[] = "text_val = '$value'";
 					}
-						
+					
 					safe_update("txp_content_value",impl($set),"id = $value_id");
 				
 				} else {

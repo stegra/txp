@@ -117,6 +117,7 @@ class ImageManipulation
 		$this->fn_t = preg_replace('/_[rtx]+$/','',$this->fn).$type;
 		
 		$funct = $this->thumbnail_sys[$this->imagesys];
+		
 		$rs = $this->$funct($crop,$quality,true);
 
 		if($rs) {
@@ -341,18 +342,33 @@ class ImageManipulation
 		$target_id = $gd['create']($dest['w'], $dest['h']);
 
 		if ($alpha) imagealphablending($target_id, false);
-
+		
 		$dest_w = $dest['w'];
 		$dest_h = $dest['h'];
 		
+		$src_x = 0;
+		$src_y = 0;
+		
 		if ($crop_only) {
+			
+			if ($crop == 2) {
+				
+				if ($this->dim['w'] > $dest_w) {
+					$src_x = floor(($this->dim['w'] - $dest_w) / 2);
+				}
+				
+				if ($this->dim['h'] > $dest_h) {
+					$src_y = floor(($this->dim['h'] - $dest_h) / 2);
+				}
+			}
+		
 			$dest_w = $this->dim['w'];
 			$dest_h = $this->dim['h'];
 		}
 		
 		// Resize the original picture and copy it into the just created image object.
 		$target_pic = $gd['copy']($target_id,$source_id,
-									0,0,0,0,
+									0,0,$src_x,$src_y,
 									$dest_w,$dest_h,
 									$this->dim['w'],$this->dim['h']);
 		

@@ -135,7 +135,23 @@
 			
 			extract($res); 
 			
-			$alt = ($alt) ? $alt : $alt_text;
+			// ALT text 
+			
+			if (strlen($alt_text)) {
+			
+				if (substr($alt_text,0,1) == '+') {
+					
+					// append image alt text 
+					
+					$alt .= ' '.trim(substr($alt_text,1));
+				
+				} else {
+					
+					// replace with image alt text
+					
+					$alt = $alt_text;
+				}
+			}
 			
 			$count = (isset($tag_counter['image']))
 				? $tag_counter['image'] += 1
@@ -279,7 +295,7 @@
 				'border'	=> $border,
 				'class'		=> $class,
 				'style'		=> $style,
-				'alt'		=> $alt,
+				'alt'		=> trim($alt),
 				'caption'	=> $caption,
 				'copyright'	=> $copyright,
 				'keywords'	=> $keywords,

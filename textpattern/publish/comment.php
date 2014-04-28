@@ -67,9 +67,12 @@ $LastChangedRevision: 3266 $
 			'msgcols'   => '25',
 			'msgstyle'  => '',
 			'form'      => 'comment_form',
-			'contact'   => 0
+			'contact'   => 0,
+			'action'	=> '',
+			'preview'	=> 0,
+			'backpage'	=> ''
 		),$atts, 0));
-
+		
 		$namewarn 		= false;
 		$emailwarn 		= false;
 		$subjectwarn 	= false;
@@ -89,7 +92,7 @@ $LastChangedRevision: 3266 $
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
-		if ( $sender ) {
+		if ( $sender and !$preview) {
 			
 			/* if (getCount('txp_form',"name = 'contact' AND type = 'article' AND Status = 4 AND Trash = 0")) {
 				
@@ -102,7 +105,9 @@ $LastChangedRevision: 3266 $
 			
 			return '';
 		}
-
+		
+		$backpage_attr = $backpage;
+		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
 		extract( doDeEnt ( psa( array(
@@ -115,6 +120,8 @@ $LastChangedRevision: 3266 $
 			'submit',
 			'backpage'
 		) ) ) );
+		
+		if (!$backpage) $backpage = $backpage_attr;
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -132,6 +139,10 @@ $LastChangedRevision: 3266 $
 			safe_insert("txp_discuss_nonce", "issue_time=now(), nonce='".doSlash($nonce)."', secret='".doSlash($secret)."'");
 			$n_message = md5('message'.$secret);
 		// }
+		
+		if (isset($atts['preview']) and $atts['preview']) {
+			$preview = 1;
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -193,6 +204,7 @@ $LastChangedRevision: 3266 $
 		$form_name 	  = ($contact) ? 'contact' : 'comment';
 		$form_id 	  = "txpCommentInputForm";
 		$form_action  = ($contact) ? htmlspecialchars($url) : htmlspecialchars($url).'#cpreview';
+		$form_action  = ($action)  ? $action : $form_action; 
 		$submit_label = ($contact) ? gTxt('send') : gTxt('submit');
 		
 		$out  = n.n.'<a name="comment-form"></a>';
@@ -244,7 +256,7 @@ $LastChangedRevision: 3266 $
 
 		$vals = array(
 			'comment_name_input'		=> fInput('text', 'name', htmlspecialchars($name), 'comment_name_input'.($namewarn ? ' comments_error' : ''), '', '', $isize, '', 'name'),
-			'comment_email_input'		=> fInput('text', 'email', htmlspecialchars($email), 'comment_email_input'.($emailwarn ? ' comments_error' : ''), '', '', $isize, '', 'email'),
+			'comment_email_input'		=> fInput('email', 'email', htmlspecialchars($email), 'comment_email_input'.($emailwarn ? ' comments_error' : ''), '', '', $isize, '', 'email'),
 			/* 'comment_subject_input'		=> fInput('text', 'subject', htmlspecialchars($subject), 'comment_subject_input'.($subjectwarn ? ' comments_error' : ''), '', '', $isize, '', 'subject'), */
 			'comment_web_input'			=> fInput('text', 'web', htmlspecialchars($web)	, 'comment_web_input', '', '', $isize, '', 'web'),
 			'comment_message_input' 	=> $textarea.'<!-- plugin-place-holder -->',
@@ -276,10 +288,17 @@ $LastChangedRevision: 3266 $
 		// $out .= ($preview or $contact) ? n.hInput(substr($nonce, 0, $split), substr($nonce, $split)) : '';
 		$out .= ($contact) ? n.hInput('contact',1) : '';
 		
-		$out .= (!$preview) 
-			? n.hInput('backpage', htmlspecialchars($url)) 
-			: n.hInput('backpage', htmlspecialchars($backpage));
-
+		if (!$preview) {
+		
+			$out .= ($backpage) 
+				? n.hInput('backpage', htmlspecialchars($backpage)) 
+				: n.hInput('backpage', htmlspecialchars($url));
+		
+		} else {
+			
+			$out .= n.hInput('backpage', htmlspecialchars($backpage));
+		}
+		
 		$out = str_replace( '<!-- plugin-place-holder -->', callback_event('comment.form'), $out);
 
 		$out .= n.n.'</div>'.n."</form>";
@@ -439,8 +458,8 @@ $LastChangedRevision: 3266 $
 	function saveComment($comment_type='comment')
 	{
 		global $siteurl,$comments_moderate,$comments_sendmail,$txpcfg,
-			$comments_disallow_images,$prefs;
-
+			$comments_disallow_images,$prefs,$pretext;
+	
 		$ref = serverset('HTTP_REFERRER');
 		$in = getComment();
 		
@@ -457,8 +476,9 @@ $LastChangedRevision: 3266 $
 		if (!checkBan($ip))
 			txp_die(gTxt('you_have_been_banned'), '403');
 			
-		if (strlen($web))
+		if (strlen($web)) {
 			txp_die("website url field is disabled",'403');	// SPAM
+		}
 			
 		if (preg_match('/http\:\/\//',$message)) {
 			$_POST['error'] = "HTTP is not allowed!"; return; // maybe SPAM
@@ -495,6 +515,10 @@ $LastChangedRevision: 3266 $
 		$name = doSlash(strip_tags(deEntBrackets($name)));
 		$web = doSlash(strip_tags(deEntBrackets($web)));
 		$email = doSlash(strip_tags(deEntBrackets($email)));
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		$pretext['backpage'] = $backpage;
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - -
 		// subject custom field
@@ -541,7 +565,11 @@ $LastChangedRevision: 3266 $
 			
 			} else {
 			
-				$custom_fields[$k] = ucwords(str_replace('-',' ',$k)).': '.$v;
+				if (strlen($v)) {
+					$custom_fields[$k] = ucwords(str_replace('-',' ',$k)).': '.$v;
+				} else {
+					unset($custom_fields[$k]);
+				}
 			}
 		}
 		
@@ -582,8 +610,11 @@ $LastChangedRevision: 3266 $
 				$author = $name;
 				
 				if ($contact) {
+					
 					$title  = $subject;
+	
 				} else {
+					
 					$title  = maxwords($message,30);
 					$title  = preg_replace('/[\,\;\:\.]$/','',$title);
 					$title .= (strlen($title) < strlen($message)) ? '...' : '';
@@ -613,6 +644,10 @@ $LastChangedRevision: 3266 $
 					if ($prefs['comment_means_site_updated']) {
 						update_lastmod();
 					}
+					
+					/* if (preg_match('/http:\/\//',$message)) {
+						$message = preg_replace('/(http:\/\/[^\s]+)/','<a href="'."$1".'">'."$1".'</a>',$message);
+					} */
 					
 					if ($contact)
 						mail_contact($subject, $message, $author, $email, $web, $parentid);
@@ -851,7 +886,7 @@ $LastChangedRevision: 3266 $
 
 	function mail_contact($subject, $message, $cname, $cemail, $cweb, $parentid) 
 	{
-		global $sitename,$txp_user;
+		global $sitename,$txp_user,$pretext;
 		
 		$parentid = assert_int($parentid);
 		
@@ -875,6 +910,9 @@ $LastChangedRevision: 3266 $
 			$from_RealName = $admin['RealName'];
 		}
 		
+		list($to_RealName,$email)    = get_custom_contact_email($email,'recipient');
+		list($cc_RealName,$cc_email) = get_custom_contact_email('','cc');
+		
 		$cname = preg_replace('/[\r\n]/', ' ', $cname);
 		$cemail = preg_replace('/[\r\n]/', ' ', $cemail);
 
@@ -887,8 +925,10 @@ $LastChangedRevision: 3266 $
 			."X-Mailer: Textpattern\r\n"
 			."Content-Transfer-Encoding: 8bit\r\n"
 			."Content-Type: text/plain; charset=\"UTF-8\"\r\n";
+			
+		$headers = ($cc_email) ? "CC: $cc_RealName <$cc_email>\r\n".$headers : $headers;
 		
-		mail($email, $subject, $out,$headers);
+		mail($email, $subject, $out, $headers);
 	}
 
 // -------------------------------------------------------------
@@ -905,5 +945,50 @@ $LastChangedRevision: 3266 $
 			' />'.n
 		);
 		return join('',$o);
+	}
+
+// -------------------------------------------------------------
+
+	function get_custom_contact_email($email,$field) {
+		
+		$name = '';
+		
+		if (ps($field)) {
+			
+			$name = ps($field,'','/^[a-z0-9\-]+$/');
+			
+			if ($name) {
+			
+				// look for a user named '$item' in the txp_users table 
+				
+				$row = safe_row('email,title',"txp_users","Name = '$name' AND Trash = 0 AND Status IN (4,5)");
+				
+				if ($row) {
+					
+					$name  = $row['title'];
+					$email = $row['email'];
+				}
+				
+				// look for an article named '$item' in the textpattern table
+				// that also has a custom field named 'email';
+				
+				$row = safe_row('c.text_val AS email,t.title',
+					"textpattern AS t JOIN txp_content_value AS c ON t.ID = c.article_id",
+					"t.Name = '$name' 
+					 AND t.Trash = 0 
+					 AND t.Status IN (4,5) 
+					 AND c.field_name = 'email'
+					 AND c.text_val != ''
+					 AND c.status = 1");
+				
+				if ($row) {
+					
+					$name  = $row['title'];
+					$email = $row['email'];
+				}
+			}
+		};
+		
+		return array($name,$email);
 	}
 ?>

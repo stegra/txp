@@ -101,8 +101,8 @@ txp.edit.image.calcResize = function(type,side,width,height) {
 	
 		// maximum thumbnail size is the regualr image size
 		var crop   = parseInt(document.resize_t.crop.value);
-		var width  = parseInt(document.resize_r.new_width.value);
-		var height = parseInt(document.resize_r.new_height.value);
+		// var width  = parseInt(document.resize_r.new_width.value);
+		// var height = parseInt(document.resize_r.new_height.value);
 		
 		// square thumbnail
 		if (crop != 4) {
@@ -131,7 +131,7 @@ txp.edit.image.calcResize = function(type,side,width,height) {
 
 /* --------------------------------------------------------------------------------- */
 
-txp.edit.image.selCrop = function(newcrop,width,height) {
+txp.edit.image.selCrop = function(newcrop,width,height,max_width,max_height) {
 
 	var current    = document.resize_t.crop.value;
 	var bywidth    = document.resize_t.bywidth.value;
@@ -151,7 +151,7 @@ txp.edit.image.selCrop = function(newcrop,width,height) {
 	if (bywidth)  side = 'width';
 	if (byheight) side = 'height';
 	
-	txp.edit.image.calcResize('t',side,0,0);
+	txp.edit.image.calcResize('t',side,max_width,max_height);
 	
 	txp.edit.image.resizeImage('t');
 }

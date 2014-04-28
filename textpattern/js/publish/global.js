@@ -1,4 +1,15 @@
+var edit_window = null;
+
 $(document).ready(function(){	
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	if (txp.plugins['audioplayer'] != undefined) {
+		
+		txp.plugins.audioplayer.init();
+	}
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	$('audio').bind('play', function() {
    		
@@ -83,9 +94,48 @@ $(document).ready(function(){
 	// open edit page links in a new window
 	
 	$('a.edit').click(function() {
-	
-		window.open($(this).attr('href'),'edit-article','width=950,height=625,scrollbars=yes,toolbar=yes');
 		
+		edit_window = window.open($(this).attr('href'),'edit-article','width=950,height=625,scrollbars=yes,toolbar=yes');
+		
+		// send extra requests to this window if any 
+		
+		var extra = $(this).attr('rel');
+		
+		if (extra) {
+		
+			extra = extra.split(';');
+			
+			var countdown = 20;
+			var inter1 = null; // wait for the id from the opened window
+			var inter2 = null; // delay between extra requests 
+			
+			inter1 = setInterval(function() {
+			
+				if (edit_window.id) {
+					
+					inter2 = setInterval(function() {
+						
+						if (extra.length) {
+						
+							edit_window.location.href = '/admin/index.php?'+extra.shift()+'&win='+edit_window.id;;
+							
+						} else {
+						
+							clearInterval(inter2);
+						}
+						
+					},1000);
+					
+					countdown = 0;
+				}
+				
+				if (countdown == 0) clearInterval(inter1);
+				
+				countdown -= 1;
+				
+			},100);
+		}
+				
 		return false;
 	});
 	
@@ -94,7 +144,7 @@ $(document).ready(function(){
 	
 	$('a.admin-link').click(function() {
 	
-		window.open($(this).attr('href'),'admin-page','width=950,height=625,scrollbars=yes,toolbar=yes');
+		var admin_window = window.open($(this).attr('href'),'admin-page','width=950,height=625,scrollbars=yes,toolbar=yes');
 		
 		return false;
 	});
@@ -147,7 +197,66 @@ $(document).ready(function(){
 		
 	},300); 
 	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// inspect meta tags and canonical url
+	/*
+	var meta = '<table>'+"\n";
+	
+	$('meta').each(function() { 
+		
+		if ($(this).attr('name')) {
+			
+			var name = $(this).attr('name');
+			var content = $(this).attr('content');
+			var cls = $(this).attr('class');
+			var edit = '';
+			if (name == 'keywords') {
+				content = content.replace(/,/g,', ');
+			}
+			
+			if ($(this).hasClass('edit')) {
+				var id   = $(this).attr('id');
+				var link = ($(this).hasClass('local')) ? 'Edit' : 'Add';
+				var href = '/admin/index.php?event=article&step=edit&id='+id+'#advanced';
+				edit += "\n"+'<td><a target="new" href="'+href+'">'+link+'</a></td>';
+			}
+			
+			cls = (cls) ? name + ' ' + cls : name;
+			
+			meta += '<tr class="'+cls+'">';
+			meta += '<td class="name">'+ name.replace(/\-/g,' ') + '</td>';
+			meta += '<td class="content">'+ content + '</td>' + edit;
+			meta += '</tr>'+"\n";		
+		}
+	});
+	
+	$('link').each(function() { 
+	
+		if ($(this).attr('rel') == 'canonical') {
+			
+			var href = $(this).attr('href');
+			var link = '<a target="new" href="'+href+'">'+href+'</a>';
+			
+			meta += '<tr class="canonical">';
+			meta += '<td class="name">canonical url</td>';
+			meta += '<td class="content">'+ link + '</td>';
+			meta += '</tr>'+"\n";	
+		}
+	});
+	
+	meta += '</table>';	
+	
+	$('body').append('<div id="inspect-meta">'+meta+'</div>');
+	*/
 });
+
+//-------------------------------------------------------------
+// AJAX
+
+function getWindowID(id)
+{
+	edit_window.id = id;
+}
 
 //-------------------------------------------------------------
 // AJAX

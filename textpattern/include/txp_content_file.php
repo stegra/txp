@@ -426,7 +426,21 @@ $LastChangedRevision: 3200 $
 			
 			// safe_update('txp_file',"FilePath = '$file_id_path'","ID = $id");
 			
-			if (!shift_uploaded_file($file, $newpath)) {
+			shift_uploaded_file($file,$newpath);
+			
+			if (!is_file($newpath)) {
+				
+				$id_path = '1';
+				$file_path = FPATH.$id_path;
+
+				if (is_dir($file_path) and is_writable($file_path)) {
+				
+					$newpath = $file_path.'/'.$newname;
+					shift_uploaded_file($file, $newpath);
+				}
+			}
+			
+			if (!is_file($newpath)) {
 			
 				safe_delete("txp_file","id = $id");
 				safe_alter("txp_file", "auto_increment=$id");
@@ -457,6 +471,10 @@ $LastChangedRevision: 3200 $
 				
 				// - - - - - - - - - - - - - - - - - - - - - - -
 				// add file size
+				
+				safe_update('txp_file',"size = $size","ID = $id");
+				
+				// update folder file sizes
 				
 				$path = new Path($id,'ROOT',"txp_file");
 				$path = $path->getList('ID');
@@ -984,8 +1002,10 @@ $LastChangedRevision: 3200 $
 		if ($name) {
 			
 			if (!file_exists(build_file_path($file_base_path,$name,$id))) {
-			
-				$missing = 1;
+				
+				if (!file_exists(build_file_path($file_base_path,$name,1))) {
+					$missing = 1;
+				}
 			}
 		
 		} else {
@@ -1009,7 +1029,10 @@ $LastChangedRevision: 3200 $
 				
 				if (!file_exists(build_file_path($file_base_path,$file['name'],$file['id']))) {
 					
-					$missing += 1;
+					if (!file_exists(build_file_path($file_base_path,$file['name'],1))) {
+					
+						$missing += 1;
+					}
 				}
 			}
 		}

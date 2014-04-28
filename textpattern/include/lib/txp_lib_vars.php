@@ -2,7 +2,7 @@
 
 $GLOBALS['vars'] = array(
 	'ID','Title','Title_html','Body','Body_html','Excerpt','textile_excerpt',
-	'Name','textile_body','Keywords','Status','Sticky','Posted','Expires',
+	'Name','textile_body','Keywords','Description','Status','Sticky','Posted','Expires',
 	'Section','Class','Category','Annotate','AnnotateInvite',
 	'AuthorID','sPosted','Type','ImageID','FileID','LastMod','LastModID','sLastMod',
 	'override_form','override_page','from_view',

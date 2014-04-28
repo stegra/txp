@@ -335,6 +335,17 @@ body.custom #edit p.excerpt textarea#excerpt {
 	width: 56px;
 }
 
+/* SPECIAL: Office Space */
+
+#edit .custom-fields div#field-1551 textarea {
+	font-size: 10px;
+	height:80px;
+}
+
+#edit .custom-fields div#field-9671 textarea {
+	height: 48px;
+}
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* add custom field */
 

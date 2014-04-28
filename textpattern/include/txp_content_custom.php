@@ -113,7 +113,7 @@ $LastChangedRevision: 3203 $
 				$id = $item['ID'];
 				$count = safe_count("txp_content_value","field_id = '$id' AND status = 1");
 				
-				$list[$key]['Set'] = ($count) ? $count.'x' : 'None';
+				$list[$key]['Set'] = ($count) ? $count : 'None';
 			} 
 			
 			if ($item['Type'] == 'folder') {

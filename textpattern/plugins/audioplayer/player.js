@@ -1,7 +1,3 @@
-if (window['txp'] == undefined) {
-	var txp = { plugins:{} }
-};
-
 // -----------------------------------------------------------------------------
 
 txp.plugins.audioplayer = {

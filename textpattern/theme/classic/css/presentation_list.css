@@ -5,3 +5,7 @@ tr.footer div.view-mode {
 tr.footer div.thumb-size {
 	display: none;
 }
+
+table#list td.name.view {
+	white-space: nowrap;
+}

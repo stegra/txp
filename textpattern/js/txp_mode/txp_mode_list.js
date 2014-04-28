@@ -29,7 +29,8 @@ txp.list = {
 	select_all_chbox 	: null,
 	scroll_to_after	    : ['open','close','refresh','multi_edit'],
 	contextmenu			: { main:{}, trash:{} },
-	actions				: []
+	actions				: [],
+	create_new			: 0
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,7 +63,7 @@ txp.list.init = function() {
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
-	$("input#search-click").bind("click",function () { 
+	$("input#search-click").bind("click",function() { 
 	
 		document.search.search_click.value = 1;
 	});
@@ -169,7 +170,23 @@ txp.list.init = function() {
 		
 		var action = $("select#action");
 		
-		if (action.val() == 'window') {
+		if (action.val() == 'new') {
+			
+			if (!t.create_new) {
+				t.show_create_new();
+			} else {
+				t.submit_create_new();
+			}
+		
+		} else if (action.val() == 'group') {
+			
+			if (!t.create_new) {
+				t.show_create_new('group');
+			} else {
+				t.submit_create_new();
+			}
+			
+		} else if (action.val() == 'window') {
   			
   			t.open_checked_in_window();
   			action.val('none');
@@ -184,7 +201,7 @@ txp.list.init = function() {
   		return false;
 	});
 	
-	$("select#action option").each( function () {
+	$("select#action option").each(function() {
 		
 		if ($(this).hasClass('show') == false) {
 			// $(this).remove();
@@ -204,7 +221,7 @@ txp.list.init = function() {
 		
 		// put the focus on the first title input field
 	
-		$("input.title").each( function(i) {
+		$("input.title").each(function(i) {
 			if (i == 0) {
 				$(this).trigger('focus');
 				t.editfocus = true;
@@ -286,10 +303,10 @@ txp.list.init = function() {
 	// row hover
 	
 	$("tr.view,div.data").hover(
-		function () {
+		function() {
 			$(this).addClass('hover');
 		}, 
-		function () {
+		function() {
 			$(this).removeClass('hover');
 		}
 	);
@@ -306,7 +323,7 @@ txp.list.init = function() {
 	// row click event
 	
 	$("tr.view td.col").bind("click",function(event) {
-	
+		
 		t.handleRowClick(event,this);
 	});
 	
@@ -338,7 +355,7 @@ txp.list.init = function() {
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// column change selection handler
 	
-	$('select#column').bind("change",function() {
+	$('select#column').bind("change",function(event) {
 	
 		t.handlerColumnChange(event,this);
 	});
@@ -369,7 +386,7 @@ txp.list.init = function() {
 	
 	t.select_all_chbox = $("input#select-all");
 	
-	t.select_all_chbox.bind('click',function () {
+	t.select_all_chbox.bind('click',function() {
 	
 		if ($(this).attr('checked')) {
     		txp.selectall();
@@ -378,12 +395,12 @@ txp.list.init = function() {
     	}
   	});
   	
-  	t.select_all_chbox.bind('uncheck',function () {
+  	t.select_all_chbox.bind('uncheck',function() {
   		
   		$(this).attr('checked', false);
   	});
   	
-  	t.select_all_chbox.bind('toggle',function () {
+  	t.select_all_chbox.bind('toggle',function() {
   		
   		if (!$(this).attr('checked')) {
     		txp.selectall();
@@ -500,7 +517,7 @@ txp.list.init = function() {
 		// - - - - - - - - - - - - - - - - - - - - - - - -
 		// option title check marks
 		
-		sel.children('option').each( function(i) {
+		sel.children('option').each(function(i) {
 			
 			var opt = $(this);
 			
@@ -566,12 +583,32 @@ txp.list.init = function() {
 txp.list.handleKeyDown = function(event) {
 	
 	var t = txp.list;
-
+	
+	t.keypress = '';
+	
+	if (txp.keyboard == 'mac') {
+	
+		switch (event.keyCode) {
+			
+			case 17  : t.keypress = 'CONTROL';	t.control_key_down = true; break;
+			case 91  : t.keypress = 'COMMAND';	t.command_key_down = true; break; // safari
+			case 224 : t.keypress = 'COMMAND';	t.command_key_down = true; break; // mozilla
+			case 187 : t.keypress = '+'; break;
+			case 189 : t.keypress = '-'; break;
+		}
+	
+	} else {
+		
+		switch (event.keyCode) {
+		
+			case 17  : t.keypress = 'COMMAND';	t.command_key_down = true; break;
+			case 61  : t.keypress = '+'; break;
+			case 173 : t.keypress = '-'; break;
+		}
+	}
+	
 	switch (event.keyCode) {
 		case 16  : t.keypress = 'SHIFT';  	t.shift_key_down = true;   break;
-		case 91  : t.keypress = 'COMMAND';	t.command_key_down = true; break; // safari
-		case 224 : t.keypress = 'COMMAND';	t.command_key_down = true; break; // mozilla
-		case 17  : t.keypress = 'CONTROL';	t.control_key_down = true; break;
 		case 13  : t.keypress = 'ENTER';  	break;
 		case 8   : t.keypress = 'DELETE'; 	break;
 		case 27  : t.keypress = 'ESCAPE'; 	break;
@@ -595,9 +632,6 @@ txp.list.handleKeyDown = function(event) {
 		case 86  : t.keypress = 'V'; break;
 		case 87  : t.keypress = 'W'; break;
 		case 88  : t.keypress = 'X'; break;
-		case 187 : t.keypress = '+'; break;
-		case 189 : t.keypress = '-'; break;
-		default  : t.keypress = '';
 	}
 	
 	if (t.debug) console.log('Key Down:',event.keyCode,t.keypress);
@@ -700,11 +734,20 @@ txp.list.handleKeyDown = function(event) {
 	
 	if (t.keypress == 'ENTER') {
 		
+		console.log('command_key_down',t.command_key_down);
+		
 		if (t.command_key_down) {
 		
 			if (t.mode != 'edit') t.with_selected_go(event,'new');
 			if (t.mode == 'edit') t.with_selected_go(event,'save');
 		
+			return false;
+		
+		} else if (txp.list.create_new) {
+			
+			event.preventDefault();
+			t.submit_create_new();
+			
 			return false;
 		}
 	}
@@ -743,6 +786,7 @@ txp.list.handleKeyDown = function(event) {
 			case 'edit'    : t.with_selected_go(event,'edit_cancel'); break;
 			case 'context' : hide_main_context_menu(); 
 							 hide_trash_context_menu(); break;
+			case 'new'	   : t.hide_create_new(); break;
 			default 	   : t.with_selected_go(event,'clear_clip');
 		}
 		
@@ -885,11 +929,21 @@ txp.list.handleKeyUp = function(event) {
 
 	var t = txp.list;
 	
+	if (txp.keyboard == 'mac') {
+		
+		switch (event.keyCode) {
+			case 91  : t.command_key_down = false; txp.key = ''; break; // safari
+			case 224 : t.command_key_down = false; txp.key = ''; break; // mozilla
+			case 17  : t.control_key_down = false; break;
+		}
+	
+	} else if (event.keyCode == 17) {
+	
+		t.command_key_down = false;
+	}
+	
 	switch (event.keyCode) {
 		case 16  : t.shift_key_down   = false; break;
-		case 91  : t.command_key_down = false; txp.key = ''; break; // safari
-		case 224 : t.command_key_down = false; txp.key = ''; break; // mozilla
-		case 17  : t.control_key_down = false; break;
 		case 37  : t.arrow_key_down   = false; break;
 		case 38  : t.arrow_key_down   = false; break;
 		case 39  : t.arrow_key_down   = false; break;
@@ -900,12 +954,15 @@ txp.list.handleKeyUp = function(event) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 txp.list.handleKeyPress = function(event) {
-
-	if (txp.list.debug) console.log('press',event.keyCode);
 	
-	if (event.keyCode == 91 || event.keyCode == 224) {
+	if (txp.keyboard == 'mac') {
+	
+		if (txp.list.debug) console.log('press',event.keyCode);
 		
-		event.preventDefault();
+		if (event.keyCode == 91 || event.keyCode == 224) {
+			
+			event.preventDefault();
+		}
 	}
 }
 
@@ -945,7 +1002,7 @@ txp.list.handleRowClick = function(event,elem) {
 			t.clicks = 0;
 		}
 		
-		setTimeout( function() {
+		setTimeout(function() {
 			t.dclick = 0;
 		},t.dclickspeed);
 		
@@ -1138,7 +1195,7 @@ txp.list.contextmenu.trash.init = function() {
 	t.html = t.elem.html();
 	t.elem.html('');
 	
-	$("tr.footer div.trash a").bind("contextmenu",function(event){
+	$("tr.footer div.trash a").bind("contextmenu",function(event) {
 		
 		show_trash_context_menu(event);
 		
@@ -1162,7 +1219,7 @@ txp.list.contextmenu.trash.init = function() {
 			left: event.pageX - 28 + 'px'
 		}).show();
 		
-		t.elem.find("a").bind("click",function(){
+		t.elem.find("a").bind("click",function() {
 			
 			var option = this.id;
 			
@@ -1307,7 +1364,7 @@ txp.list.open_checked_in_window = function(mode,id) {
 	
 	href = "index.php?" + href.join('&');
 	
-	setTimeout( function() {
+	setTimeout(function() {
     	window.open(href,name,'width='+width+',height='+height+',scrollbars,resizable');
     },500);
 }
@@ -1323,6 +1380,20 @@ txp.list.with_selected_go = function(event,value,column) {
 	if (txp.list.debug) console.log('go:',event,value,column);
 	
 	event.preventDefault();
+	
+	if (value == 'new') {
+	
+		txp.list.show_create_new();
+		
+		return false;
+	}
+	
+	if (value == 'group') {
+	
+		txp.list.show_create_new('group');
+		
+		return false;
+	}
 	
 	if (value == 'window') {
 	
@@ -1576,6 +1647,59 @@ txp.list.unselect_all_rows = function() {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+txp.list.show_create_new = function(method) {
+	
+	var create = $('#create-new-article');
+	var method = method || 'new';
+	
+	create.show();
+	create.find('input.title').focus();
+	document.create_new.edit_method.value = method;
+	
+	if (method == 'group') {
+		create.find('.extra').hide();
+	} else {
+		create.find('.extra').show();
+	}
+	
+	$('#create-new-article a.cancel').click(function() {
+		txp.list.hide_create_new();
+		return false;
+	});
+	
+	$('#create-new-article a.save').click(function() {
+		txp.list.submit_create_new();
+		return false;
+	});
+	
+	txp.list.create_new = 1;
+	txp.list.add_action('new');
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+txp.list.submit_create_new = function() {
+	
+	document.create_new.checked.value  = document.longform.checked.value;
+	document.create_new.selected.value = document.longform.checked.value;
+	document.create_new.scroll.value   = txp.get_scroll_point();
+	
+	$('#create-new-article form').submit();
+	
+	txp.list.hide_create_new();
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+txp.list.hide_create_new = function() {
+	
+	$('#create-new-article').hide();
+	$("select#action").val('none');
+	txp.list.create_new = 1;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 txp.list.hoist_row = function(id) {
 	
 	if (!id) {
@@ -1588,7 +1712,7 @@ txp.list.hoist_row = function(id) {
 		txp.list.doUncheck(id);
 	}
 	
-	txp.update_window_session('checked', function() {
+	txp.update_window_session('checked',function() {
 	
 		var href = [];
 	
@@ -1666,7 +1790,7 @@ txp.list.doUncheck = function(box) {
 	
 		box = Math.abs(box);
 		
-		txp.checked.each( function(val) { 
+		txp.checked.each(function(val) { 
 			
 			if (val != box) { 
 				$(".chbox input#"+val).attr('checked', false);

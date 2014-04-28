@@ -21,6 +21,8 @@
 		'ttf' 	=> 'application/octet-stream',
 		'woff' 	=> 'application/x-woff'
 	);
+	
+	include txpath.'/lib/classDirList.php';
 		
 // -------------------------------------------------------------
 	function is_windows()
@@ -509,10 +511,15 @@
 	{	
 		$dir = rtrim($dir,'/');
 		$regexp = false;
+		$mtime  = false;
 		
 		if ($extensions and !is_array($extensions)) {
 			
-			if (preg_match('/^\/.*\/$/',$extensions)) {
+			if (preg_match('/^mtime /',$extensions)) {
+				
+				$mtime = substr($extensions,6); 
+				
+			} elseif (preg_match('/^\/.*\/$/',$extensions)) {
 			
 				$regexp = $extensions;
 					
@@ -536,7 +543,18 @@
 					
 					$outfile = ltrim(implode('/',$path).DS.str_replace(':','-',$filename),'/');
 					
-					if ($regexp) {
+					if ($mtime) {
+						
+						if (is_file($dir.DS.$filename)) {
+							
+							$fmtime = filemtime($dir.DS.$filename);
+							
+							if ($fmtime > $mtime) {
+								$list[$fmtime.$outfile] = $outfile.':'.$fmtime;
+							}
+						}
+						
+					} elseif ($regexp) {
 						
 						if (preg_match($regexp,$filename)) {
 						
@@ -862,9 +880,9 @@
 				if ($new_width > $width or $new_height > $height) {
 					
 					// crop image
-					
+				
 					$img = new ImageManipulation($name.'_'.$suffix,$ext,$path);
-					$img->crop($width,$height,1,'');
+					$img->crop($width,$height,2,'');
 				}
 			}
 			

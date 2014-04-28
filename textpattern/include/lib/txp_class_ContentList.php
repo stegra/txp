@@ -29,8 +29,10 @@
 			global $WIN, $event;
 			
 			if ($open = gps('open')) {
-			
-				$WIN['open'][$open] = $open;
+				
+				foreach(expl($open) as $id) {
+					$WIN['open'][$id] = $id;
+				}
 			}
 					
 			if ($close = gps('close')) { 
@@ -78,6 +80,18 @@
 			}
 			
 			$this->deepest = safe_field("MAX(Level)",$this->table,"1=1"); 
+			
+			if ($columns = gps('columns')) {
+				
+				$columns = expl($columns);
+				
+				foreach($columns as $col) {
+					$this->toggle_column($col);
+				}
+				
+				$this->visible	= $this->get_visible_columns(); 
+				$this->custom 	= $this->get_custom_columns(); 
+			}
 			
 			if (gps('step') == 'hoist') {
 				
@@ -201,6 +215,38 @@
 				}
 				
 				$prev = $id;
+			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// neighbor ids for list prev/next links 
+			
+			$prev  = 0;
+			$docid = $WIN['docid'];
+			// unset($WIN['prevnextlist']);
+			
+			if (!isset($WIN['prevnextlist'])) {
+				$WIN['prevnextlist'] = array();
+			}
+			 
+			if (count($this->list) > 1) {
+				
+				$WIN['prevnextlist'][$docid] = array();
+				
+				foreach ($this->list as $key => $row) {
+				
+					if ($row['Level'] == 2) {
+					
+						$id = $row['ID'];
+						
+						$WIN['prevnextlist'][$docid][$id] = "$prev,0";
+						
+						if ($prev) {
+							$WIN['prevnextlist'][$docid][$prev] = str_replace(",0",",$id",$WIN['prevnextlist'][$docid][$prev]);
+						}
+						
+						$prev = $id;
+					}
+				}
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -419,6 +465,14 @@
 					}
 					
 					// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+					// language
+				
+					if ($name == 'Language') {
+						
+						$columns['Language']['value'] = $this->get_language_value($value,$edit);
+					}
+					
+					// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					// status
 					
 					if ($name == 'Status') {
@@ -633,6 +687,27 @@
 				
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				
+				$previd = 0;
+				$nextid = 0;
+				
+				if ($Level == 1) {
+				
+					$parentid = $row['ParentID'];
+				
+					if (isset($WIN['prevnextlist'])) {
+					
+						if (isset($WIN['prevnextlist'][$parentid])) {
+						
+							if (isset($WIN['prevnextlist'][$parentid][$ID])) {
+							
+								list($previd,$nextid) = explode(',',$WIN['prevnextlist'][$parentid][$ID]);
+							}
+						}
+					}
+				}
+				
+				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+				
 				$smarty->assign('id',$ID);
 				$smarty->assign('parent_id',$row['ParentID']);
 				$smarty->assign('title_id',(($Alias > 0) ? $Alias : $ID));
@@ -651,7 +726,9 @@
 				$smarty->assign('display_mode',$display_mode);
 				$smarty->assign('tilt',$tilt[rand(0,1)]);
 				$smarty->assign('more',$row['more']);
-
+				$smarty->assign('previd',$previd);
+				$smarty->assign('nextid',$nextid);
+				
 				$smarty->assign('img_dir',$img_dir);
 				$smarty->assign('image_name',$image_name);
 				$smarty->assign('image_ext',$image_ext);
@@ -795,6 +872,20 @@
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// new article fields
+			
+			$new_article_fields = '';
+			
+			if ($this->content == 'link') {
+				$new_article_fields .= 'URL'.finput('text','url','','edit text');
+			}
+			
+			if (in_list($this->content,'article,file,link')) {
+			
+				$new_article_fields .= 'Category'.category_popup('category','','new-article-category');
+			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			
 			$smarty->assign('path',$path);
 			$smarty->assign('list_data',$list_data);
@@ -823,6 +914,7 @@
 			$smarty->assign('column_custom_select',implode(n,$column_custom_select));
 			// $smarty->assign('has_export',count(dirlist($site_base_path.DS.$file_dir.DS.'_export')));
 			$smarty->assign('has_export',1);
+			$smarty->assign('new_article_fields',$new_article_fields);
 			
 			return $smarty->fetch('list/list.tpl');
 			
@@ -1147,18 +1239,38 @@
 			
 			return implode(n,$out);
 		}
+	
+	// -------------------------------------------------------------------------
+		function get_language_value($lg,$edit) 
+		{
+			global $language_codes;
+			
+			if (!$edit) {
+			
+				if (isset($language_codes[$lg])) {
+					return $language_codes[$lg];
+				}
+			
+			} else {
+			
+				return $lg;
+			}
+		}
 		
 	// -------------------------------------------------------------------------
 		function toggle_column($name='') 
 		{	
 			global $WIN;
-		
+			
 			if ($name = gps('column',$name)) {
 				
 				if (preg_match('/^custom\./',$name)) {
 						
 					$name = ltrim($name,'custom.'); 
-					$WIN['custom'][$name]['show'] = ($WIN['custom'][$name]['show']) ? 0 : 1;
+					
+					if (isset($WIN['custom'][$name])) {
+						$WIN['custom'][$name]['show'] = ($WIN['custom'][$name]['show']) ? 0 : 1;
+					}
 				
 				} else {
 					

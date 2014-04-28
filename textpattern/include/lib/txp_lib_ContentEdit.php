@@ -375,7 +375,7 @@
 				pref_text('textile_excerpt', $textile_excerpt, 'markup-excerpt')),
 			$rs);
 
-		if (isset($override_form)) {
+		/* if (isset($override_form)) {
 		
 			// form override
 			$td['advanced'] .= ($allow_form_override)
@@ -388,8 +388,16 @@
 				? graf('Override page'.br.
 					page_pop($override_page))
 				: '';
-		}
+		} */
 		
+		// description
+		if (isset($Description)) {
+			$td['advanced'] .= pluggable_ui('article_ui', 'description',
+				n.graf('<label for="description">'.gTxt('description').'</label>'.sp.popHelp('description').br.
+					n.'<textarea id="description" name="Description" cols="18" rows="5">'.htmlspecialchars($Description).'</textarea>'),
+				$rs);
+		}
+					
 		// keywords
 		$td['advanced'] .= pluggable_ui('article_ui', 'keywords',
 			n.graf('<label for="keywords">'.gTxt('keywords').'</label>'.sp.popHelp('keywords').br.
@@ -603,14 +611,14 @@
 		$td[3]['categories'] = comment_line().comment("Categories").n;
 		
 		$pos = 0;
-			
+		
 		foreach($Categories as $pos => $name) {
 			$popup[$pos] = n.graf(category_popup('Category[]', $name, 'category-'.$pos,35));
 		}
 			
 		$popup[++$pos] = n.graf(category_popup('Category[]', '', 'category-'.$pos,35));
-			
-		$category_popup = preg_replace('/>(&#160;){4}/','>',implode('',$popup));
+		
+		$category_popup = implode('',$popup);
 			
 		$td[3]['categories'] .= n.n.'<fieldset class="categorize" id="write-sort">';
 		$td[3]['categories'] .= pluggable_ui(

@@ -10,6 +10,8 @@
 	
 	getmicrotime('adminruntime');
 	
+	$log_buffer = array();
+	
 	// -------------------------------------------------------------------------
 	
 	echo check_session_save_path(); // error message
@@ -63,8 +65,12 @@
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// temporary fix
-	$file_base_path = $path_to_site.DS.$file_dir;
-	safe_update("txp_prefs","val = '$file_base_path'","name = 'file_base_path'");
+	
+	if (!isset($file_base_path)) $file_base_path = '';
+	if ($file_base_path != $path_to_site.DS.$file_dir) {
+		$file_base_path = $path_to_site.DS.$file_dir;
+		safe_update("txp_prefs","val = '$file_base_path'","name = 'file_base_path'");
+	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// new global site settings
@@ -134,6 +140,8 @@
 		
 		include txpath.'/update/_update.php';
 		
+		save_log_buffer();
+		
 		exit;
 	}
 	
@@ -148,7 +156,6 @@
 		backup_db();
 		janitor();
 	}
-	
 	
 	if (!empty($admin_side_plugins) and gps('event') != 'plugin')
 		load_plugins(1);
@@ -293,7 +300,7 @@
 		include_once txpath.'/include/lib/txp_lib_ContentEdit.php';
 		include_once txpath.'/include/lib/txp_lib_ContentSave.php';
 	
-	} elseif ($step == 'post') {
+	} elseif (in_list($step,'post,add_folder')) {
 	
 		include_once txpath.'/include/lib/txp_lib_ContentCreate.php';
 		
@@ -313,7 +320,7 @@
 		 // if ($method == 'import') 
 		 //		include_once txpath.'/include/lib/txp_lib_import.php';
 			
-			if (in_list($method,'new,new_site,group,paste,alias,add_image,duplicate'))
+			if (in_list($method,'new,new_site,group,paste,alias,add_image,add_folder,duplicate'))
 				include_once txpath.'/include/lib/txp_lib_ContentCreate.php';
 				
 			if (in_list($method,'save,add_image,group'))
@@ -425,7 +432,7 @@
 	// $html = tidy_html($html);
 	
 	if ($app_mode != 'async' or gps('refresh_content')) {
-	
+		
 		echo $html;
 		echo inspector();
 	}
@@ -438,6 +445,8 @@
 	// pre(getmicrotime('adminruntime'));
 	
 	// echo add_article('/events',$values); 
+	
+	save_log_buffer();
 	
 // =============================================================================
 	function session_data() 
@@ -780,7 +789,7 @@
 			}
 			
 			$win[$event]['docid']   = $id;
-		}
+		}	
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		

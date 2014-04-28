@@ -437,7 +437,7 @@ txp.plugins.filedrop = {
 					
 					step = 'replace_thumbnail';
 					
-					callback = updateThumbnailBox;
+					callback = txp.edit.image.updateThumbnailBox;
 				}
 			
 			} else if (txp.event == 'article') {
@@ -548,9 +548,7 @@ txp.plugins.filedrop = {
 			
 			$.get("index.php",href.join('&'),function(data){
 				
-				// console.log(data);
-				
-				if ($.trim(data).match(/^\d+$/)) {
+				if ($.trim(data).match(/^OK\d+$/)) {
 					
 					txp.plugins.filedrop.refreshContent();
 				};
@@ -559,6 +557,7 @@ txp.plugins.filedrop = {
 		
 		} else {
 			
+			// console.log(href);
 			document.location.href = "?" + href.join('&');
 		}
 	},
@@ -702,11 +701,11 @@ txp.plugins.filedrop = {
 		// -------------------------------------------------------------
 		// OK 
 		
-		if ($.trim(response).match(/^\d+$/)) {
+		if ($.trim(response).match(/^[\d\/]+$/)) {
 			
 			// response is ID of inserted item 
 			
-			var id = parseInt(response);
+			var id = parseInt(response.split('/').pop());
 			
 			$("li#"+upload_id).append(ok);
 			

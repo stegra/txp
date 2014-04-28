@@ -9,7 +9,7 @@
 
 <?php
 	
-	// VERSION: 4.2.0.13
+	// VERSION: 4.2.0.16
 	
 	if (!defined('TXP_UPDATE'))
 		exit("Nothing here. You can't access this file directly.");
@@ -35,6 +35,19 @@
 	// add_custom_field_values();
 	
 	// exit;
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// default setting for creating new preferences 
+	
+	$pref_default = array(
+		'prefs_id' 	=> 1,
+		'name'		=> '',
+		'val' 		=> '',
+		'type' 		=> 2,
+		'event' 	=> 'publish',
+		'html' 		=> 'text_input',
+		'position' 	=> 0
+	);
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// get todo count 
@@ -221,7 +234,7 @@
 
 	function update_version($base,$update) {
 		
-		global $PFX, $txp_user, $txp_prefs, $dbupdate, $tables, $tree_tables;
+		global $PFX, $txp_user, $txp_prefs, $pref_default, $dbupdate, $tables, $tree_tables;
 		
 		$version = $base.'.'.$update;
 		$file = txpath.'/update/_to_'.$version.'.php';

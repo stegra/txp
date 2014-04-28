@@ -697,6 +697,28 @@ body.site-bc #list tr.main-article.root-article td.thumb.transparency div.image 
 	/* border-top: 1px solid #DDD; */
 }
 
+#list tr.main-article td.title a.prev,
+#list tr.main-article td.chbox a.next {
+	display: block;
+	position: absolute;
+	font-size: 20px;
+}
+
+#list tr.main-article td.title a.prev {
+	top: 0px;
+	left: -15px;
+}
+
+#list tr.main-article td.chbox a.next {
+	margin-left: 5px;
+	margin-top: 1px;
+}
+
+#list tr.root-article td.title a.prev,
+#list tr.root-article td.chbox a.next {
+	display: none;
+}
+
 /* child article rows
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -1029,6 +1051,12 @@ table#list tr.type-dir td.view.type {
 	text-transform: uppercase;
 	font-size: 10px;
 	line-height: 16px;
+}
+
+/* PECIAL: office space */
+
+table#list td.floor input {
+	width: 25px;
 }
 
 /* grid view
@@ -1471,4 +1499,62 @@ html>body ul.context-menu li a:hover span {
 
 html>body ul#trash-context-menu {
 	width: 120px;
+}
+
+/* create new article
+----------------------------------------------------------------------------- */
+
+html>body div#create-new-article {
+	position: fixed;
+	display: none;
+	width: 250px;
+	min-height: 50px;
+	margin: 0px;
+	padding: 10px 10px 5px 10px;
+	top: 200px;
+	left: 40%;
+	background-color: white;
+	border: 1px solid #c4c4c4;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	-webkit-box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	box-shadow: 1px 2px 6px rgba(0,0,0,0.30);
+	z-index: 100;
+}
+
+html>body div#create-new-article input,
+html>body div#create-new-article select {
+	display: block;
+	margin-bottom: 10px;
+	margin-top: 0px;
+}
+
+html>body div#create-new-article input.text {
+	width: 99%;
+}
+
+html>body div#create-new-article select {
+	margin-left: -2px;
+}
+
+html>body div#create-new-article a {
+	float: right;
+	display: block;
+	font-size: 11px;
+	text-align: center;
+	padding-left: 2px;
+	margin-top: -0px;
+	margin-left: 10px;
+	font-family: Verdana, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+html>body div#create-new-article a.cancel {
+	color: #AAA;
+}
+
+html>body div#create-new-article a.cancel:hover {
+	color: #963;
 }

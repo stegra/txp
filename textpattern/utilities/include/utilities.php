@@ -79,6 +79,9 @@
 	 // safe_update("txp_cache","file = 1","file IN (2,3)",1);
 	 // safe_update("txp_cache","stop = 0","1=1",1);
 	 //	safe_delete("txp_cache","file = 0",1);
+	 
+	 	// clear browser of cached javascript and css files
+		write_to_file(txpath.'/tmp/.clear-browser-cache','OK');
 	}	
 
 // -----------------------------------------------------------------------------
@@ -702,7 +705,7 @@
 					
 					foreach ($titles as $id => $title) {
 						
-						$title = textile_title($title);
+						$title = textile_simple($title);
 						
 						safe_update($table,"Title_html = '$title'","ID = $id");
 					}
@@ -720,7 +723,7 @@
 			
 			foreach ($titles as $id => $title) {
 					
-				$title = textile_title($title);
+				$title = textile_simple($title);
 				
 				safe_update($table,"Title_html = '$title'","ID = $id");
 			}

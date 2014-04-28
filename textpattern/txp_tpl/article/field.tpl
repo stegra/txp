@@ -33,11 +33,11 @@
 		</legend>
 		
 		{if $input eq 'textfield'}
-			<input id="custom-{$name}-{$id}" type="text" name="custom_value_{$name}_{$id}" value="{$value|escape:'html'}" class="edit" {$smarty.capture.disabled}/>
+			<input id="custom-{$name}-{$id}" type="text" name="custom_value_{$name}_{$id}" value="{$value|escape:'html'}" class="edit custom-{$name}" {$smarty.capture.disabled}/>
 		{/if}
 		
 		{if $input eq 'textarea'}
-			<textarea id="custom-{$name}-{$id}" name="custom_value_{$name}_{$id}" class="edit" {$smarty.capture.disabled}>{$value}</textarea>
+			<textarea id="custom-{$name}-{$id}" name="custom_value_{$name}_{$id}" class="edit custom-{$name}" {$smarty.capture.disabled}>{$value}</textarea>
 		{/if}
 		
 		{if $input eq 'select' or $input eq 'selectgroup'}

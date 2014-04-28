@@ -36,11 +36,14 @@ $(document).ready(function(){
   	
   	$("div.play-video").click(function() {
 		
-		$(this).find('.start').fadeOut('slow');
+		$(this).find('.start').hide();
+		// $(this).find('.start').fadeOut('slow');
 		
 		if ($(this).find('video').hasClass('unplayed')) {
 			$(this).find('video').addClass('playing');
 			$(this).find('video').trigger('play');
+			var video = document.getElementById("v11");
+			video.play();
 		}
 	
 	});

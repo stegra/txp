@@ -186,6 +186,11 @@
 		
 		if ($xsl) {
 			
+			// convert xslt tags with 'txp' namespace to 'xsl' namespace
+			$xsl_tags = implode('|',array(
+				'import','template','call\-template','with\-param','param','element','attribute'));
+			$xsl = preg_replace('/<(\/?)txp:('.$xsl_tags.')(\s|>)/',"<$1xsl:$2$3",$xsl);
+			
 			if ($name == 'global') {
 				
 				// xsl:template match tag

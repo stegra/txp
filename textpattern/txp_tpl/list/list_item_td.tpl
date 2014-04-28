@@ -18,6 +18,10 @@
 			
 			<span class="arrow"><a href="#"></a></span>
 			
+			{if $previd} 
+				<a class="prev" title="Previous" href="?event={$event}&win={$winid}&id={$previd}">&#171;</a>
+			{/if}
+			
 			<span class="h4">
 				{if $is_edit_mode}
 					<input name="{$name}[{$id}]" class="text title" type="text" value="{$value}"/>

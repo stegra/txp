@@ -16,6 +16,9 @@
 		
 	<td class="chbox">
 		<input type="checkbox" name="selected[{$id}]" {if $is_checked}checked="yes"{/if} value="{$id}" class="article" id="{$id}"/>
+		{if $nextid} 
+			<a class="next" title="Next" href="?event={$event}&win={$winid}&id={$nextid}">&#187;</a>
+		{/if}
 	</td>
 
 </tr>

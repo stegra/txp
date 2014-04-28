@@ -20,7 +20,7 @@ $LastChangedRevision: 3203 $
 // =============================================================================
 	function list_list($message='')
 	{	
-		global $EVENT, $WIN, $html;
+		global $EVENT, $WIN, $html, $prefs;
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -51,12 +51,13 @@ $LastChangedRevision: 3203 $
 				'Section' 	 => array('title' => 'Section',    'on' => 0, 'editable' => 0, 'pos' => 6),
 				'Class' 	 => array('title' => 'Class', 	   'on' => 0, 'editable' => 1, 'pos' => 7),
 				'Categories' => array('title' => 'Categories', 'on' => 1, 'editable' => 1, 'pos' => 8),
-				'File'  	 => array('title' => 'File',  	   'on' => 0, 'editable' => 0, 'pos' => 9),
-				'Play'  	 => array('title' => 'Play',  	   'on' => 0, 'editable' => 0, 'pos' => 10),
-				'AuthorID'	 => array('title' => 'Author', 	   'on' => 1, 'editable' => 1, 'pos' => 11),
-				'Status'	 => array('title' => 'Status',	   'on' => 1, 'editable' => 1, 'pos' => 12),
-				'ID'	 	 => array('title' => 'ID',	   	   'on' => 0, 'editable' => 0, 'pos' => 13),
-				'Position'   => array('title' => 'Position',   'on' => 1, 'editable' => 1, 'pos' => 14, 'short' => 'Pos.')
+				'Language'   => array('title' => 'Language',   'on' => 0, 'editable' => 1, 'pos' => 9),
+				'File'  	 => array('title' => 'File',  	   'on' => 0, 'editable' => 0, 'pos' => 10),
+				'Play'  	 => array('title' => 'Play',  	   'on' => 0, 'editable' => 0, 'pos' => 11),
+				'AuthorID'	 => array('title' => 'Author', 	   'on' => 1, 'editable' => 1, 'pos' => 12),
+				'Status'	 => array('title' => 'Status',	   'on' => 1, 'editable' => 1, 'pos' => 13),
+				'ID'	 	 => array('title' => 'ID',	   	   'on' => 0, 'editable' => 0, 'pos' => 14),
+				'Position'   => array('title' => 'Position',   'on' => 1, 'editable' => 1, 'pos' => 15, 'short' => 'Pos.')
 			);
 			
 			$filename = "(SELECT CONCAT(f.Name,f.ext) FROM txp_file AS f WHERE t.FileID = f.ID)";
@@ -70,6 +71,15 @@ $LastChangedRevision: 3203 $
 				'editable' => 0,
 				'pos'      => 0
 			);
+			
+			if (!column_exists($WIN['table'],'Language')) {
+			
+				unset($WIN['columns']['Language']);
+			
+			} elseif (isset($prefs['languages']) and $prefs['languages']) {
+				
+				$WIN['columns']['Language']['on'] = 1;
+			}
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -84,7 +94,7 @@ $LastChangedRevision: 3203 $
 		$articles = new ContentList(); 
 		$list = $articles->getList();
 		
-		$html.= $articles->viewList();
+		$html.= $articles->viewList($list);
 		
 		save_session($EVENT);
 		save_session($WIN);

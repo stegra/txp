@@ -90,6 +90,7 @@ $LastChangedRevision: 789 $
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
 	include txpath.'/lib/constants.php';
+	include txpath.'/lib/languages.php';
 	include txpath.'/lib/txplib_misc.php'; 
 	include txpath.'/lib/txplib_atts.php';
 	include txpath.'/lib/txplib_db.php';
@@ -224,6 +225,9 @@ $LastChangedRevision: 789 $
 	// start a session for both admin and public interface
 	
 	session_start();
+	
+	// why would $event be set and have a value right after session_start?
+	if (isset($event)) unset($event);	
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	

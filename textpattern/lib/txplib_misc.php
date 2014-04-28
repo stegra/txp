@@ -417,11 +417,21 @@ $LastChangedRevision: 3271 $
 			
 			if ($allow) {
 				
-				$allow = (!is_array($allow)) ? do_list($allow) : $allow;
-				
-				if (!in_array($value,$allow)) {
+				if (!is_array($allow) and preg_match('/^\/.+\/$/',$allow)) {
 					
-					$value = (!is_array($default)) ? $default : false;
+					if (!preg_match($allow,$value)) {
+						
+						$value = $default;
+					}
+					
+				} else {
+				
+					$allow = (!is_array($allow)) ? do_list($allow) : $allow;
+					
+					if (!in_array($value,$allow)) {
+						
+						$value = (!is_array($default)) ? $default : false;
+					}
 				}
 			}
 			
@@ -1324,11 +1334,19 @@ $LastChangedRevision: 3271 $
  	function event_category_popup($name, $cat = '', $id = '')
 	{
 		$arr = array('');
-		$rs = getTree('root', $name);
-
+		// $rs = getTree('root', $name);
+		
+		$rs = safe_rows_tree(
+			0,
+			"ID,Name AS name,Title AS title,Level AS level,ParentID AS parent",
+			"txp_category");
+					
+		print_r($rs);
+		
 		if ($rs)
 		{
-			return treeSelectInput('category', $rs, $cat, $id);
+			// return treeSelectInput('category', $rs, $cat, $id);
+			return treeSelectInput('category', $rs, $cat);
 		}
 
 		return false;
@@ -3498,8 +3516,9 @@ function make_title($name) {
 				
 			} elseif ($type === 'h2') {
 				
+				$value = str_replace('$','\$',$value);
 				$item = n.'</div>'.$hr.'<div id="block-'.$id++.'" class="block closed">'.n.t.'<div class="item h2"><h2><span></span>'.$value.'</h2></div>'.n;
-			
+				
 			} elseif ($type === 'line')  {
 			
 				$item  = t.'<div class="item list line"></div>'.n;
@@ -3635,6 +3654,7 @@ function make_title($name) {
 		$nocache = ($production_status != 'live') ? '?'.rand(100000,999999) : '';
 		
 		$html = preg_replace('/(<\/body>)/',t.'<script type="text/javascript" src="'.$base.'js/publish/global.js'.$nocache.'"></script>'.n.'</body>',$html);
+		$html = preg_replace('/(<\/head>)/',t.'<script type="text/javascript">var txp = { plugins:{} };</script>'.n.'</head>',$html);
 		
 		return $html;
 	}
@@ -4386,7 +4406,14 @@ function make_title($name) {
 	
 	function str_begins_with($str,$start) {
 		
-		return substr($str,0,strlen($start)) == $start;
+		return substr(trim($str),0,strlen($start)) == $start;
+	}
+	
+// -------------------------------------------------------------
+	
+	function str_ends_with($str,$end) {
+		
+		return substr(trim($str),-strlen($end)) == $end;
 	}
 
 // -------------------------------------------------------------
@@ -4434,6 +4461,22 @@ function make_title($name) {
 		return false;
 	}
 
+// -------------------------------------------------------------
+	function set_cookie($name,$value,$expire=null,$path='/') 
+	{
+		$uri = trim($_SERVER["REQUEST_URI"],'/');
+		
+		if (str_begins_with($uri,'~')) {
+			$path = '/'.reset(explode('/',$uri)).'/';
+		}
+		
+		if (is_null($expire)) {
+			$expire = time() + (60 * 60 * 8);
+		}
+		
+		setcookie($name,$value,$expire,$path);
+	}
+	
 // -------------------------------------------------------------
 // get the page number of an article within the current set of articles 
 // selected using pagination (pageby attribute in article tag)

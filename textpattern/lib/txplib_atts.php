@@ -58,7 +58,9 @@
 						
 						} elseif (!str_begins_with($var_name,'txp.')) {
 						
-							$var_value = make_name($var_value);
+						 // $var_value = make_name($var_value);
+						 // $var_value = doSlash(strtolower(trim($var_value)));
+						 	$var_value = doSlash(trim($var_value));
 						}
 						
 						$att_value = preg_replace('/\$'.$var_name.'/',$var_value,$att_value);
@@ -71,7 +73,7 @@
 			$name  = $att_name;
 			$value = $att_value;
 			$found = false;
-			
+					
 			if (substr($name,0,7) == 'parent.') {
 									  
 				$name = substr($name,7);
@@ -89,6 +91,23 @@
 					$found = true;
 				}
 				
+			} elseif (substr($name,0,6) == 'child.') {
+			
+				$name = substr($name,6);
+				
+				if (array_key_exists($name, $pairs)) {
+					
+					$pairs['child.'.$name] = $value;
+					
+					$found = true;
+				
+				} elseif (array_key_exists('custom.'.$name, $pairs)) {
+				
+					$pairs['child.custom.'.$name] = $value;
+				
+					$found = true;
+				}
+					
 			} elseif (substr($name,0,4) == 'var.') {
 									  
 				variable(array(
@@ -98,6 +117,16 @@
 				
 				$found = true;
 			
+			} elseif (substr($name,0,2) == 'q.') {
+					
+						  
+				variable(array(
+					'name'  => $name,
+					'value' => $value
+				));
+				
+				$found = true;
+				
 			} elseif (array_key_exists($name, $pairs)) {
 					
 				$pairs[$name] = ($value or $value === '0') ? $value : '!*';
@@ -185,7 +214,11 @@
 				$name = $tags[$name];
 			}
 			
-			if (isset($variable[$name])) {
+			if (preg_match('/^[0-9]+$/',$name)) {
+				
+				$value = path_tag(array(),'req',intval($name)); 
+			
+			} elseif (isset($variable[$name])) {
 				
 				$value = $variable[$name]; 
 			
@@ -224,7 +257,8 @@
 			}
 		} 
 		
-		return (!is_null($value)) ? strtolower($value) : NULL;
+	 // return (!is_null($value)) ? strtolower($value) : NULL;
+		return (!is_null($value)) ? $value : NULL;
 	}
 
 // -----------------------------------------------------------------------------
@@ -449,7 +483,7 @@
 				case '>'  : $test = ($val >  $testval); break;
 				case '<=' : $test = ($val <= $testval); break;
 				case '>=' : $test = ($val >= $testval); break;
-			}
+			}			
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

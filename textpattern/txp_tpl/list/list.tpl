@@ -217,6 +217,31 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+<div id="create-new-article">
+	
+	<form name="create_new" method="POST">
+		
+		<input type="text" name="title" title="Title" class="edit text title" />
+		
+		<div class="extra">{$new_article_fields}</div>
+		
+		<input type="hidden" name="win" value="{$window}"/>
+		<input type="hidden" name="selected" value="{$checked}"/>
+		<input type="hidden" name="checked" value="{$checked}"/>
+		<input type="hidden" name="event" value="{$event}" />
+		<input type="hidden" name="step" value="multi_edit" />
+		<input type="hidden" name="edit_method" value="new" />
+		<input type="hidden" name="scroll" value="" />
+	
+	</form>
+	
+	<a class="save" href="#" title="Save">Save</a>
+	<a class="cancel" href="#" title="Cancel">Cancel</a> 
+	
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 {include file='upload_progress.tpl'}
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

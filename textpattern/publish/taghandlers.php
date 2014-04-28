@@ -32,7 +32,8 @@ $LastChangedRevision: 3256 $
 		'line'			=> 'line_tag',
 		'message'		=> 'comment_message',
 		'br'			=> 'break_tag',
-		'truncate'		=> 'truncate_tag'
+		'truncate'		=> 'truncate_tag',
+		'pretext'		=> 'pretext_tag'
 	);
 		
 // =============================================================================
@@ -1256,7 +1257,7 @@ $LastChangedRevision: 3256 $
 			'showalways' => 0,
 			'link'       => 1
 		), $atts));
-
+		
 		$numPages = $thispage['numPages'];
 		$pg = $thispage['pg'];
 		$sortdir = $thispage['sortdir'];
@@ -1271,7 +1272,10 @@ $LastChangedRevision: 3256 $
 			
 		if ($numPages > 1 and $pg > $left and $pg <= $right)
 		{
-			$nextpg = ($pg - 1 == 1) ? 0 : ($pg - 1);
+			// WHAT IS THIS FOR?
+			// from page 2 go to 0 instead of 1?
+			// $nextpg = ($pg - 1 == 1) ? 0 : ($pg - 1);
+			$nextpg = $pg - 1;
 			
 			if ($sortdir == 'asc') 
 				$nextpg = $pg + 1;
@@ -1283,14 +1287,26 @@ $LastChangedRevision: 3256 $
 				$author = '';
 			}
 
-			$url = pagelinkurl(array(
+			/* $url = pagelinkurl(array(
 				'month'  => @$pretext['month'],
 				'pg'     => $nextpg,
 				's'      => @$pretext['s'],
 				'c'      => @$pretext['c'],
 				'q'      => @$pretext['q'],
 				'author' => $author
-			));
+			)); */ 
+			
+			$url  = hu.$pretext['request_uri'];
+			
+			if ($pretext['qs']) {
+				if (preg_match('/pg\=/',$pretext['qs'])) {
+					$url = preg_replace('/pg\=\d+/','pg='.$nextpg,$url);
+				} else {
+					$url .= '&pg='.$nextpg;
+				}
+			} else {
+				$url .= '?pg='.$nextpg;
+			}
 			
 			if ($thing)
 			{
@@ -1350,14 +1366,26 @@ $LastChangedRevision: 3256 $
 				$author = '';
 			}
 
-			$url = pagelinkurl(array(
+			/* $url = pagelinkurl(array(
 				'month'  => @$pretext['month'],
 				'pg'     => $nextpg,
 				's'      => @$pretext['s'],
 				'c'      => @$pretext['c'],
 				'q'      => @$pretext['q'],
 				'author' => $author
-			));
+			)); */
+			
+			$url  = hu.$pretext['request_uri'];
+			
+			if ($pretext['qs']) {
+				if (preg_match('/pg\=/',$pretext['qs'])) {
+					$url = preg_replace('/pg\=\d+/','pg='.$nextpg,$url);
+				} else {
+					$url .= '&pg='.$nextpg;
+				}
+			} else {
+				$url .= '?pg='.$nextpg;
+			}
 			
 			if ($thing)
 			{
@@ -2603,10 +2631,54 @@ $LastChangedRevision: 3256 $
 	{
 		global $thisarticle;
 		assert_article();
-
-		return htmlspecialchars($thisarticle['keywords']);
+		
+		$keywords = str_replace(',',', ',$thisarticle['keywords']);
+		
+		return htmlspecialchars($keywords);
 	}
 
+// -------------------------------------------------------------
+	function meta_keywords($atts, $thing = NULL)
+	{
+		global $thisarticle;
+		assert_article();
+		
+		$content = str_replace(',',', ',$thisarticle['keywords']);
+		
+		if ($thing) {
+			
+			$thing = parse($thing);
+			
+			if (str_begins_with($thing,'+')) {
+				
+				$content = $content.', '.trim($thing,'+ ');
+			
+			} elseif (str_ends_with($thing,'+')) {
+				
+				$content = trim($thing,'+ ').', '.$content;
+			}
+			
+			$content = trim($content,', ');
+		}
+		
+		if (!strlen($content)) {
+			
+			$content = fetch('Keywords','textpattern','ID',ROOTNODEID);
+		
+		} elseif (str_begins_with($content,'+')) {
+			
+			$content = fetch('Keywords','textpattern','ID',ROOTNODEID).', '.trim($content,'+ ');
+			$content = trim($content,', ');
+		
+		} elseif (str_ends_with($content,'+')) {
+			
+			$content = trim($content,'+ ').', '.fetch('Keywords','textpattern','ID',ROOTNODEID);
+			$content = trim($content,', ');
+		}
+		
+		return '<meta name="keywords" content="'.$content.'" />';
+	}
+	
 // -------------------------------------------------------------
 	function if_keywords($atts, $thing = NULL)
 	{
@@ -2615,7 +2687,7 @@ $LastChangedRevision: 3256 $
 		extract(lAtts(array(
 			'keywords' => ''
 		), $atts));
-
+		
 		$condition = empty($keywords) ?
 			$thisarticle['keywords'] :
 			array_intersect(do_list($keywords), do_list($thisarticle['keywords']));
@@ -2623,6 +2695,48 @@ $LastChangedRevision: 3256 $
 		return parse(EvalElse($thing, !empty($condition)));
 	}
 
+// -------------------------------------------------------------
+	function description($atts)
+	{
+		global $thisarticle;
+		assert_article();
+		
+		return htmlspecialchars($thisarticle['description']);
+	}
+
+// -------------------------------------------------------------
+	function meta_description($atts, $thing = NULL)
+	{
+		global $thisarticle;
+		assert_article();
+		
+		$content = $thisarticle['description'];
+		
+		if ($thing) {
+			
+			$content = parse($thing);
+		}
+		
+		if (!strlen($content)) {
+			
+			if (column_exists('textpattern','Description')) {
+				
+				$content = fetch('Description','textpattern','ID',ROOTNODEID);
+			}
+		}
+		
+		return '<meta name="description" content="'.$content.'" />';
+	}
+	
+// -------------------------------------------------------------
+	function if_description($atts, $thing = NULL)
+	{
+		global $thisarticle;
+		assert_article();
+		
+		return parse(EvalElse($thing,strlen($thisarticle['description'])));
+	}
+	
 // -------------------------------------------------------------
 
 	function if_article_image($atts, $thing = NULL)
@@ -2884,23 +2998,23 @@ $LastChangedRevision: 3256 $
 	}
 	
 // -------------------------------------------------------------
-	function meta_keywords()
+/*	function meta_keywords()
 	{
 		global $id_keywords;
 		return ($id_keywords)
 		?	'<meta name="keywords" content="'.htmlspecialchars($id_keywords).'" />'
 		:	'';
 	}
-
+*/
 // -------------------------------------------------------------
-	function meta_author()
+/*	function meta_author()
 	{
 		global $id_author;
 		return ($id_author)
 		?	'<meta name="author" content="'.htmlspecialchars($id_author).'" />'
 		:	'';
 	}
-
+*/
 // -------------------------------------------------------------
 
 	function permlink($atts, $thing = NULL)
@@ -3219,12 +3333,14 @@ $LastChangedRevision: 3256 $
 		global $pretext, $thisarticle;
 		
 		extract(lAtts(array(
-			'mode' => 'class'
+			'mode' => 'class',
+			'page' => $pretext['id'],
+			'sel'  => $thisarticle['thisid']
 		),$atts));
 		
 		$selected = ($mode == 'menu') ? 'selected="yes"' : "selected";
 		
-		return ($pretext['id'] == $thisarticle['thisid']) ? $selected : '';	
+		return ($page == $sel) ? $selected : '';	
 	}
 	
 // -------------------------------------------------------------------------------------
@@ -3771,8 +3887,15 @@ $LastChangedRevision: 3256 $
 		}
 		
 		if (isset($atts['value'])) {
-			
-			$test = evalAtt($var,$value);
+		
+			if ($value == '!*') {
+				
+				$test = (strlen($var) == 0);
+				
+			} else {
+				
+				$test = evalAtt($var,$value);	
+			}
 			
 		} else {
 			
@@ -3783,14 +3906,25 @@ $LastChangedRevision: 3256 $
 	}
 
 // -------------------------------------------------------------
-// NOTE: This does not really need its own tag.
-//		 Can use <txp:var name="lg"> instead
-
 	function language($atts) {
 		
-		global $lg;
+		global $thisarticle;
 		
-		return $lg;
+		return $thisarticle['language'];
+	}
+
+// -------------------------------------------------------------
+	function language_title($atts) {
+		
+		global $thisarticle;
+		
+		switch ($thisarticle['language']) {
+			case 'en' : return 'English';
+			case 'de' : return 'German';
+			case 'fi' : return 'Finnish';
+		}
+				
+		return '';
 	}
 
 // -------------------------------------------------------------

@@ -260,10 +260,53 @@
 	function split_words($atts, $thing)
 	{	
 		extract(lAtts(array(
-			'tag'  => 'span',
+			'tag'  	=> 'span',
+			'words' => ''
 		),$atts));
 		
+		$some_words = ($words) ? explode(',',$words) : null;
+		
 		$words = preg_split('/\s+/',trim(parse($thing)));
+		
+		if ($some_words) {
+			
+			$out = array();
+			$key = 0;
+			
+			foreach ($words as $word) {
+				
+				$lowerword = make_name($word); 
+				
+				if (in_array($lowerword,$some_words)) {
+					
+					$key += 1;
+					$out[$key] = array($lowerword,$word);
+					$key += 1;
+				
+				} else {
+					
+					if (isset($out[$key])) {
+						$out[$key] .= ' '.$word;
+					} else {
+						$out[$key] = $word;
+					}
+				}
+			}
+			
+			foreach ($out as $key => $words) {
+				
+				if (is_array($words)) {
+					$class = 'word '.$words[0];
+					$words = $words[1];
+				} else {
+					$class = 'word-group';
+				}
+				
+				$out[$key] = tag($words,$tag,' class="'.$class.'"');
+			}
+			
+			return implode(' ',$out);
+		}
 		
 		foreach ($words as $key => $word) {
 			$class = 'word wd-'.($key+1).' '.make_name($word);
@@ -381,6 +424,18 @@
 		return n.'<!--[if '.$if.']>'.$thing.'<![endif]-->'.n;
 	}
 
+//------------------------------------------------------------------------
+	function pretext_tag($atts)
+	{
+		global $pretext,$production_status;
+		
+		if ($production_status != 'live' or 
+		   ($production_status == 'live' and PREVIEW)) {
+			   
+			return '<pre style="border-bottom: 1px dotted grey;">'.array_to_string($pretext).'</pre>';
+		}
+	}
+	
 // =============================================================================
 
 ?>

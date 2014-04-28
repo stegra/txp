@@ -10,3 +10,7 @@
 #content td.class {
 	text-transform: capitalize;
 }
+
+table#list td.name.view {
+	white-space: nowrap;
+}

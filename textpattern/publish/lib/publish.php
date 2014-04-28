@@ -57,6 +57,7 @@
 			'children'	=> '',		// return only articles that have specified number of children
 			'alias'		=> '',		// return articles that are aliases
 			'parent'	=> '',		// to get child articles
+			'lang'		=> '',		// return by language
 			'return'	=> '',		// return a specific value instead of the whole article
 			'section'   => '',		// unused
 			'table'		=> '',		// select items from other content tables
@@ -79,7 +80,8 @@
 			'wraptag'	=> '',
 			'break'		=> '',
 			'label'		=> '',
-			'labeltag'	=> ''
+			'labeltag'	=> '',
+			'join'		=> ''
 		); // end of atts
 		
 		$theAtts = lAtts($regular_atts + $all_custom_fields, $atts);
@@ -126,10 +128,11 @@
 		$custom_fields = array();
 		
 		$parent_atts = array(
-			'id'	 => 0,
-			'status' => null,
-			'class'  => null,
-			'name'   => null
+			'id'	 	=> 0,
+			'status' 	=> null,
+			'class'  	=> null,
+			'name'   	=> null,
+			'category'	=> null
 		);
 		
 		foreach ($theAtts as $key => $value) {
@@ -137,6 +140,7 @@
 			if (!isset($regular_atts[$key])) {
 				
 				$parent = '';
+				$child  = '';
 				
 				if (substr($key,0,7) == 'parent.') {
 					
@@ -146,21 +150,27 @@
 					$parent_atts[$key] = $value;
 				}
 				
+				if (substr($key,0,6) == 'child.') {
+					
+					$child = 'child.';
+					$key = substr($key,6);
+				}
+				
 				if (array_key_exists($key, $all_custom_fields)) {
 					
-					if (array_key_exists($parent.$key, $atts)) {
+					if (array_key_exists($parent.$child.$key, $atts)) {
 						
 						$key = str_replace('custom.','',$key);
 						
-						$custom_fields[$parent.$key] = $value;
+						$custom_fields[$parent.$child.$key] = $value;
 					
 					} else {
 						
 						$key = str_replace('custom.','',$key);
 						
-						if (array_key_exists($parent.$key, $atts) and !isset($regular_atts[$key])) {
+						if (array_key_exists($parent.$child.$key, $atts) and !isset($regular_atts[$key])) {
 							
-							$custom_fields[$parent.$key] = $value;
+							$custom_fields[$parent.$child.$key] = $value;
 						}
 					}
 				}
@@ -337,6 +347,24 @@
 			$where['parent_status'] = build_query_status($parent_atts['status'],$searchsticky,$iscustom,'t.ParentStatus');
 		}
 		
+		// Child Status 
+		
+		if (isset($theAtts['child.status'])) {
+			
+			if ($theAtts['child.status']) {
+				
+				$tables['child'] = "textpattern AS `c` ON t.ID  = c.ParentID";
+				
+				$val = $theAtts['child.status'];
+				
+ 				if ($val == '*') { 
+ 					$where['child_status'] = "c.Status IN (4,5)";
+ 				} elseif (in_list($val,'4,5')) {
+ 					$where['child_status'] = "c.Status = $val";
+ 				}
+ 			}
+		}
+		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Time
 		
@@ -464,6 +492,18 @@
 			}
 		}
 		
+		// Child Class 
+		
+		if (isset($theAtts['child.class'])) {
+		
+			if ($theAtts['child.class']) {
+				
+				$tables['child'] = "textpattern AS `c` ON t.ID  = c.ParentID";
+ 				
+ 				$where['child_class'] = makeWhereSQL("c.Class",$theAtts['child.class']);
+ 			}
+		}
+		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Name
 		
@@ -479,6 +519,37 @@
 			if ($parent_atts['name'] != '!*') {
 			
 				$where['parent_name'] = makeWhereSQL("t.ParentName",$parent_atts['name']);
+			}
+		}
+		
+		// Child Name 
+		
+		if (isset($theAtts['child.name'])) {
+		
+			if ($theAtts['child.name']) {
+				
+				$tables['child'] = "textpattern AS `c` ON t.ID  = c.ParentID";
+ 				
+ 				$where['child_name'] = makeWhereSQL("c.Name",$theAtts['child.name']);
+ 			}
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// Lang
+		
+		if (in_atts('lang')) {
+			
+			if ($lang == '' or $lang == '!*') {
+				
+				$where['language'] = "t.Language = ''";
+			
+			} elseif ($lang == '*') {
+			
+				$where['language'] = "t.Language != ''";
+			
+			} else {
+			
+				$where['language'] = "t.Language = '$lang'";
 			}
 		}
 		
@@ -562,6 +633,34 @@
 			}
 		}
 		
+		// Parent Category 
+		
+		if ($parent_atts['category']) {
+			
+			$tbl = 'parent_category';
+			$category_type = 'article';
+			$value = $parent_atts['category'];
+			$tables['parent_category'] = "LEFT JOIN txp_content_category AS `$tbl` ON t.parentid = $tbl.article_id AND $tbl.type = '$category_type'";
+			$where['parent_category'] = makeWhereSQL($tbl.'.name',$value);
+		}
+		
+		// Child Category 
+		
+		if (isset($theAtts['child.category'])) {
+		
+			$value = $theAtts['child.category'];
+			
+			if ($value) { 
+			
+				$tbl = 'child_category';
+				$category_type = 'article';
+				
+				$tables['child'] = "textpattern AS `c` ON t.ID  = c.ParentID";
+				$tables['child_category'] = "LEFT JOIN txp_content_category AS `$tbl` ON c.ID = $tbl.article_id AND $tbl.type = '$category_type'";
+				$where['child_category'] = makeWhereSQL($tbl.'.name',$value);
+			}
+		}
+		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Select Child Articles
 		
@@ -627,30 +726,47 @@
 		// by field path example: custom.action.start="123"
 		
 		$prev_custom = '';
+		$prev_custom_child = '';
 		
 		if ($custom_fields) {
 			
 			foreach ($custom_fields as $field_name => $field_value) {
 				
 				$parent = '';
+				$child  = '';
 				
 				if (substr($field_name,0,7) == 'parent.') {
 					
 					$parent = 'parent_';
 					$field_name = substr($field_name,7);
+				
+				} elseif (substr($field_name,0,6) == 'child.') {
+					
+					$child = 'child_';
+					$field_name = substr($field_name,6);
 				}
 				
 				$type = $all_custom_fields['custom.'.$field_name];
 				
 				$find_field_type_by = 'name';
 				
-				$custom = $parent.preg_replace('/[\.\-]/','_',$field_name);
+				$custom = $parent.$child.preg_replace('/[\.\-]/','_',$field_name);
 				
-				$in = ($parent) ? 't.ParentID' : 't.ID,t.Alias';
+				if ($child) {
 				
-				$tables[$custom] = (!$prev_custom or $parent) 
-					? "txp_content_value AS `$custom` ON $custom.article_id IN ($in)"
-					: "txp_content_value AS `$custom` ON $prev_custom.article_id = $custom.article_id";
+					$tables['child'] = "textpattern AS `c` ON t.ID  = c.ParentID";
+					$tables[$custom] = (!$prev_custom_child) 
+						? "txp_content_value AS `$custom` ON $custom.article_id IN (c.ID,c.Alias)"
+						: "txp_content_value AS `$custom` ON $prev_custom.article_id = $custom.article_id";
+				
+				} else {
+					
+					$in = ($parent) ? 't.ParentID' : 't.ID,t.Alias';
+				
+					$tables[$custom] = (!$prev_custom or $parent) 
+						? "txp_content_value AS `$custom` ON $custom.article_id IN ($in)"
+						: "txp_content_value AS `$custom` ON $prev_custom.article_id = $custom.article_id";
+				}
 				
 				$where[] = "($custom.tbl = '$table')";
 				$where[] = "($custom.status = 1)";
@@ -691,7 +807,11 @@
 				
 				$where[$custom.'val'] = makeWhereSQL("$custom.$value_column",$field_value);
 				
-				$prev_custom = $custom;
+				if ($child) { 
+					$prev_custom_child = $custom;
+				} else {
+					$prev_custom = $custom;
+				}
 			}
 			
 			if (!$groupby) $groupby = "ID";
@@ -1103,8 +1223,12 @@
 			
 			if ($count) {
 				
-				$articles = doLabel($label, $labeltag).doWrap($articles, $wraptag, $break,'');
-			
+				if (!strlen($join) or $join == '!*') {
+					$articles = doLabel($label, $labeltag).doWrap($articles, $wraptag, $break,'');
+				} else {
+					$articles = join($join,$articles);
+				}
+				
 				if ($cache) cacheit($articles,$cache);
 				
 				return trim($articles);
@@ -1186,9 +1310,11 @@
 		$thisarticle['excerpt']          = $Excerpt_html;
 		$thisarticle['title']            = (strlen($Title_html)) ? $Title_html : $Title;
 		$thisarticle['name']        	 = (isset($article_name)) ? $article_name : $Name;
+		$thisarticle['language']         = (isset($Language)) ? $Language : '';
 		$thisarticle['class']       	 = $Class;
 		$thisarticle['categories']       = $Categories;
 		$thisarticle['keywords']         = $Keywords;
+		$thisarticle['description']    	 = (isset($Description)) ? $Description : '';
 		$thisarticle['image_id']    	 = ($ImageID > 0) ? $ImageID : 0;
 		$thisarticle['file_id']    	 	 = $FileID;
 		$thisarticle['position']		 = $Position;

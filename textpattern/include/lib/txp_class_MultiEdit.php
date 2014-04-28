@@ -60,6 +60,7 @@
 			
 			$this->table    = (!$table) ? $WIN['table'] : $table;
 			$this->trash_id = fetch("ID",$this->table,"name","TRASH");
+			$this->content  = (!$table) ? $WIN['content'] : '';
 		}
 		
 		// ---------------------------------------------------------------------
@@ -134,7 +135,7 @@
 			
 			if ($do_method) {
 				
-				$changed = $this->$do_method($selected);
+				$changed = $this->$do_method($selected); 
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - -
@@ -608,8 +609,6 @@
 				}
 			}
 			
-			
-			
 			if ($changed and $id == $this->trash_id) {
 				
 				$this->deselect('all');
@@ -692,6 +691,20 @@
 			
 			if ($selected = $this->get_allowed($selected,'edit')) {
 				
+				if (gps('title')) {
+					$values['Title'] = gps('title');
+				}
+				
+				$category = gps('category');
+				
+				if ($category and $category != 'NONE') {
+					$values['Category'] = array($category);
+				}
+				
+				if (gps('url')) {
+					$values['url'] = gps('url');
+				}
+				
 				foreach ($selected as $id) {
 				
 					$WIN['open'][$id] = $id;
@@ -710,13 +723,11 @@
 					
 					list($message,$new_id) = content_create($id,$values);
 					
-					$this->deselect('all'); 		// uncheckbox parent article
+					$this->deselect('all'); 	// uncheckbox parent article
 					$this->reselect($new_id); 	// checkbox new article
 					
 					$changed[$new_id] = $new_id;
 				}
-				
-				$this->apply('edit',$this->selected);
 			}
 			
 			return $changed;
@@ -800,6 +811,7 @@
 						
 						$this->apply('cut',$selected);
 						$this->apply('paste',$new);
+					 // $this->apply('edit',$new);
 						
 						if ($WIN['view'] == 'tr') {
 							$this->apply('open',$new);
@@ -1045,7 +1057,7 @@
 				}
 				
 				if ($selected) {
-			
+					
 					$set = array('ImageID' => $image_id);
 					
 					if ($new) {
@@ -1250,7 +1262,7 @@
 					if ($event == 'image') image_delete($id);
 				
 					safe_delete($this->table,"ID = $id AND Trash IN (3,4)");
-					safe_delete("txp_content_category","article_id = $id");
+					safe_delete("txp_content_category","article_id = $id AND type = '".$this->content."'");
 				}
 			}
 			
@@ -1272,6 +1284,8 @@
 		function get_allowed($selected,$method) 
 		{
 			global $WIN, $txp_user;
+			
+			if (!$selected) return array();
 			
 			// $content = ($this->table == 'textpattern') ? 'article' : substr($this->table,4);
 			$content = $WIN['content'];

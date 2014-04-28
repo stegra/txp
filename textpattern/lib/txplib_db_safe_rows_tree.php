@@ -44,7 +44,7 @@
 	
 	function safe_rows_treex($context=0,$path='',$things='ID',$table='textpattern',$where='1=1',$flags='') 
 	{
-		global $pretext, $dump;
+		global $pretext, $dump, $thisarticle;
 		
 		// -------------------------------------------------------------
 		
@@ -481,13 +481,16 @@
 			$order = explode(',',$q['order']);
 			
 			foreach ($order as $key => $item) {
-		
-				list($item_name,$item_dir) = explode(' ',trim($item)); 
 				
-				if (!preg_match('/\./',$item_name)) {
+				if ($item != 'RAND()') {
+				
+					list($item_name,$item_dir) = explode(' ',trim($item)); 
 					
-					if ($item_name != 'RAND()' and $item_name != 'score') {
-						$order[$key] = 't.'.$item_name.' '.$item_dir;
+					if (!preg_match('/\./',$item_name)) {
+						
+						if ($item_name != 'score') {
+							$order[$key] = 't.'.$item_name.' '.$item_dir;
+						}
 					}
 				}
 			}

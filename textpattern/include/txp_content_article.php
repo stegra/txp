@@ -106,7 +106,11 @@ $LastChangedRevision: 3246 $
 		
 		safe_delete("txp_content_value","text_val IS NULL OR text_val = ''");
 		
-		if (!$app_mode == 'async') {
+		if ($app_mode == 'async') {
+			
+			echo "OK";
+		
+		} else {
 			
 			$GLOBALS['ID'] = $ID;
 			$_GET['step']  = 'edit';
@@ -184,7 +188,7 @@ $LastChangedRevision: 3246 $
 		
 		if (!function_exists('json_encode')) include txpath.'/lib/txplib_json.php';
 
-		echo json_encode($out); exit;
+		echo json_encode($out);
 	}
 	
 ?>

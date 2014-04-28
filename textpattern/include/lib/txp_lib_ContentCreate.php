@@ -8,7 +8,7 @@
 	
 	function content_create_update_parent($ID,$table='')
 	{
-		global $WIN;
+		global $WIN, $app_mode;
 		
 		$table = ($table) ? $table : $WIN['table'];
 		
@@ -20,7 +20,9 @@
 		update_parent_info($table,$ID);
 		
 		// update path
-		update_path($ID,'TREE');
+		if ($app_mode != 'async') {
+			update_path($ID,'TREE');
+		}
 	}
 	
 // -----------------------------------------------------------------------------
@@ -55,7 +57,7 @@
 		$in = textile_main_fields($incoming, $use_textile);
 		$in = textile_title_field($in,$use_textile);
 		
-		$Category = $in['Category']; 
+		$Category = $in['Category'];
 		unset($in['Category']);
 		
 		$in = doSlash($in);
@@ -166,15 +168,28 @@
 		if (!TXP_UPDATE) {
 		
 			if ($content_type == 'article') {
-			
-				if (!$Title and !$Body and !$Excerpt and $Status != 1) $Status = 3; // (pending)
-			
+				
+				if ($Status != 1) {		// (hidden)
+				
+					if ($production_status != 'live') {
+						
+						$Status = 4;	// (live)
+					
+					} elseif (!$Body and !$Excerpt) { 
+					
+						$Status = 3; 	// (pending)
+					}
+				}
+					
 			} elseif (!isset($in['Status'])) {
 				
-				$Status = 4;
+				$Status = 4;	// (live)
 			}
 			
-			if (!has_privs('article.publish') && $Status>=4) $Status = 3; // (pending)
+			if (!has_privs('article.publish') && $Status >= 4) {
+				
+				$Status = 3; 	// (pending)
+			}
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -336,7 +351,7 @@
 		// Categories
 		
 		if (isset($Category) and is_array($Category)) {
-		
+			
 			$Category = array_values(array_unique($Category));
 			
 			$count_col = ucwords($content_type).'s'; 
@@ -345,6 +360,8 @@
 				
 				$count_col = '';
 			}
+			
+			$Categories = array();
 			
 			foreach ($Category as $key => $name) {
 				
@@ -362,7 +379,13 @@
 					$count = getCount("txp_content_category","name = '$name' AND type = '$content_type'");
 					safe_update("txp_category","$count_col = $count","Name = '$name'");
 				}
+				
+				$Categories[] = $name.'.'.$pos;
 			}
+			
+			$Categories = implode(',',$Categories);
+			
+			safe_update($textpattern,"Categories = '$Categories'","ID = $ID");
 			
 			if ($count_col) {
 				
@@ -386,7 +409,7 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
-		if (!IMPORT and !TXP_UPDATE and $app_mode != 'async') { 
+		if (!IMPORT and !TXP_UPDATE) { 
 		
 			content_create_update_parent($ParentID,$textpattern);
 		}

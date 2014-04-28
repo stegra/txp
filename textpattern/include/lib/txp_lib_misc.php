@@ -87,6 +87,7 @@
 			$checked = array();
 		}
 		
+		
 		plugin_callback(2,$method,$selected);
 		
 		$WIN['checked'] = $checked;
@@ -135,12 +136,14 @@
 			event_add_folder($table,$id,$folder);
 		}
 			
-		if ($app_mode == 'async') { echo "1"; }
+		if ($app_mode == 'async') { echo "/$id"; }
 			
 		return $id;
 	}
 		
 // -------------------------------------------------------------
+// add 10 existing files on each page load
+
 	function event_add_existing_files($ext='',$type='',$count=0) 
 	{
 		global $WIN, $event, $app_mode, $txp_user;
@@ -204,17 +207,17 @@
 				// curl_gps_async('GET', hu."admin/index.php", $params);
 				
 				// TESTING
-				event_add_existing_files($ext,$type);
-				delete_file(FTP.'_LOCK');
+				// event_add_existing_files($ext,$type);
+				// delete_file(FTP.'_LOCK');
 					
-				return;
+				// return;
 			} 
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			
-			delete_file(FTP.'_LOCK');
+			// delete_file(FTP.'_LOCK');
 			
-			return;
+			// return;
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -251,7 +254,7 @@
 						
 					if (!function_exists($insert)) continue;
 					
-					list($id,$message) = $insert(0,false,$file);
+					list($id,$message) = $insert(0,false,false,$file);
 					
 					if (is_file(FTP.$file)) {
 						
@@ -293,7 +296,7 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// process the next batch of files if any
-		
+		/*
 		if (count($files)) {
 			
 			$params = array(
@@ -315,7 +318,7 @@
 			// event_add_existing_files($ext,$type,$count);
 			return;
 		}
-		
+		*/
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// finished
 
@@ -379,7 +382,7 @@
 		
 			if (!function_exists('json_encode')) include txpath.'/lib/txplib_json.php';
 
-			echo json_encode($out); exit;
+			echo json_encode($out);
 		}
 	}
 
@@ -391,8 +394,6 @@
 		$WIN['linenum'] = gps('state','off',array('off','on'));
 		
 		save_session($WIN);
-		
-		exit;
 	}
 
 // -------------------------------------------------------------
@@ -432,7 +433,7 @@
 	{
 		if (!isset($incoming['Title'])) return $incoming;
 		
-		$incoming['Title_html'] = textile_title(trim($incoming['Title']));
+		$incoming['Title_html'] = textile_simple(trim($incoming['Title']));
 		
 		return $incoming;
 	}
@@ -444,8 +445,11 @@
 		
 		include_once txpath.'/lib/classTextile.php';
 		$textile = new TextileTXP();
-
-		$incoming['Title_html'] = trim($incoming['Title']);
+		
+		if (isset($incoming['Title'])) {
+		
+			$incoming['Title_html'] = trim($incoming['Title']);
+		}
 		
 		if (!isset($incoming['textile_body']) or !isset($incoming['Body'])) { 
 			
@@ -464,9 +468,9 @@
 			// allow double quotes within textile link titles
 			$body = str_replace(' ""',' "&#34;',$body);
 			$body = str_replace('"":','&#34;":',$body);
-			 
+			
 			$incoming['Body_html']  = $textile->TextileThis($body);
-			$incoming['Title_html'] = textile_title(trim($incoming['Title']));
+			$incoming['Title_html'] = textile_simple(trim($incoming['Title']));
 			
 		} elseif ($incoming['textile_body'] == CONVERT_LINEBREAKS) {
 

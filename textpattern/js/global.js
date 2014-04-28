@@ -2,8 +2,9 @@ txp.init = function() {
 	
 	console.log('init global');
 	
-	txp.ext     = [];		// list of file extensions
-	txp.key     = '';		// 'COMMAND','SHIFT' or none
+	txp.ext      = [];		// list of file extensions
+	txp.key      = '';		// 'COMMAND','SHIFT' or none
+	txp.keyboard = (navigator.userAgent.match(/Macintosh/)) ? 'mac' : 'win';
 	
 	// TODO: these should be in txp.list 
 	
@@ -25,6 +26,16 @@ txp.init = function() {
 		
 		txp.list.prefs.init();
 	} 
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// send the window id back to the opener
+	
+	if (window.opener) {
+		
+		if (window.opener.getWindowID) {
+			window.opener.getWindowID(txp.winid);
+		}
+	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// disable spellchecking on all elements of type "code" in capable browsers
@@ -485,7 +496,7 @@ txp.hideDisplay = function(obj_id) {
 
 txp.toggleDisplayHref = function()
 {
-	var href = $(this).attr('href');
+	var href  = $(this).attr('href');
 	var lever = $(this).parent('.lever');
 	if (href) txp.toggleDisplay(href.substr(1));
 	if (lever) {
@@ -495,6 +506,17 @@ txp.toggleDisplayHref = function()
 			lever.removeClass('expanded');
 		}
 	}
+	return false;
+}
+
+// -------------------------------------------------------------
+
+txp.showDisplayHref = function()
+{
+	var href  = $(this).attr('href');
+	var lever = $(this).parent('.lever');
+	if (href)  txp.showDisplay(href.substr(1));
+	if (lever) lever.addClass('expanded');
 	return false;
 }
 

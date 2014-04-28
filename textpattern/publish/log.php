@@ -67,7 +67,7 @@ $LastChangedRevision: 3247 $
 // -------------------------------------------------------------
 	function logit_agent($agent) {
 		
-		$agent = doSlash($agent);
+		$agent = doSlash(trim($agent,"'"));
 		
 		$id = fetch('id','txp_log_agent','agent',$agent);
 		
@@ -261,6 +261,7 @@ $LastChangedRevision: 3247 $
 			// TODO: there should be a no-cache option for each page 
 		
 			if (preg_match('/\/contact\//',$page)) return;
+			if (preg_match('/\/search\//',$page)) return;
 			
 			if (preg_match('/\.html$/',$page)) {
 			
@@ -285,7 +286,8 @@ $LastChangedRevision: 3247 $
 		
 		if (!is_dir($html) and !is_dir($html_lock)) {
 			
-			@mkdir($html,0755);
+			return;
+			// @mkdir($html,0755);
 		}
 		
 		if (is_dir($html)) {

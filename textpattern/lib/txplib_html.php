@@ -1255,7 +1255,7 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 
 	function add_body_class(&$html) {
 		
-		global $pretext;
+		global $pretext,$prefs;
 		
 		$atts  = array();
 		$class = array();
@@ -1270,6 +1270,11 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 					if ($name == 'class') $class[] = $matches[2][$key];
 					$atts[$name] = $matches[2][$key];
 				}
+			}
+			
+			if (isset($prefs['languages']) and $prefs['languages']) {
+			
+				$class[] = 'lg-'.$pretext['lg'];
 			}
 			
 			if (PREVIEW) {
@@ -1365,6 +1370,14 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 		// head tag
 		
 		$html = preg_replace('/>\s+(<\/?head>)/',">\n$1",$html);
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		// clear browser of cached javascript and css
+		
+		if (is_file(txpath.'/tmp/.clear-browser-cache')) {
+			$clear_cache = date('ymdHi',filemtime(txpath.'/tmp/.clear-browser-cache'));
+			$html = preg_replace('/\.(js|css)\"/','.$1?'.$clear_cache.'"',$html);
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 		
@@ -1530,7 +1543,7 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 		// add 'preview' to url 
-		
+		/*
 		if (txpinterface == 'public' and PREVIEW) {
 			
 			$html = preg_replace_callback('/(\.html)(\?|\#|\")/',create_function(
@@ -1540,7 +1553,7 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
             		: \$matches[1].'?preview'.\$matches[2];"
         	),$html);
 		}
-		
+		*/
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// custom clean 
 		/*
@@ -1614,18 +1627,18 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 //--------------------------------------------------------------------------------------
 // simple textile
 
-	function textile_title($text) 
+	function textile_simple($text) 
 	{	
 		$text = escape_title($text);
 		
 		$tags = array(
-			'*' => 'b',
-			'_' => 'i',
-		 /* '-'	=> 'del', */
-		 /*	'+' => 'ins', */
-			'^'	=> 'sup',
-			'~' => 'sub',
-			'@' => 'code'
+			'*'  => 'b',
+			'_'  => 'i',
+		 /* '-'	 => 'del', */
+		 /*	'+'  => 'ins', */
+			'^'	 => 'sup',
+			'~'  => 'sub',
+			'@'  => 'code'
 		);
 		
 		$content = '([^\*]+?)';

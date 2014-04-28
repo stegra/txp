@@ -128,7 +128,7 @@ $LastChangedRevision: 3203 $
 					
 					$list[$key]['pass'] = '';
 					
-				} else {
+				} elseif (isset($list[$key]['pass']) and $list[$key]['pass']) {
 					
 					$list[$key]['pass'] = str_repeat("&#8226",8);
 				}
@@ -266,6 +266,11 @@ $LastChangedRevision: 3203 $
 						}
 					}
 				}
+				
+				if ($method == 'new') {	
+				
+					$multiedit->apply('edit',$changed);
+				}		
 			}
 		}
 		
