@@ -10,7 +10,7 @@
 	
 	getmicrotime('adminruntime');
 	
-	$log_buffer = array();
+	$log_buffer = array(); // test
 	
 	// -------------------------------------------------------------------------
 	
