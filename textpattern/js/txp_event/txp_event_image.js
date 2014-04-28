@@ -286,3 +286,4 @@ txp.edit.image.updateCurrentEffect = function(name) {
 	$('.effect-filters ul li').removeClass('current');
  	$('.effect-filters ul li.'+name).addClass('current');
 }
+

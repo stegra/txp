@@ -2048,3 +2048,4 @@ class TextileTXP extends Textile
 		$this->Textile();
 	}
 }
+

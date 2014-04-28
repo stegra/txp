@@ -1290,3 +1290,4 @@ title_separator => Individual article and site name separator
 use_thumbnail => Use thumbnail?
 useful_tags => Useful tags
 wraptag => Wrap tag
+

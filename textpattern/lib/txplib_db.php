@@ -194,6 +194,113 @@ $GLOBALS['DB'] = new DB;
 //--------------------------------------------------------------
 	function log_query($q,$type,$result)
 	{
+		global $txp_user,$event,$step,$log_buffer,$app_mode;
+		
+		$exclude = array(
+			'update_path',
+			'update_path_columns',
+			'rebuild_txp_tree',
+			'apply_custom_fields',
+			'renumerate',
+			'add_category_count',
+			'insert_logit',
+			'logit_agent',
+			'store_session_data',
+			'update_lastmod'
+		);
+		
+		preg_match('/\b([a-z0-9_]+)?txp_([a-z_]+)\b/',$q,$matches);
+		$table = (isset($matches[2])) ? $matches[2] : 'textpattern'; 
+		
+		if (!in_list($table,'window')) {
+		
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			
+			$func = '';
+			
+			$backtrace = (defined("DEBUG_BACKTRACE_IGNORE_ARGS"))
+				? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) 
+				: debug_backtrace();
+			
+			array_shift($backtrace);
+      		
+      		foreach ($backtrace as $key => $item) {
+				
+				$backtrace[$key] = $item['function'];
+				
+				if ($key == 0) $backtrace[$key] .= '.'.$item['line'];
+				if ($key == 1) $func = $item['function'];
+			}
+			
+			$backtrace = implode('/',array_reverse($backtrace));	
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			
+			$func  = str_pad($func,30);
+			$q     = str_pad(preg_replace("/(\n|\s+)/",' ',$q.';'),200);
+			$date  = date("Y/m/d H:i:s");
+			$user  = str_pad($txp_user,10);
+			$rows  = ($result) ? str_pad($result,4) : '-   ';
+			$id    = '-   ';
+			
+			if ($type == 'insert') {
+				$id = str_pad($result,4);
+				$rows = '1   ';
+			}	
+				
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			
+			if (!$log_buffer) {
+				
+				$entry = '';
+				
+				$step_in = (gps('step')) ? '('.gps('step').') '.$step : $step;
+				
+				$entry .= n.str_pad('=',400,'=');
+				$entry .= n."$date | $user | $event $step_in | $app_mode";
+				$entry .= n.str_pad('-',400,'-');
+				
+				$log_buffer[] = $entry;
+			}
+			
+			if ($table != 'cache') {
+				
+				if (!in_array(trim($func),$exclude)) {
+				
+					$log_buffer[] = n."$date | $user | $func | $rows | $id | $q ($backtrace)";
+				}
+			}
+		}
+		
+	}
+
+//--------------------------------------------------------------
+	function save_log_buffer()
+	{
+		global $log_buffer,$path_to_site;
+		
+		$path_to_log = $path_to_site.DS.'log';
+		
+		if (!is_dir($path_to_log)) {
+			
+			if (!is_writable($path_to_site)) return;
+				
+			mkdir($path_to_log,0777);
+		}
+		
+		if (!is_writable($path_to_log)) return;
+		
+		$file = $path_to_log.DS.date("Y_m_d").'.txt';
+		
+		if (count($log_buffer) > 1) {
+			write_to_file($file,implode('',$log_buffer),0,1);
+			@chmod($file,0777);
+		}
+	}
+	
+//--------------------------------------------------------------
+/*	function log_query_old($q,$type,$result)
+	{
 		global $path_to_site,$txp_user,$event,$step;
 		
 		static $new  = true;
@@ -350,7 +457,7 @@ $GLOBALS['DB'] = new DB;
 			$new = false;
 		}
 	}	
-				
+*/			
 //-------------------------------------------------------------
 	function safe_query($q='',$debug='',$unbuf='')
 	{
