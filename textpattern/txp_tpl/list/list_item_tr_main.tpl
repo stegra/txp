@@ -1,14 +1,15 @@
-
-<tr class="hr" id="hr1"><td colspan="20"><div><span></span></div></td></tr>
-
-<tr id="article-{$id}" class="
-	
+{capture name=class}
 	data 
 	main-article 
 	type-{$type}
 	{$display_mode} 
 	{$is_checked} 
-	{$is_root}">
+	{$is_root}
+{/capture}
+
+<tr class="hr" id="hr1"><td colspan="20"><div><span></span></div></td></tr>
+
+<tr id="article-{$id}" class="{$smarty.capture.class|strip}">
 	
 	{$column_data}
 		
@@ -22,5 +23,3 @@
 	</td>
 
 </tr>
-
-

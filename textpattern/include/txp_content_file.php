@@ -71,12 +71,13 @@ $LastChangedRevision: 3200 $
 				'Name' 		 => array('title' => 'Name', 	   	'on' => 0, 'editable' => 1, 'pos' => 9),
 				'FileName' 	 => array('title' => 'Filename', 	'on' => 0, 'editable' => 0, 'pos' => 10),
 				'ext' 		 => array('title' => 'Ext.', 	   	'on' => 0, 'editable' => 1, 'pos' => 11),
-				'Categories' => array('title' => 'Categories', 	'on' => 1, 'editable' => 1, 'pos' => 12),	
-				'downloads'  => array('title' => 'Downloads', 	'on' => 1, 'editable' => 0, 'pos' => 13),
-				'AuthorID'	 => array('title' => 'Author',		'on' => 0, 'editable' => 1, 'pos' => 14),
-				'Status'	 => array('title' => 'Status',		'on' => 0, 'editable' => 1, 'pos' => 15),
-				'ID'	 	 => array('title' => 'ID',			'on' => 0, 'editable' => 0, 'pos' => 16),
-				'Position'   => array('title' => 'Position',	'on' => 0, 'editable' => 1, 'pos' => 17, 'short' => 'Pos.'),
+				'Categories' => array('title' => 'Categories', 	'on' => 1, 'editable' => 1, 'pos' => 12),
+				'Body' 		 => array('title' => 'Description', 'on' => 0, 'editable' => 1, 'pos' => 13),	
+				'downloads'  => array('title' => 'Downloads', 	'on' => 1, 'editable' => 0, 'pos' => 14),
+				'AuthorID'	 => array('title' => 'Author',		'on' => 0, 'editable' => 1, 'pos' => 15),
+				'Status'	 => array('title' => 'Status',		'on' => 0, 'editable' => 1, 'pos' => 16),
+				'ID'	 	 => array('title' => 'ID',			'on' => 0, 'editable' => 0, 'pos' => 17),
+				'Position'   => array('title' => 'Position',	'on' => 0, 'editable' => 1, 'pos' => 18, 'short' => 'Pos.'),
 				'filename'	 => array('title' => '', 			'on' => 1, 'editable' => 0, 'pos' => 0),
 				'type'		 => array('title' => '', 			'on' => 1, 'editable' => 0, 'pos' => 0)
 			);
@@ -1096,4 +1097,3 @@ $LastChangedRevision: 3200 $
 		return '';
 	}
 ?>
-

@@ -20,7 +20,7 @@ $LastChangedRevision: 3203 $
 // =============================================================================
 	function list_list($message='')
 	{	
-		global $EVENT, $WIN, $html, $prefs;
+		global $EVENT, $WIN, $html, $prefs, $app_mode;
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -51,13 +51,15 @@ $LastChangedRevision: 3203 $
 				'Section' 	 => array('title' => 'Section',    'on' => 0, 'editable' => 0, 'pos' => 6),
 				'Class' 	 => array('title' => 'Class', 	   'on' => 0, 'editable' => 1, 'pos' => 7),
 				'Categories' => array('title' => 'Categories', 'on' => 1, 'editable' => 1, 'pos' => 8),
-				'Language'   => array('title' => 'Language',   'on' => 0, 'editable' => 1, 'pos' => 9),
-				'File'  	 => array('title' => 'File',  	   'on' => 0, 'editable' => 0, 'pos' => 10),
-				'Play'  	 => array('title' => 'Play',  	   'on' => 0, 'editable' => 0, 'pos' => 11),
-				'AuthorID'	 => array('title' => 'Author', 	   'on' => 1, 'editable' => 1, 'pos' => 12),
-				'Status'	 => array('title' => 'Status',	   'on' => 1, 'editable' => 1, 'pos' => 13),
-				'ID'	 	 => array('title' => 'ID',	   	   'on' => 0, 'editable' => 0, 'pos' => 14),
-				'Position'   => array('title' => 'Position',   'on' => 1, 'editable' => 1, 'pos' => 15, 'short' => 'Pos.')
+				'Body' 		 => array('title' => 'Body', 	   'on' => 0, 'editable' => 1, 'pos' => 9),
+				'Excerpt' 	 => array('title' => 'Excerpt',    'on' => 0, 'editable' => 1, 'pos' => 10),
+				'Language'   => array('title' => 'Language',   'on' => 0, 'editable' => 1, 'pos' => 11),
+				'File'  	 => array('title' => 'File',  	   'on' => 0, 'editable' => 0, 'pos' => 12),
+				'Play'  	 => array('title' => 'Play',  	   'on' => 0, 'editable' => 0, 'pos' => 13),
+				'AuthorID'	 => array('title' => 'Author', 	   'on' => 1, 'editable' => 1, 'pos' => 14),
+				'Status'	 => array('title' => 'Status',	   'on' => 1, 'editable' => 1, 'pos' => 15),
+				'ID'	 	 => array('title' => 'ID',	   	   'on' => 0, 'editable' => 0, 'pos' => 16),
+				'Position'   => array('title' => 'Position',   'on' => 1, 'editable' => 1, 'pos' => 17, 'short' => 'Pos.')
 			);
 			
 			$filename = "(SELECT CONCAT(f.Name,f.ext) FROM txp_file AS f WHERE t.FileID = f.ID)";
@@ -98,6 +100,10 @@ $LastChangedRevision: 3203 $
 		
 		save_session($EVENT);
 		save_session($WIN);
+		
+		if ($app_mode == 'async' and gps('refresh_content')) {
+			echo $html; exit;
+		}
 	}
 
 // =============================================================================
@@ -195,4 +201,3 @@ $LastChangedRevision: 3203 $
 	}
 
 ?>
-

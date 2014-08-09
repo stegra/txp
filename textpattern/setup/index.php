@@ -327,7 +327,7 @@ eod;
 		
  		if (is_file($txpsql)) {
  			
- 			@system("mysql -h $dhost -u $duser --password=$dpass $dbb < $txpsql");
+ 			@system("mysql -h $dhost -u $duser --password=\"$dpass\" $dbb < $txpsql");
  			
  			if (!mysql_query("describe `textpattern`")) { 
  				

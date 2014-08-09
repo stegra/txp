@@ -254,10 +254,55 @@
 		foreach ($content_tables as $type => $table) {
 			
 			if (table_exists($table,$PFX)) {
-				
+			
 				$WIN['table'] = $table;
 				
 				echo hed($table);
+				
+				// - - - - - - - - - - - - - - - - - - - - - - - - -
+				// remove classes from txp_content_category table 
+				// and Categories column
+				
+				if ($table != 'txp_category' and column_exists($table,'Categories')) {
+				
+					$rows = safe_rows('ID,Class,Categories',$table,"Class != ''");
+					
+					foreach ($rows as $row) {
+						
+						extract($row);
+						
+						// update Categories column 
+						
+						$Categories = preg_replace('/\.\d/','',$Categories);
+						$Categories = explode(',',$Categories);
+						$Categories = array_flip($Categories);
+						
+						if (isset($Categories[$Class])) {
+							
+							unset($Categories[$Class]);
+							
+							$Categories = array_flip($Categories);
+						
+							$pos = 1;
+							
+							foreach($Categories as $key => $value) {
+								$Categories[$key] = $value.'.'.$pos++;
+							}
+							
+							$Categories = implode(',',$Categories);
+							
+							safe_update($table,"Categories = '$Categories'","ID = $ID");
+						}
+						
+						// remove class from txp_content_category table 
+						
+						safe_delete('txp_content_category',
+							"name = '$Class' AND article_id = $ID AND type = '$type'");
+					}
+				}
+								
+				// - - - - - - - - - - - - - - - - - - - - - - - - -
+				// update Categories column in content tables
 				
 				$ids = safe_column('ID',$table,"1=1");
 				
@@ -267,7 +312,11 @@
 					
 					$name = "CONCAT(name,'.',position) AS name";
 					
-					$categories = safe_column(array('position',$name),'txp_content_category',"type = '$type' AND article_id = $id AND name != 'NONE' ORDER BY position ASC");
+					$categories = safe_column(array('position',$name),'txp_content_category',
+						"type = '$type' 
+						AND article_id = $id 
+						AND name != 'NONE' 
+						ORDER BY position ASC");
 					
 					if ($categories) {
 						$categories = implode(',',$categories);

@@ -268,7 +268,7 @@
 		{	
 			global $WIN;
 			
-			$WIN['flat'] = ($WIN['flat']) ? 0 : 1;
+			$WIN['flat'] = ($WIN['flat']) ? 0 : 50;
 		}
 		
 		// ---------------------------------------------------------------------
@@ -691,9 +691,29 @@
 			
 			if ($selected = $this->get_allowed($selected,'edit')) {
 				
-				if (gps('title')) {
-					$values['Title'] = gps('title');
+				// - - - - - - - - - - - - - - - - - - -
+				// Title
+				
+				$title  = trim(gps('title'));
+				$titles = array();
+				
+				if (strlen($title)) {
+				
+					$titles = explode(n,$title);
+					
+					foreach($titles as $key => $title) {
+						
+						$title = trim($title);
+						
+						if (!strlen($title)) {
+						 
+							unset($titles[$key]);
+						}
+					}
 				}
+				
+				// - - - - - - - - - - - - - - - - - - -
+				// Category
 				
 				$category = gps('category');
 				
@@ -701,32 +721,46 @@
 					$values['Category'] = array($category);
 				}
 				
+				// - - - - - - - - - - - - - - - - - - -
+				// URL
+				
 				if (gps('url')) {
 					$values['url'] = gps('url');
 				}
 				
-				foreach ($selected as $id) {
+				// - - - - - - - - - - - - - - - - - - -
+				// Type 
 				
-					$WIN['open'][$id] = $id;
+				if (in_list($WIN['content'],'image,file')) {
+					$values['Type'] = 'folder';
+				}
+				
+				if ($WIN['content'] == 'custom') {
+					$values['Type'] = 'text';
+				}
+				
+				if ($WIN['content'] == 'users') {
+					$values['Type'] = 'user';
+				}
+				
+				// - - - - - - - - - - - - - - - - - - -
+				// Create one or more articles
+						
+				foreach ($titles as $title) {
 					
-					if (in_list($WIN['content'],'image,file')) {
-						$values['Type'] = 'folder';
-					}
-					
-					if ($WIN['content'] == 'custom') {
-						$values['Type'] = 'text';
-					}
-					
-					if ($WIN['content'] == 'users') {
-						$values['Type'] = 'user';
-					}
-					
-					list($message,$new_id) = content_create($id,$values);
-					
-					$this->deselect('all'); 	// uncheckbox parent article
-					$this->reselect($new_id); 	// checkbox new article
-					
-					$changed[$new_id] = $new_id;
+					$values['Title'] = $title;
+				
+					foreach ($selected as $id) {
+				
+						$WIN['open'][$id] = $id;
+						
+						list($message,$new_id) = content_create($id,$values);
+						
+						$this->deselect($id); 		// uncheckbox parent article
+						$this->reselect($new_id); 	// checkbox new article
+						
+						$changed[$new_id] = $new_id;
+					}	
 				}
 			}
 			

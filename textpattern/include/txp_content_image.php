@@ -89,7 +89,7 @@ $LastChangedRevision: 3267 $
 				'Articles'   => array('title' => 'Articles', 	'on' => 0, 'editable' => 0, 'pos' => 7),
 				
 				'copyright'  => array('title' => 'Copyright',	'on' => 0, 'editable' => 1, 'pos' => 8),
-				'caption'    => array('title' => 'Caption',		'on' => 0, 'editable' => 1, 'pos' => 9,  'sel' => "Body"),
+				'caption'    => array('title' => 'Caption',		'on' => 0, 'editable' => 1, 'pos' => 9,  'sel' => "t.Body"),
 				'alt'		 => array('title' => 'Alt Text',	'on' => 0, 'editable' => 1, 'pos' => 10),
 				'Keywords'   => array('title' => 'Keywords',	'on' => 0, 'editable' => 1, 'pos' => 11),
 				
@@ -142,7 +142,7 @@ $LastChangedRevision: 3267 $
 			
 			event_add_existing_files('jpg,jpeg,png,gif');
 		}
-		// pre($WIN);
+		
 		// ---------------------------------------------------------------------
 		// PAGE TOP
 		
@@ -471,14 +471,19 @@ $LastChangedRevision: 3267 $
 			$html = pagetop(gTxt('edit_image'),$message,$WIN['winid']);
 		}
 		
-		$all_categories = safe_rows_tree('',
+		/* TODO: Category pulldown */
+		
+		/* $all_categories = safe_rows_tree('',
 			"ID,Name AS name,Title AS title,Level AS level,ParentID AS parent",
-			"txp_category");
+			"txp_category"); */
 		
 		$categories = safe_column("name","txp_content_category","article_id = $id AND type = 'image'");
-		$categories = ($categories) 
+		
+		/* $categories = ($categories) 
 			? implode(', ',safe_column("Title","txp_category","Name IN (".in($categories).") AND Trash = 0"))
-			: '';
+			: ''; */
+		
+		$categories = category_popup("Category",$categories);
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Previous/Next records
@@ -2149,4 +2154,3 @@ $LastChangedRevision: 3267 $
 	} 
 
 ?>
-

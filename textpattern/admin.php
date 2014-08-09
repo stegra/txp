@@ -2,7 +2,7 @@
 	
 	include txpath.'/lib/txplib_theme.php';
 	include txpath.'/lib/txplib_smarty.php';
-	include txpath.'/lib/classSimpleHTMLDOM.php';
+	include_once txpath.'/lib/classSimpleHTMLDOM.php';
 	include txpath.'/include/lib/txp_lib_image.php';
 	include txpath.'/include/lib/txp_lib_file.php';
 	include txpath.'/include/lib/txp_lib_misc.php';
@@ -10,7 +10,7 @@
 	
 	getmicrotime('adminruntime');
 	
-	$log_buffer = array(); 
+	$log_buffer = array();
 	
 	// -------------------------------------------------------------------------
 	
@@ -58,6 +58,12 @@
 		$path_to_site = updateSitePath($txpcfg['path_to_site']);
 	}
 	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	if ($timezone_key) {
+		date_default_timezone_set($timezone_key);
+	}
+		
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// get base admin path
 	
@@ -153,8 +159,8 @@
 	define('TXP_UPDATE',0);
 	
 	if ($app_mode != 'async') {
-		backup_db();
 		janitor();
+		backup_db();
 	}
 	
 	if (!empty($admin_side_plugins) and gps('event') != 'plugin')
@@ -672,6 +678,7 @@
 				'thumb'     => 'z',
 				'sortby'    => 'Posted',
 				'sortdir'   => 'desc',
+				'sorthist'	=> array(),
 				'linkdir'   => 'asc',
 				'linenum'   => 'off',
 				'mini'	  	=> 0,
@@ -752,7 +759,8 @@
 		
 		if (!isset($win[$event]['id']) or $win[$event]['id'] == 0) {
 			
-			$win[$event]['id'] = ROOTNODEID;
+			$win[$event]['id'] 	  = ROOTNODEID;
+			$win[$event]['docid'] = ROOTNODEID;
 		}
 		
 		if (!isset($win['list']['notes'])) {
@@ -788,7 +796,7 @@
 				$win[$event]['id'] = $id;
 			}
 			
-			$win[$event]['docid']   = $id;
+			$win[$event]['docid'] = $id;
 		}	
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -822,6 +830,28 @@
 		} elseif (isset($_POST['editcol'])) {
 			
 			$win[$event]['editcol'] = '';
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		if ($sortby and $win[$event]['sortby'] != $sortby) {
+			
+			array_unshift($win[$event]['sorthist'],
+				$win[$event]['sortby'].' '.
+				strtoupper($win[$event]['sortdir'])
+			);
+			
+			$win[$event]['sorthist'] = array_slice($win[$event]['sorthist'],0,2);
+			
+			$win[$event]['sortby'] = $sortby;
+		}
+		
+		if ($sortdir) {
+			
+			$win[$event]['sortdir'] = $sortdir;
+			
+			$win[$event]['linkdir'] = ($win[$event]['sortdir'] == "desc") 
+				? 'asc' : 'desc';
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -867,7 +897,7 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// sorting for all events
-		
+		/*
 		if (isset($win['sortby'])) {
 		
 			if ($sortby)   $win['sortby']  = $sortby;
@@ -876,7 +906,7 @@
 			$win['linkdir'] = ($win['sortdir'] == "desc") 
 				? 'asc' : 'desc';
 		}
-		
+		*/
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// note settings for all events
 		

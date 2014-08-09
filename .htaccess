@@ -18,6 +18,14 @@ RewriteRule ^(~\w+/)?admin/index.php				textpattern/index.php
 RewriteRule ^(~\w+/)?admin/(.+) 					textpattern/$2
 
 # ------------------------------------------------------------------------------
+# static files in sub-domain sites	(mysite.mydomain.com)
+
+RewriteCond %{REQUEST_URI} 			^/(preview)/
+RewriteCond %{SERVER_NAME}			(.+)
+RewriteCond	%{DOCUMENT_ROOT}/sites/_domains/%1 -d
+RewriteRule (.+)					sites/_domains/%1/$1				[L]
+
+# ------------------------------------------------------------------------------
 # check html file in sites/html cache directory for sub sites
 
 RewriteCond %{REQUEST_URI} 						\.html$
@@ -74,7 +82,7 @@ RewriteRule ^~(\w+)/(.+)			sites/$1/$2
 RewriteCond %{REQUEST_URI} 			^/(images|files|css|js|fonts?)/			[OR]
 RewriteCond %{REQUEST_URI} 			^/(database|log|xsl|tmp|test)/
 RewriteCond %{SERVER_NAME}			(.+)
-RewriteCond	sites/_domains/%1 		-d
+RewriteCond	%{DOCUMENT_ROOT}/sites/_domains/%1 -d
 RewriteRule (.+)					sites/_domains/%1/$1
 
 # ------------------------------------------------------------------------------

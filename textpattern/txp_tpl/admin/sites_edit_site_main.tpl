@@ -23,7 +23,8 @@
 
 	<div class="field pos1">
 		<label for="db_name">MySQL database</label><br />
-		{html_options name=DB options=$databases selected=$db_name}
+		<!-- {html_options name=DB options=$databases selected=$db_name} -->
+		<input type="text" value="{$db_name}" name="DB" class="edit" tabindex="4" />
 	</div>
 
 	<div class="field pos2">

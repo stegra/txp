@@ -606,6 +606,25 @@
 				n.status_radio($Status,$Sticky).
 				n.'</fieldset>';
 		
+		//-- class select ----------------------------------------------
+		
+		if ($table == 'textpattern') {
+		
+			if (safe_count("txp_category","`Class` = 'yes' AND Trash = 0")) {
+				
+				$td[3]['class'] = comment_line().comment("Class").n;
+				
+				$td[3]['class'] .= n.n.'<fieldset class="class" id="write-sort">';
+				$td[3]['class'] .= pluggable_ui(
+						'article_ui','class',
+						n.'<legend>'.'Class'.'</legend>'.
+						n.graf(class_popup('Class',$Class,'class',35)),
+						$rs);
+					
+				$td[3]['class'] .= n.'</fieldset>';
+			}
+		}
+						
 		//-- category selects ------------------------------------------
 		
 		$td[3]['categories'] = comment_line().comment("Categories").n;
@@ -619,15 +638,18 @@
 		$popup[++$pos] = n.graf(category_popup('Category[]', '', 'category-'.$pos,35));
 		
 		$category_popup = implode('',$popup);
-			
-		$td[3]['categories'] .= n.n.'<fieldset class="categorize" id="write-sort">';
-		$td[3]['categories'] .= pluggable_ui(
-				'article_ui','categories',
-				n.'<legend>'.gTxt('categorize').'</legend>'.$category_popup,
-				$rs);
-			
-		$td[3]['categories'] .= n.'</fieldset>';
 		
+		if (trim($category_popup) != '<p></p>') {
+		
+			$td[3]['categories'] .= n.n.'<fieldset class="categorize" id="write-sort">';
+			$td[3]['categories'] .= pluggable_ui(
+					'article_ui','categories',
+					n.'<legend>'.gTxt('categorize').'</legend>'.$category_popup,
+					$rs);
+				
+			$td[3]['categories'] .= n.'</fieldset>';
+		}
+				
 		//-- MORE --------------------------------------------------------------
 		
 		$more = array();

@@ -221,10 +221,11 @@
 	
 	<form name="create_new" method="POST">
 		
-		<input type="text" name="title" title="Title" class="edit text title" />
+		<!-- <input type="text" name="title" title="Title" class="edit text title" /> -->
 		
-		<div class="extra">{$new_article_fields}</div>
-		
+		<textarea class="title" name="title" rows="1" cols="30"></textarea>
+		<span class="extra">{$new_article_fields}</span>
+			
 		<input type="hidden" name="win" value="{$window}"/>
 		<input type="hidden" name="selected" value="{$checked}"/>
 		<input type="hidden" name="checked" value="{$checked}"/>
@@ -235,8 +236,8 @@
 	
 	</form>
 	
-	<a class="save" href="#" title="Save">Save</a>
-	<a class="cancel" href="#" title="Cancel">Cancel</a> 
+	<a class="save" href="#" title="Save [ &#8984;&#8629; ]">Save</a>
+	<a class="cancel" href="#" title="Cancel [ ESC ]">Cancel</a> 
 	
 </div>
 

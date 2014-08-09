@@ -216,7 +216,7 @@
 		
 		$s   = preg_replace('/\//', '\/', $s);
 		$out = preg_replace('/'.$s.'/', $r, $out);
-	
+		
 		if ($s2 and $out) { 
 			$s2  = preg_replace('/\//', '\/', $s2);
 			$out = preg_replace('/'.$s2.'/', $r2, $out);

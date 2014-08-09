@@ -736,8 +736,9 @@ $LastChangedRevision: 3258 $
 		global $is_article_body, $has_article_tag, $txptrace, $pretext;
 		
 		if ($is_article_body) {
-			trigger_error(gTxt('article_tag_illegal_body'));
-			return '';
+			/* changed to allow <txp:article> tags in body */
+			// trigger_error(gTxt('article_tag_illegal_body'));
+			// return '';
 		}
 		
 		// atts.doArticles
@@ -1012,17 +1013,51 @@ $LastChangedRevision: 3258 $
 		
 		$content_type_stack->push('article');
 		
-		$r = ($is_article_list) 
-			? doArticles($atts,$iscustom,$thing) 
-			: doArticle($atts,$pretext['id'],$thing);
+		$path = (isset($atts['path'])) ? $atts['path'] : '';
 		
+		if (preg_match('/\s+or\s+/',$path)) {
+			
+			// if there are multiple path values then process each one
+			// into an array using the array keys for sorting 
+			
+			$path = explode(' or ',$path);
+			$articles = array();
+			
+			foreach ($path as $atts['path']) {
+				doArticles($atts,$iscustom,$thing,$articles); 
+			}
+			
+			$sort = (isset($atts['sort'])) ? $atts['sort'] : 'Posted DESC';
+			$sort = explode(' ',strtolower($sort));
+			array_shift($sort);
+			$sortdir = array_shift($sort);
+			
+			if ($sortdir == 'desc') {
+				krsort($articles);
+			} else {
+				ksort($articles);
+			}
+			
+			$limit = (isset($atts['limit'])) ? $atts['limit'] : 10;
+			
+			$articles = array_slice($articles,0,$limit);
+			
+			$r = implode($articles);
+			
+		} else {
+		
+			$r = ($is_article_list) 
+				? doArticles($atts,$iscustom,$thing) 
+				: doArticle($atts,$pretext['id'],$thing);
+		}
+				
 		$content_type_stack->pop();
 		
 		$is_article_list = $old_ial;
 
 		return $r;
 	}
-
+	
 // -------------------------------------------------------------------------------------
 	function getNeighbour($Posted, $s, $class) {
 	
@@ -1975,7 +2010,8 @@ $LastChangedRevision: 3258 $
 			
 			foreach($patterns as $key => $pattern) {
 			
-				$id = intval(end(explode('.',$key)));
+				$key = explode('.',$key);
+				$id  = intval(end($key));
 				
 				if ($debug) pre("TRY ".$pattern);
 				
@@ -2355,4 +2391,3 @@ function add_toolbar_iframe(&$html)
 }
 
 ?>
-

@@ -4,7 +4,38 @@
 	if (!defined('DSLASH')) define('DSLASH','(\/\/)');
 	if (!defined('WORD')) 	define('WORD','(\w+)');
 	if (!defined('ISNOT')) 	define('ISNOT','([\-\!])');
-
+	
+	// -------------------------------------------------------------------------
+	// return a subtree as a one dimensional array
+	
+	function safe_subtree($context=0,$things='ID',$table='textpattern',$where='1=1') 
+	{
+		$tree = array();
+		
+		if (!$context) {
+			$context = safe_field('ID',$table,"ParentID = 0 AND Trash = 0");
+		}
+		
+		$rows = safe_rows(
+			$things,
+			"$table AS p",
+			"p.ParentID = $context AND $where",
+			0,0);
+		
+		foreach ($rows as $row) {
+			
+			$tree[] = $row;
+			
+			$subtree = safe_subtree($row['ID'],$things,$table,$where);
+			
+			if ($subtree) {
+				$tree = array_merge($tree,$subtree);
+			}
+		}
+		
+		return $tree;
+	}
+	
 	// -------------------------------------------------------------------------
 
 	function safe_count_treex($context=0,$path='',$table='textpattern',$where='1=1',$flags='') 

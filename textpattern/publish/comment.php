@@ -58,7 +58,7 @@ $LastChangedRevision: 3266 $
 
 	function commentForm($id, $atts=NULL, $thing=NULL)
 	{
-		global $prefs,$dump,$thisarticle;
+		global $prefs,$dump,$thisarticle,$article_stack;
 		extract($prefs);
 
 		extract(lAtts(array(
@@ -66,7 +66,7 @@ $LastChangedRevision: 3266 $
 			'msgrows'   => '5',
 			'msgcols'   => '25',
 			'msgstyle'  => '',
-			'form'      => 'comment_form',
+			'form'      => 'comment-form',
 			'contact'   => 0,
 			'action'	=> '',
 			'preview'	=> 0,
@@ -85,7 +85,7 @@ $LastChangedRevision: 3266 $
 		$name  			= ps('name');
 		$email 			= clean_url(ps('email'));
 		$web   			= clean_url(ps('web'));
-		$subject        = clean_url(ps('subject'));
+		$subject        = ps('subject');
 		$error		 	= ps('error');
 		$sender   	 	= ps('sent');
 		$n_message 		= 'message';
@@ -266,11 +266,13 @@ $LastChangedRevision: 3266 $
 		);
 		
 		$vals['comment_preview'] = '';
+		
 		$thisarticle['comment_subject'] = $subject;
+		$article_stack->set('comment_subject',$subject);
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
-		$Form = ($thing) ? $thing : safe_field('Body','txp_form',"Name = '$form' AND Status = 4 AND Trash = 0");
+		$Form = ($thing) ? $thing : safe_field('Body_html','txp_form',"Name = '$form' AND Status = 4 AND Trash = 0");
 		
 		foreach ($vals as $a => $b)
 		{
@@ -677,6 +679,12 @@ $LastChangedRevision: 3266 $
 						 saveSignup($signup);
 					}
 					
+					if (!isset($_POST['message'])) {
+						
+						// allow plugins to get the message 
+						$_POST['message'] = $in['message'];
+					}
+					
 					if ($contact and $rs) {
 						
 						$_POST['sent'] = $rs;
@@ -992,4 +1000,3 @@ $LastChangedRevision: 3266 $
 		return array($name,$email);
 	}
 ?>
-

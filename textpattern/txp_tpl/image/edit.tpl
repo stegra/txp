@@ -17,7 +17,7 @@
 			<p>{$txt_image_name}<br /><input type="text" name="name" value="{$name}" class="edit name" />{$ext}</p>
 			
 			{if $category}
-			<p class="category">{$txt_category}<br />{$category}</p>
+			<!-- <p class="category">{$txt_category}<br />{$category}</p> -->
 			{/if}
 			
 			<p>{$txt_alt_text}<br /><input type="text" name="alt" value="{$alt}" size="50" class="edit alt-text" /></p>

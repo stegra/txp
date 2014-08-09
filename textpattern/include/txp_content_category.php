@@ -226,6 +226,10 @@ $LastChangedRevision: 3203 $
 			$selected = array();
 		}
 		
+		if ($changed) {
+			rebuild_txp_tree(0,0,'txp_category');
+		}
+		
 		$WIN['checked'] = $selected;
 		
 		category_list($message);

@@ -172,12 +172,11 @@ $LastChangedRevision: 3256 $
 			}
 
 			extract($a);
-
+			
 			if (is_array($value) and in_array($$col,$value)) {
-				
 				$class = 'selected';
 				$position = $pos[$$col];
-				
+	
 			} elseif ($$col == $value) { 
 			
 				$sel = ' selected="selected"';
@@ -391,4 +390,3 @@ $LastChangedRevision: 3256 $
 		.'" size="'.$size.'" maxlength="'.$size.'" class="edit"'.(empty($tab) ? '' : ' tabindex="'.$tab.'"').' title="'.gTxt('article_'.$name).'" />';
 	}
 ?>
-

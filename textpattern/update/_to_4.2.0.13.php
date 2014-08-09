@@ -21,6 +21,4 @@
 		safe_alter('txp_log',"MODIFY COLUMN agent int NOT NULL DEFAULT 0");
 	}
 	
-	
-	
 ?>

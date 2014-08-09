@@ -65,16 +65,23 @@
 	border-width: 0;
 	vertical-align: middle;
 	text-align: center;
+	position: relative;
 }
 
 #list tr.sort-posted		th.posted	 	a, 
+#list tr.sort-lastmod		th.lastmod 		a, 
 #list tr.sort-lastmodmicro	th.lastmodmicro a, 
 #list tr.sort-title			th.title	 	a,
+#list tr.sort-name			th.name	 		a,
+#list tr.sort-id			th.id	 		a,
 #list tr.sort-section		th.section	 	a, 
+#list tr.sort-class			th.class 		a, 
+#list tr.sort-categories	th.categories 	a, 
 #list tr.sort-category1		th.category1 	a, 
 #list tr.sort-category2		th.category2 	a,
 #list tr.sort-category3		th.category3 	a,
 #list tr.sort-category4		th.category4 	a,
+#list tr.sort-authorid		th.authorid	 	a, 
 #list tr.sort-status		th.status	 	a, 
 #list tr.sort-position		th.position	 	a,
 #list tr.sort-custom_1		th.custom_1		a, 
@@ -121,6 +128,10 @@
 	/* background-color: red; */
 }
 
+#list tr.thumb-y td.body.view {
+	height: 50px;
+}
+
 /* edit mode */ 
 
 table#list tr.edit input {
@@ -130,6 +141,54 @@ table#list tr.edit input {
 	border-style: solid;
 	border-color: #C6BEB6 #EAE4DF #EAE4DF #C6BEB6;
 	margin-left: -3px;
+}
+
+table#list tr td.body.edit,
+table#list tr td.excerpt.edit {
+	height: 22px;
+}
+
+table#list tr.edit.thumb-y td.body {
+	height: 50px;
+}
+
+table#list tr.edit div.textarea {
+	position: absolute;
+	width: 215px;
+	background-color: #EEE;
+	border-width: 1px;
+	background-color: #F2EDE8;
+	border-style: solid;
+	border-color: #C6BEB6 #EAE4DF #EAE4DF #C6BEB6;
+	margin-left: -3px;
+	overflow: hidden;
+}
+
+table#list tr.edit.thumb-y div.textarea {
+	height: 47px;
+}
+
+table#list tr.edit div.textarea textarea {
+	border: 0px;
+	width: 230px;
+	height: 12px;
+	background-color: #F2EDE8;
+	line-height: 14px;
+}
+
+table#list tr.edit.thumb-y div.textarea textarea {
+	height: 47px;
+}
+
+table#list tr.edit div.textarea.focus {
+	height: 200px;
+	width: 400px;
+	z-index: 1000;
+}
+
+table#list tr.edit div.textarea.focus textarea {
+	height: 194px;
+	width: 394px;
 }
 
 table#list input.title    { width: 206px; }

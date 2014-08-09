@@ -299,15 +299,8 @@ $LastChangedRevision: 3260 $
 		$html = gps('Body');
 		$xsl  = preg_match('/<xsl:/',$html) ? true : '';
 		
-		if (is_dir($path_to_site.DS.'xsl')) {
-		
-			$path_to_xsl = $path_to_site.DS.'xsl'.DS.'page'.DS;
-		
-		} else {
-		
-			$path_to_xsl = $path_to_site.DS.'textpattern'.DS.'xsl'.DS.'page'.DS;
-			if (!is_dir($path_to_xsl)) mkdir($path_to_xsl,0777,TRUE);
-		}
+		$path_to_xsl = $path_to_site.DS.'textpattern'.DS.'xsl'.DS.'page'.DS;
+		if (!is_dir($path_to_xsl)) mkdir($path_to_xsl,0777,TRUE);
 		
 		$Body = $html;
 		$Body = preg_replace("/\&nbsp;/","&#160;",$Body);
@@ -558,14 +551,14 @@ $LastChangedRevision: 3260 $
 		static $path_to_xsl = '';
 		
 		if (!$path_to_xsl) {
-		
-			if (is_dir($path_to_site.DS.'textpattern'.DS.'xsl'.DS.'page')) {
-				
-				$path_to_xsl = $path_to_site.DS.'textpattern'.DS.'xsl'.DS.'page'.DS;
 			
-			} elseif (is_dir($path_to_site.DS.'xsl'.DS.'page')) {
+			if (is_dir($path_to_site.DS.'xsl'.DS.'page')) {
 				
 				$path_to_xsl = $path_to_site.DS.'xsl'.DS.'page'.DS;
+			
+			} elseif (is_dir($path_to_site.DS.'textpattern'.DS.'xsl'.DS.'page')) {
+				
+				$path_to_xsl = $path_to_site.DS.'textpattern'.DS.'xsl'.DS.'page'.DS;
 			
 			} else {
 				
@@ -581,7 +574,11 @@ $LastChangedRevision: 3260 $
 		
 		$rows = safe_rows(
 			"ID,Name,Body,Body_xsl,Level,ParentID,Type","txp_page",
-			"ParentID = $root AND Trash = 0 AND Type != 'trash' ORDER BY Position ASC");
+			"ParentID = $root 
+			 AND Status = 4 
+			 AND Trash = 0 
+			 AND Type != 'trash' 
+			 ORDER BY Position ASC");
 		
 		foreach ($rows as $page) {
 			
@@ -649,7 +646,7 @@ $LastChangedRevision: 3260 $
 	{
 		rebuild_txp_tree();
 		
-		$rows = safe_rows_tree("0","ID,Name,Type,Level","txp_page","1=1",1);
+		$rows = safe_rows_tree("0","ID,Name,Type,Level","txp_page","1=1");
 		
 		return $rows;
 	}
@@ -738,25 +735,6 @@ $LastChangedRevision: 3260 $
 	}
 	
 //--------------------------------------------------------------------------------------
-	function examineHTMLTags($code) {
-	
-		$tag_name = '([a-z]+[1-6]?)';
-		$tag_attr = '([^\>]+)';
-		
-		// return preg_replace_callback('/\<'.$tag_name.'\s+'.$tag_attr.'\>/','examineAttributes',$code);
-		
-		$LEFT  = '\{';
-		$RIGHT = '\}';
-		$SP    = '\s*';
-		
-		$var   = '\$([0-9]+)';
-		$code  = preg_replace_callback('/'.$LEFT.$SP.$var.$SP.$RIGHT.'/','reformatCurlyVar',$code);
-		
-		$var   = '\$txp\.'."([a-z0-9\_\-\.\(\)\'\']+)";
-		return preg_replace_callback('/'.$LEFT.$SP.$var.$SP.$RIGHT.'/','reformatCurlyVar',$code);
-	}	
-
-//--------------------------------------------------------------------------------------
 	function examineAttributes($matches,$tag_name='',$tag_attr='') {
 		
 		if ($matches) {
@@ -797,140 +775,6 @@ $LastChangedRevision: 3260 $
 		return $attr_name.'="'.$attr_value.'"';
 	}
 	
-//--------------------------------------------------------------------------------------
-	function reformatCurlyVar($matches,$name='') {
-		
-		$match = ($matches) ? explode('.',$matches[1]) : explode('.',$name);
-		
-		$out_tag_name = array_shift($match);
-		$out_tag_attr = array();
-		
-		$atts = $match;
-		
-		$parent = false;
-		
-		if ($out_tag_name == 'parent') {
-			
-			$parent = true;
-			
-			$out_tag_name = array_shift($atts);
-			
-			if (in_list($out_tag_name,'id,title')) {
-			
-				switch ($out_tag_name) {
-					case 'id'    : $out_tag_name = 'parent_id'; break;
-					case 'title' : $out_tag_name = 'parent_title'; break;
-				}
-				
-				$parent = false;
-			}
-		}
-		
-		// url path position index
-		// example: {$1},{$2},etc.
-		
-		if (preg_match('/^[0-9]+$/',$out_tag_name)) {
-			
-			$position       = $out_tag_name;
-			$out_tag_name   = 'path';
-			$out_tag_attr[] = "position='".$position."'";
-			$out_tag_attr[] = "mode='req'";
-		}
-		
-		if ($out_tag_name == 'custom' and isset($atts[0])) {
-			
-			$out_tag_name   = 'custom_field';
-			$out_tag_attr[] = "name='".$atts[0]."'";
-			
-			if (isset($atts[1]) and $atts[1] == 'num') {
-				$out_tag_attr[] = "format='number'";
-			}
-			
-			$match = array();
-		}
-		
-		// txp:custom_field tag
-		
-		if (preg_match('/^custom[1-9]0?$/',$out_tag_name)) {
-			
-			$out_tag_name = "custom_field";
-			$out_tag_attr[] = "name='".$out_tag_name."'";
-		}
-		
-		// txp:var tag
-		
-		if ($out_tag_name == 'var' and $atts) {
-			
-			$out_tag_attr[] = "name='".array_shift($atts)."'";
-		}
-		
-		// txp:var tag alias for query
-		
-		if ($out_tag_name == 'q' and $atts) {
-			
-			$out_tag_name = "var";
-			$out_tag_attr[] = "name='q.".array_shift($atts)."'";
-		}
-		
-		// txp:image_src tag
-		
-		if ($out_tag_name == 'image_src' and $atts) {
-			
-			$val = array_shift($atts);
-			
-			if (in_list($val,'o,r,t,xx,y,z,')) {
-				$out_tag_attr[] = "size='$val'";
-			}
-		}
-		
-		// txp:selected tag with two attributes
-		
-		if ($out_tag_name == 'selected' and $atts) {
-			
-			$out_tag_attr[] = "page='".'$txp.'.array_shift($atts)."'";
-			
-			if (count($atts)) {
-				$out_tag_attr[] = "sel='".'$txp.'.array_shift($atts)."'";
-			}
-		}
-		
-		// txp:body & txp:excerpt tag
-		
-		if (in_list($out_tag_name,'body,excerpt')) {
-			
-			$out_tag_attr[] = "textile='0'";
-		}
-		
-		// txp tag attributes if any
-		// format for tag attributes: {$txp.tagname.param('value')}
-		
-		while (count($atts)) {
-		
-			$param = array_shift($atts);
-			
-			$param_name  = "([a-z0-9\_\-]+)";
-			$param_value = "([^\']*)";
-			
-			preg_match("/^".$param_name."\(\'".$param_value."\'\)$/",$param,$matches);
-			
-			if (count($matches) == 3) {
-				
-				$param_name  = $matches[1];
-				$param_value = $matches[2];
-				
-				$out_tag_attr[] = $param_name."='".$param_value."'";
-			}
-		}
-		
-		$out = '[txp:'.$out_tag_name.' '.implode(' ',$out_tag_attr).'/]';
-		
-		if ($parent) {
-			$out = "[txp:article path='..' status='*' debug='0']".$out.'[/txp:article]';
-		}
-		
-		return $out;
-	}
-
 //--------------------------------------------------------------------------------------
 	function addCommentLines($html) {
 		
@@ -1028,4 +872,3 @@ $LastChangedRevision: 3260 $
 		return $html;
 	}
 ?>
-

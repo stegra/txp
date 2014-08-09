@@ -31,6 +31,4 @@
 		safe_insert('txp_prefs',$pref,1);
 	}
 	
-	
-	
 ?>

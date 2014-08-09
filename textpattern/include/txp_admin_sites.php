@@ -724,6 +724,11 @@ $LastChangedRevision: 3203 $
 			
 			// @exec("cp $setup/txp.sql $sql_file");
 			
+			if (!is_file($sql_file)) {
+			
+				$sql_file = $setup.'/txp.sql';
+			}
+		
 		} else {
 		
 			$old_prefix = safe_field("prefix","txp_site","ID = $Copy");
@@ -750,6 +755,8 @@ $LastChangedRevision: 3203 $
 				$sql = str_replace("`txp_","`".$PFX."txp_",$sql);
 			}
 			
+			$sql_file = $sitedir.'/database/txp.sql';
+			
 			write_to_file($sql_file,$sql);
 			
 			if (!table_exists('textpattern',$PFX)) {
@@ -757,7 +764,7 @@ $LastChangedRevision: 3203 $
 				$options = array(
 					"-h ".$DB->host,
 					"-u ".$DB->user,
-					"--password=".$DB->pass);
+					'--password="'.$DB->pass.'"');
 					
 				exec('mysql '.implode(' ',$options).' '.$DB->db.' < '.$sql_file);
 				
@@ -796,7 +803,10 @@ $LastChangedRevision: 3203 $
 		*/
 		
 		clear_cache();
-		safe_delete("txp_window","1=1");
+		
+		if (table_exists('txp_window',$PFX)) {
+			safe_delete("txp_window","1=1");
+		}
 						
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// add prefs
@@ -991,84 +1001,15 @@ $LastChangedRevision: 3203 $
 		
 		if (!$SiteDir) return;
 		
-		$txpdir = txpath;
-		
-		// ---------------------------------------------
-		// copy textpattern dir to sites folder
-		
-		@exec("cp -rp $txpdir $SiteDir");
-		
-		// ---------------------------------------------
-		// copy textpattern dir to sites folder
-		
-		if (is_dir("$SiteDir/textpattern")) {
-			
-			$pages = dirlist("$SiteDir/textpattern/xsl/page");
-			
-			foreach ($pages as $file) {
-				unlink("$SiteDir/textpattern/xsl/page/$file");
-			}
-			
-			$forms = dirlist("$SiteDir/textpattern/xsl/form");
-			
-			foreach ($forms as $file) {
-				unlink("$SiteDir/textpattern/xsl/form/$file");
-			}
-			
-			$pages = dirlist("$SiteDir/xsl/page");
-			
-			foreach ($pages as $file) {
-				copy("$SiteDir/xsl/page/$file","$SiteDir/textpattern/xsl/page/$file");
-			}
-			
-			$forms = dirlist("$SiteDir/xsl/form");
-			
-			foreach ($forms as $file) {
-				copy("$SiteDir/xsl/form/$file","$SiteDir/textpattern/xsl/form/$file");
-			}
-		
-		} else {
-			
-			echo "Error: $SiteDir/textpattern dir does not exist";
-			return;
-		}
-		
-		// ---------------------------------------------
-		// copy htaccess file to sites folder
-		
-		copy($prefs['path_to_site'].'/.htaccess',"$SiteDir/.htaccess");
-		
-		// ---------------------------------------------
-		// copy index.php file to sites folder
-		
-		copy($prefs['path_to_site'].'/index.php',"$SiteDir/index.php");
-		
-		// ---------------------------------------------
-		// delete config file
-		
-		if (is_file("$SiteDir/textpattern/config.php")) {
-			
-			unlink("$SiteDir/textpattern/config.php");
-		}
-		
 		// ---------------------------------------------
 		// delete trashed images
 		
 		delete_trashed_images($id);
 		
 		// ---------------------------------------------
-		// delete logs
-		/*
-		$log = dirlist($SiteDir.'/log');
-		
-		foreach ($log as $file) {
-			unlink($SiteDir.'/log/'.$file);
-		}
-		*/
-		// ---------------------------------------------
 		// mysqldump prefix tables
 		
-		$sqlfile = $SiteDir.'/textpattern/setup/archive.sql';
+		$sqlfile = txpath.'/setup/archive.sql';
 		 
 		mysqldump($sqlfile,$Prefix);
 		
@@ -1091,39 +1032,37 @@ $LastChangedRevision: 3203 $
 		// ---------------------------------------------
 		// tar sites folder 
 		
-		$tarfile = "$Name.tar.gz";
-		
-		$include = implode(' ',array(
-			'css',
-			'files',
-			'images',
-			'js',
-			'textpattern',
-			'index.php',
-			'.htaccess'
-		));
-		
-		if (is_dir($SiteDir.'/fonts')) {
-			$include .= ' fonts';
-		}
-		
-		if (is_file($SiteDir.'/favicon.ico')) {
-			$include .= ' favicon.ico';
-		}
-		
 		if (is_dir($SiteDir.'/tmp')) {
-			$tarfile = "tmp/$tarfile";
+			
+			chdir($SiteDir);
+			
+			$tarfile = "tmp/$Name.tar.gz";
+			
+			$include = implode(' ',array(
+				'css',
+				'files',
+				'images',
+				'js',
+				'../../.htaccess',
+				'../../index.php',
+				'../../textpattern'
+			));
+			
+			if (is_dir('fonts')) {
+				$include .= ' fonts';
+			}
+			
+			if (is_file('favicon.ico')) {
+				$include .= ' favicon.ico';
+			}
+			
+			$exclude  = " --exclude=textpattern/xsl/*/*";
+			$exclude .= " --exclude=textpattern/config.php";
+			
+			// echo "tar -cpzf $tarfile $include $exclude";
+			
+			@exec("tar -cpzf $tarfile $include $exclude",$null);
 		}
-		
-		chdir($SiteDir);
-		
-		@exec("tar -czpf $tarfile $include",$null);
-		
-		// ---------------------------------------------
-		// remove files no longer needed
-		
-		if (is_file("$SiteDir/.htaccess")) unlink("$SiteDir/.htaccess");
-		if (is_file("$SiteDir/index.php")) unlink("$SiteDir/index.php");
 	}
 
 // -------------------------------------------------------------

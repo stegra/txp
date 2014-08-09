@@ -1281,6 +1281,10 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 				$class[] = 'preview';
 			}
 			
+			if (cs('txp_sitemode_edit') == 'on' or isset($_GET['edit'])) {
+				$class[] = 'edit-mode';
+			}
+			
 			if ($pretext['path']) {
 				$class[] = trim(str_replace('/',' ',$pretext['path']));
 			}
@@ -1457,9 +1461,11 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 		
 		$start = strpos($html,'<title>') + 7;
 		$end   = strpos($html,'</title>') - 1;
-		$title = substr($html,$start,$end-$start);
-		$title = preg_replace('/<\/?[a-z]+>/','',$title);
-		$html  = substr_replace($html,$title,$start,$end-$start);
+		if ($end > $start) {
+			$title = substr($html,$start,$end-$start);
+			$title = preg_replace('/<\/?[a-z]+>/','',$title);
+			$html  = substr_replace($html,$title,$start,$end-$start);
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 		// put line break after title tag
@@ -1673,4 +1679,3 @@ $testhtml = preg_replace_callback('/'.'\s*'.'<([\/\!]?)'.$tagname.'\s?'.$tagatts
 	} 
 
 ?>
-

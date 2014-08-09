@@ -28,6 +28,9 @@
 
 		extract($thisarticle);
 		
+		$comments_count = safe_count('txp_discuss',
+			"article_id = $thisid AND Trash = 0 AND Status = 4");
+		
 		if (!$comments_count) return '';
 
 		$qparts = array(
@@ -131,8 +134,12 @@
 		), $atts));
 		
 		if (!$min) $min = 1; 
+		
+		$id    = $thisarticle['thisid'];
+	 // $count = $thisarticle['comments_count']; // BUG: NOT BEING UPDATED 
+		$count = safe_count('txp_discuss',"article_id = $id AND Trash = 0 AND Status = 4");
 
-		return parse(EvalElse($thing, ($thisarticle['comments_count'] >= $min)));
+		return parse(EvalElse($thing, ($count >= $min)));
 	}
 
 // -----------------------------------------------------------------------------
@@ -242,7 +249,7 @@
 			$subject = $thisarticle['comment_subject'];
 		}
 		
-		return fInput('text','subject',$subject,'text');
+		return fInput('text','subject',$subject,'text','','','','','subject');
 	}
 
 // -----------------------------------------------------------------------------

@@ -139,7 +139,7 @@ $LastChangedRevision: 789 $
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// database
 	
-	$DB->refresh();
+ // $DB->refresh();
 	$PFX = $txpcfg['table_prefix'];
 	
 	$tables = safe_tables();
@@ -257,11 +257,15 @@ $LastChangedRevision: 789 $
 	// load plugins
 	
 	$plugin_list = safe_column('name','txp_plugin',
-		"Type = 'plugin' AND Trash = 0");
+		"Type = 'plugin' AND Status = 4 AND Trash = 0");
 	
 	foreach($plugin_list as $plugin) {
 		
-		if (is_file(txpath."/plugins/$plugin/index.php")) {
+		if (is_file($txpcfg['path_to_site']."/textpattern/plugins/$plugin/index.php")) {
+		
+			include $txpcfg['path_to_site']."/textpattern/plugins/$plugin/index.php";
+			
+		} elseif (is_file(txpath."/plugins/$plugin/index.php")) {
 		
 			include txpath."/plugins/$plugin/index.php";
 		

@@ -159,10 +159,10 @@ txp.plugins.filedrop = {
 				}
 				
 			} else {
-			
+				
 				// console.log('text:',text);
 				
-				// t.insertArticle(text);
+				t.insertArticle(text);
 			}	
 			
 		} else {
@@ -485,15 +485,32 @@ txp.plugins.filedrop = {
 
 // -----------------------------------------------------------------------------
 
-	insertArticle : function(title) {
-	
+	insertArticle : function(text) {
+		
+		// clean text 
+		
+		text = text.trim().split("\n");
+		
+		for (i=0;i<text.length;i++) {
+			
+			// remove starting bullet point char
+			if (text[i].trim().charCodeAt(0) == 8226) {
+			
+				text[i] = text[i].trim().substr(1).trim();
+			}
+		}
+		
+		text = text.join("\n");
+		
 		$.post("index.php", { 
-			event    : txp.event, 
-			step     : 'post', 
-			win      : txp.winid,
-			app_mode : 'async',
-			parent   : txp.docid,
-			title	 : title},
+			event       : txp.event, 
+			step        : 'multi_edit', 
+			edit_method : 'new',
+			selected    : txp.checked.join(','),
+			checked	    : txp.checked.join(','),
+			title	    : text,
+			win         : txp.winid,
+			app_mode    : 'async'},
 			function(data){
 				txp.plugins.filedrop.refreshContent();
 			});
@@ -557,7 +574,6 @@ txp.plugins.filedrop = {
 		
 		} else {
 			
-			// console.log(href);
 			document.location.href = "?" + href.join('&');
 		}
 	},
@@ -774,7 +790,7 @@ txp.plugins.filedrop = {
 // -----------------------------------------------------------------------------
 
 	refreshContent : function() {
-	
+		
 		if (txp.step == 'edit') {
 			
 			if (txp.event == 'image' || txp.event == 'file') {
@@ -786,7 +802,7 @@ txp.plugins.filedrop = {
 				txp.plugins.filedrop.showArticleImage();
 			}
 			
-		} else if (txp.step == 'list') {
+		} else if (txp.mode == 'list') {
 			
 			// refresh list table rows
 			
@@ -796,6 +812,7 @@ txp.plugins.filedrop = {
 				app_mode :'async',
 				refresh_content:1 },
 				function(data){
+					
 					$('table#list tr.data').remove();
 					$('table#list tr.grid').remove();
 					$('table#list tr.hr').remove();

@@ -17,8 +17,8 @@ $LastChangedRevision: 3265 $
 		
 		$area 	= gps('area');
 		$step   = gps('step');
-		$step   = gps('open',$step);
-		$step   = gps('close',$step);
+		$step   = (gps('open'))  ? 'open'  : $step;
+		$step   = (gps('close')) ? 'close' : $step;
 		$bm 	= gps('bm');
 		$event  = (!$event) ? 'article' : $event;
 		$mode   = (in_array(gps('step'),$edit_steps) or $event == 'article') ? 'edit' : 'list';

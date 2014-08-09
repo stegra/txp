@@ -9,6 +9,7 @@
 		var	$sortdir = '';
 		var $root    = 0;
 		var $flat    = false;
+		var $more 	 = 0;
 		
 		var $selected = array();
 		var $open	  = array();
@@ -40,6 +41,10 @@
 				unset($WIN['open'][$close]);
 			}
 			
+			if ($thumb = gps('thumb')) {
+				$WIN['thumb'] = $thumb;
+			}
+			
 			if ($view = gps('view')) {
 			
 				if ($view == 'div') {
@@ -50,6 +55,14 @@
 				if ($view == 'tr') {
 					$WIN['thumb'] = 'z';
 				}
+			}
+			
+			if ($more = gps('more')) { 
+			
+				if ($WIN['flat'] and is_numeric($more)) {
+					$WIN['flat'] += intval($more);
+					$this->more = intval($more);
+ 				}
 			}
 			
 			$this->content	= $WIN['content'];
@@ -144,8 +157,10 @@
 			$this->exclude = array();
 			$this->include['customfields'] = array();
 			
-			if ($_SESSION['clipboard']['table'] == $this->table) {
-				$this->exclude = $_SESSION['clipboard']['cut'];
+			if (isset($_SESSION['clipboard'])) {
+				if ($_SESSION['clipboard']['table'] == $this->table) {
+					$this->exclude = $_SESSION['clipboard']['cut'];
+				}
 			}
 					
 			foreach($this->custom as $col) {
@@ -170,7 +185,10 @@
 			
 			$q = $this->buildQuery();
 			
-			$this->getMain($this->root,$q);
+			if (!$this->more) {
+				// dont' get the main article for ajax load more
+				$this->getMain($this->root,$q);
+			}
 			
 			if ($ids = $this->applyFilters($this->root)) {
 				
@@ -319,10 +337,6 @@
 			
 			$list = ($list) ? $list : $this->list;
 			
-			if ($thumb = gps('thumb')) {
-				$WIN['thumb'] = $thumb;
-			}
-				
 			if ($scroll = gps('scroll')) {
 				$WIN['scroll'] = $scroll;
 			}
@@ -364,6 +378,7 @@
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			
 			$titles = array();
+			$path_titles = array();
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			
@@ -409,6 +424,10 @@
 				$image_width  = 20;
 				$image_height = 20;
 				$image_size   = '';
+				
+				if (isset($columns['Title']['path'])) {
+					unset($columns['Title']['path']);
+				}
 				
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				// regular column values
@@ -473,6 +492,39 @@
 					}
 					
 					// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+					// body & excerpt
+				
+					if ($name == 'Body' or $name == 'Excerpt') {
+						
+						if (strlen($value)) {
+						
+							if ($edit) {
+							
+								$value = fetch($name,$this->table,"ID",$ID);
+								$columns[$name]['value'] = doStrip($value);
+								
+							} else {
+								
+								$body_left = ($WIN['thumb'] == 'y') ? 115 : 40;
+								
+								if (strlen($value) == $body_left) {
+									$words = preg_split('/\s+/',$value);
+									array_pop($words);
+									$value = implode(' ',$words).'...';
+								}
+								
+								$value = htmlentities($value);
+								
+								if (strlen($value)) {
+									$value = '<div>'.$value.'</div>';
+								}
+							}
+							
+							$columns[$name]['value'] = $value;
+						}
+					}
+					
+					// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					// status
 					
 					if ($name == 'Status') {
@@ -525,7 +577,7 @@
 					
 					if ($name == 'LastMod') {
 						
-						$columns['LastMod']['value'] = $this->dateFormat($value);
+						$columns['LastMod']['value'] = $this->dateFormat($value,1);
 					}
 					
 					// - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -552,6 +604,7 @@
 					if ($name == 'Title') {
 					
 						$titles[] = strlen($value);
+						$path_titles[$ID] = $value;
 						
 						if ($edit) {
 						
@@ -639,6 +692,31 @@
 						$columns[$name]['value']   = $value['value'];
 						$columns[$name]['options'] = $value['options'];
 					}
+					
+					// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+					// Path 
+					
+					if ($name == 'Title' and strlen($Path) and $WIN['flat']) {
+						
+						$path = explode('/',$Path);
+						
+						if ($path) {
+						
+							foreach ($path as $key => $item) {
+								
+								if (isset($path_titles[$item])) {
+									$title = $path_titles[$item];
+								} else {
+									$title = fetch('Title',$this->table,"ID",$item);
+									$path_titles[$item] = $title;
+								}
+								
+								$path[$key] = $title;
+							}
+							
+							$columns['Title']['path'] = implode('/',$path);
+						}
+					}
 				}
 				
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -708,9 +786,27 @@
 				
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				
+				$row_pos = $row_count - 2;
+				
+				if ($this->more) {
+					
+					$row_pos = ($WIN['flat'] - $this->more) + $row_count - 1;
+				}
+				
+				// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+				// title path to this article
+			
+				$title_path = new Path($ID);
+				
+				$title_path->setInc('!ROOT,!SELF');
+				$title_path = $title_path->getList('Title','/').'/';
+				
+				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+				
 				$smarty->assign('id',$ID);
 				$smarty->assign('parent_id',$row['ParentID']);
 				$smarty->assign('title_id',(($Alias > 0) ? $Alias : $ID));
+				$smarty->assign('title_path',ltrim($title_path,'/'));
 				$smarty->assign('item_title',$row['Title']);
 				$smarty->assign('item_name',$row['Name']);
 				$smarty->assign('event',$WIN['event']);
@@ -719,7 +815,7 @@
 				$smarty->assign('content',$WIN['content']);
 				$smarty->assign('level',$Level);
 				$smarty->assign('maxlevel',$maxlevel);
-				$smarty->assign('row_pos',$row_count-2);
+				$smarty->assign('row_pos',$row_pos);
 				$smarty->assign('child_count',$child_count);
 				$smarty->assign('descendant_count',$descendant_count);
 				$smarty->assign('trash_cnt',$trash_cnt);
@@ -789,8 +885,15 @@
 				$list[] = $smarty->fetch('list/list_item_tr_empty.tpl');
 			}
 			
+			$list_items = implode(n,$list);
+			
+			if (gps('refresh_content') and $this->more) {
+				
+				return $list_items;	
+			}
+			
 			$smarty->assign('list_item_main',$main_item);
-			$smarty->assign('list_items',implode(n,$list));
+			$smarty->assign('list_items',$list_items);
 			
 			$list_data = $smarty->fetch('list/list_data.tpl');
 			
@@ -877,12 +980,14 @@
 			$new_article_fields = '';
 			
 			if ($this->content == 'link') {
-				$new_article_fields .= 'URL'.finput('text','url','','edit text');
+				$new_article_fields .= '<div><span>http://</span>'.finput('text','url','','edit text url').'</div>';
 			}
 			
 			if (in_list($this->content,'article,file,link')) {
-			
-				$new_article_fields .= 'Category'.category_popup('category','','new-article-category');
+				
+				$categories = category_popup('category','','new-article-category');
+				$new_article_fields .= str_replace('"></option>','">Category</option>'.n.'<option value="NONE">------------------------</option>'.n,$categories);
+				
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1062,6 +1167,7 @@
 				$smarty->assign('pos',$pos++);
 				$smarty->assign('is_edit_mode',false);
 				$smarty->assign('td_view_mode','view');
+				$smarty->assign('path','');
 				
 				if ($col['edit']) {
 					$smarty->assign('is_edit_mode',true);
@@ -1070,6 +1176,12 @@
 				
 				if (isset($col['options'])) {
 					$smarty->assign('options',$col['options']);
+				}
+				
+				if ($name == 'Title') {
+					if (isset($col['path']) and $col['path']) {
+						$smarty->assign('path',$col['path'].'/');
+					}
 				}
 					
 				$visible[$name] = $smarty->fetch('list/list_item_td.tpl');
@@ -1093,7 +1205,6 @@
 	// -------------------------------------------------------------		
 		function get_categories_column_value(&$row,$edit) 
 		{
-			static $all_categories = array();
 			static $all_titles = array();
 			
 			$ID         = $row['ID'];
@@ -1102,13 +1213,6 @@
 			$type = (in_list($this->content,'article,image,file,link')) 
 				? $this->content
 				: 'article';
-			
-			if (!$all_categories) {
-				$all_categories = safe_rows_tree(
-					0,
-					"ID,Name AS name,Title AS title,Level AS level,ParentID AS parent",
-					"txp_category");
-			}
 			
 			if (!$all_titles) {
 				$all_titles = safe_column('Name,Title','txp_category',"Trash = 0");
@@ -1133,8 +1237,8 @@
 					$categories[$key] = array_pop(explode(':',$value));
 				} */
 				
-				return treeSelectInput("Category[".$ID."]",$all_categories,$categories);
-			
+				return category_popup("Category[".$ID."]",$categories);
+				
 			} else {
 				
 				if ($this->sortby != 'categories') {
@@ -1364,7 +1468,7 @@
 	// -------------------------------------------------------------------------
 		function buildQuery() 
 		{	
-			global $PFX;
+			global $WIN, $PFX;
 			
 			$sort    = $this->sortby;
 			$dir     = strtoupper($this->sortdir);
@@ -1437,7 +1541,7 @@
 			if (isset($incl['Class'])) {
 				
 				if ($this->content != 'category') { 
-					$select['Class'] = "IFNULL((SELECT c.title FROM txp_category AS c WHERE t.Class = c.name AND c.class = 'yes'),'') AS Class";
+					$select['Class'] = "IFNULL((SELECT c.title FROM txp_category AS c WHERE t.Class = c.name AND c.class = 'yes' AND Trash = 0),'') AS Class";
 				} else {
 					$select['Class'] = "IF(t.Class='yes','Yes','') AS Class";
 				}
@@ -1460,6 +1564,20 @@
 			
 			if (isset($incl['Categories'])) { 
 				$select['Categories'] = "t.Categories";
+			}
+			
+			// body and excerpt 
+			
+			$text_left = ($WIN['thumb'] == 'y') ? 115 : 40;
+			
+			if (isset($incl['Body'])) {
+				
+				$select['Body'] = "LEFT(t.Body,$text_left) AS Body";
+			}
+			
+			if (isset($incl['Excerpt'])) {
+				
+				$select['Excerpt'] = "LEFT(t.Excerpt,$text_left) AS Excerpt";
 			}
 			
 			// custom field columns
@@ -1604,6 +1722,10 @@
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// ORDER BY
 			
+			$sorthistory = (isset($WIN['sorthist'])) 
+				? $WIN['sorthist'] 
+				: array();
+			
 			$orderby = array("istrash ASC");
 			
 			if (column_exists($content_table,$sort)) {
@@ -1616,9 +1738,35 @@
 				$orderby[] = "$sort $dir";
 			}
 		
-			if (!in_list($sort,'ID,Expires,Posted')) {
+			/* if (!in_list($sort,'ID,Expires,Posted')) {
 			
-				$orderby[] = "Posted DESC";
+				$orderby[] = "Posted DESC, ID DESC";
+			} */
+			
+			// second order sort 
+			
+			if ($sort == 'Posted') {
+			
+				// Posted may have duplicate values, second order by ID
+				
+				$orderby[] = "t.ID $dir";
+			
+			} elseif (count($sorthistory)) {
+			
+				$next = array_shift($sorthistory);
+				$orderby[] = "t.".$next;
+				
+				// third order sort 
+				
+				if (count($sorthistory)) {
+					$next = array_shift($sorthistory);
+					$orderby[] = "t.".$next;
+				}
+				
+				switch(strtolower($next)) {
+					case 'posted asc'  : $orderby[] = "t.ID ASC";  break;
+					case 'posted desc' : $orderby[] = "t.ID DESC"; break; 
+				}
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1735,7 +1883,22 @@
 			$orderby = " ORDER BY ".implode(', ',$orderby);
 			$limit   = " LIMIT 1000";
 			
-			if ($level > 2) $limit = " LIMIT $max_children";
+			if ($level == 2 and $this->flat) {
+				
+				$offset = 0;
+				$limit  = $this->flat;
+					
+				if ($this->more) {
+					$offset = $this->flat - $this->more;
+					$limit  = $this->more;
+				}
+				
+				$limit = " LIMIT $offset,$limit";
+			
+			} elseif ($level > 2) { 
+				
+				$limit = " LIMIT $max_children";
+			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// get rows
@@ -1777,13 +1940,27 @@
 					
 					$row['more'] = 0;
 					
-					if ($level > 2 and $key == $last) {
-						
-						if ($children > $max_children) {
-						
-							$row['more'] = $children - $max_children;
+					if ($key == $last) {
+					
+						if ($level > 2) {
 							
-							// pre("> $ID: $more_children more");
+							if ($children > $max_children) {
+							
+								$row['more'] = $children - $max_children;
+								
+								// pre("> $ID: $more_children more");
+							}
+							
+						} elseif ($level == 2 and $this->flat) {
+						
+							$path = str_replace('t.','',trim($q['where']['id'],'()'));
+							
+							$count = getCount($this->table,"$path AND Trash = 0");
+							
+							if ($count > $this->flat) { 
+								
+								$row['more'] = $count - $this->flat;
+							}
 						}
 					}
 					
@@ -1816,7 +1993,7 @@
 		
 		// -------------------------------------------------------------------------
 		
-		function dateFormat($date) {
+		function dateFormat($date,$time='') {
 			
 			$now  = time() + tz_offset();
 			$date = $date + tz_offset();
@@ -1828,9 +2005,12 @@
 				$format = ($date - $now < 31622507) ? "M j" : "y/m/d";
 			}
 			
-			return date($format,$date);
+			$time = ($time and $format == 'M j') 
+				? '<span class="time">'.date("g:i A",$date).'</span>' 
+				: '';
+			
+			return '<span class="date">'.date($format,$date).'</span> '.$time;
 		}
 	}
 
 ?>
-

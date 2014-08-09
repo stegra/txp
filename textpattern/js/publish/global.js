@@ -74,10 +74,17 @@ $(document).ready(function(){
 		
 		if (linkhost && (linkhost != sitehost)) {
 			
-			window.open(href,'external','width=1000,height=700,scrollbars=yes,toolbar=yes');
+			linkhost = linkhost.replace('www.','');
+			sitehost = sitehost.replace('www.','');
 			
-			return false;	
+			if (linkhost && (linkhost != sitehost)) {
+			
+				window.open(href,'external','width=1000,height=700,scrollbars=yes,toolbar=yes');
+			
+				return false;	
+			}
 		}
+		
 	});
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

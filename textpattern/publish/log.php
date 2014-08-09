@@ -253,9 +253,9 @@ $LastChangedRevision: 3247 $
 			
 			$page = getURI();
 			
-			// only cache html pages that have no query strings 
+			// only cache html pages that have no post or get 
 			
-			if (!preg_match('/\.html$/',$page)) return;
+			if (count($_POST) or count($_GET)) return;
 			
 			// do not cache the contact form page 
 			// TODO: there should be a no-cache option for each page 
@@ -349,4 +349,3 @@ $LastChangedRevision: 3247 $
 	}
 
 ?>
-

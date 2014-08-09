@@ -391,7 +391,7 @@
 		
 		if ($production_status != 'live' or 
 		   ($production_status == 'live' and PREVIEW)) {
-			   
+			
 			return '<pre style="border-bottom: 1px dotted grey;">'.array_to_string($thisarticle).'</pre>';
 		}
 	}
@@ -419,7 +419,7 @@
 			
 			if (isset($atts['class'])) unset($atts['class']);
 			if (isset($atts['title'])) unset($atts['title']);
-					
+				
 			if (!$thing) {
 				
 				$href = 'http://'.$siteurl.article_edit_url($atts);	

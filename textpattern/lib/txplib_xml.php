@@ -165,9 +165,7 @@
 	{
 		global $siteurl,$xslpath,$path_to_site,$xsl_call_tags;
 		
-		$xslpath = (is_dir($path_to_site.DS.'xsl'))
-			? $path_to_site.DS.'xsl'.DS
-			: $path_to_site.DS.'textpattern'.DS.'xsl'.DS;
+		$xslpath = $path_to_site.DS.'textpattern'.DS.'xsl'.DS;
 		
 		if ($type == 'file') { 
 			$xsl = (isfile($xsl)) ? read_file($xsl) : '';

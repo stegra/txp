@@ -13,4 +13,5 @@
 		
 		safe_alter('txp_page',"ADD FULLTEXT INDEX `searchfields` (`Body`)");
 	}
+
 ?>

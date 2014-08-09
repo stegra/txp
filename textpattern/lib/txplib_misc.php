@@ -447,18 +447,18 @@ $LastChangedRevision: 3271 $
 
 	function gps($thing,$default='') 
 	{
-		// check GET
-		
-		if (isset($_GET[$thing])) {
-		
-			return get($thing,$default);
-		}
-		
 		// check POST
 		
 		if (isset($_POST[$thing])) {
 		
 			return ps($thing,$default);
+		}
+		
+		// check GET
+		
+		if (isset($_GET[$thing])) {
+		
+			return get($thing,$default);
 		}
 		
 		return $default;
@@ -513,9 +513,6 @@ $LastChangedRevision: 3271 $
 		}
 		return '';
 	}
-
-
-	
 
 // -------------------------------------------------------------
 	function serverSet($thing) // Get a var from $_SERVER global array, or create it
@@ -781,14 +778,14 @@ $LastChangedRevision: 3271 $
 		
 			foreach ($plugin_list as $plugin) {
 				
-				$function  = $plugin.'_'.$function;
-				$function .= ($pre) ? '_'.$pre : '';
+				$plugin_function  = $plugin.'_'.$function;
+				$plugin_function .= ($pre) ? '_'.$pre : '';
 				
-				if (is_callable($function)) {
+				if (is_callable($plugin_function)) {
 					
 					$args = func_get_args();
 					array_shift($args);
-					call_user_func_array($function,$args);
+					call_user_func_array($plugin_function,$args);
 				}
 			}
 		}
@@ -2182,6 +2179,8 @@ $LastChangedRevision: 3271 $
 // -------------------------------------------------------------
 	function txp_die($msg, $status='503')
 	{
+		global $path_to_site;
+		
 		// 503 status might discourage search engines from indexing or caching the error message
 
 		//Make it possible to call this function as a tag, e.g. in an article <txp:txp_die status="410" />
@@ -2218,11 +2217,32 @@ $LastChangedRevision: 3271 $
 		}
 
 		callback_event('txp_die', $code);
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// backtrace 
+		
+		$backtrace = (defined("DEBUG_BACKTRACE_IGNORE_ARGS"))
+				? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) 
+				: debug_backtrace();
+				
+		foreach ($backtrace as $key => $item) {
+			
+			extract($item);
+			
+			$file = str_replace($path_to_site,'',$file);
+			
+			$backtrace[$key] = "<tr><td>$file</td><td>$line</td><td>$function</td></tr>";
+		}
+		
+		$backtrace = '<table>'.implode(n,$backtrace).'</table>';
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 		if (@$GLOBALS['connected']) {
-			$out = safe_field('user_html','txp_page',"name='error_".doSlash($code)."'");
+			
+			$out = safe_field('Body_html','txp_page',"name='error_".doSlash($code)."'");
 			if (empty($out))
-				$out = safe_field('user_html','txp_page',"name='error_default'");
+				$out = safe_field('Body_html','txp_page',"name='error_default'");
 		}
 
 		if (empty($out))
@@ -2233,17 +2253,22 @@ $LastChangedRevision: 3271 $
 <head>
    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
    <title>Textpattern Error: <txp:error_status /></title>
+   <style rel="stylesheet" type="text/css">
+   		table {border-collapse: collapse; width: 700px; margin: 40px auto;}
+   		table td {border:1px solid grey; padding: 5px; font-family: Monaco; font-size: 12px}
+  	</style>
 </head>
 <body>
-<p align="center" style="margin-top:4em"><txp:error_message /></p>
-</body>
-</html>
 eod;
 
+$out .= '<p align="center" style="margin-top:4em"><txp:error_message /></p>';
+$out .= $backtrace;
+$out .= '</body></html>';
+
 		header("Content-type: text/html; charset=utf-8");
-
-		if (is_callable('parse')) {
-
+		
+		if (is_callable('processTags')) {
+			
 			$GLOBALS['txp_error_message'] = $msg;
 			$GLOBALS['txp_error_status'] = $status;
 			$GLOBALS['txp_error_code'] = $code;
@@ -2252,6 +2277,7 @@ eod;
 			die(parse($out));
 		}
 		else {
+			
 			$out = preg_replace(array('@<txp:error_status[^>]*/>@', '@<txp:error_message[^>]*/>@'),
 				array($status, $msg),
 				$out);
@@ -3648,13 +3674,37 @@ function make_title($name) {
 
 	function add_common_javascript(&$html) 
 	{
-		global $prefs,$production_status;
+		global $prefs,$production_status,$siteurl;
 		
 		$base = (!$prefs['base']) ? '/admin/' : $prefs['base'];
 		$nocache = ($production_status != 'live') ? '?'.rand(100000,999999) : '';
 		
 		$html = preg_replace('/(<\/body>)/',t.'<script type="text/javascript" src="'.$base.'js/publish/global.js'.$nocache.'"></script>'.n.'</body>',$html);
 		$html = preg_replace('/(<\/head>)/',t.'<script type="text/javascript">var txp = { plugins:{} };</script>'.n.'</head>',$html);
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - 
+		// add google analytics script if any
+		
+		$tpl = txpath.'/publish/google_analytics.php';
+		
+		if (is_file($tpl)) {
+			
+			$root = ROOTNODEID;
+			
+			$id = safe_field('text_val','txp_content_value',
+				"article_id = $root AND field_name='google-analytics' AND Status = 1");
+			
+			if ($id) {
+			
+				$domain = preg_replace('/^www\./','',$siteurl);
+			
+				include($tpl);
+			
+				$html = preg_replace('/(<\/head>)/',n.$tpl.n.n.'</head>',$html);
+			}
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - 
 		
 		return $html;
 	}
@@ -3754,17 +3804,49 @@ function make_title($name) {
 	}
 
 //--------------------------------------------------------------------------------------
-// moved from txp_content_article.php and txp_list.php
 
 	function category_popup($name, $val, $id='', $truncate=0)
 	{
-		$rs = safe_rows_tree(
-			0,
-			"ID,Name AS name,Title AS title,Level AS level,ParentID AS parent",
-			"txp_category");
+		static $categories = array();
 		
+		if (!$categories) {
+			
+			$categories = safe_subtree(
+				0,
+				"ID, Name AS name, Title AS title, Level AS level, ParentID AS parent",
+				"txp_category",
+				"(p.Class != 'yes' 
+				  OR EXISTS (SELECT ID FROM txp_category AS c 
+							  WHERE p.ID = c.ParentID 
+								AND c.Class != 'yes'
+								AND c.Status IN (4,5) 
+								AND c.Trash = 0)
+				 ) AND p.Status IN (4,5) 
+				   AND p.Trash = 0  
+				 ORDER BY Name ASC");
+		}
+					 		 
+		if ($categories) {
+			
+			return treeSelectInput($name,$categories,$val,$id,$truncate);
+		}
+		
+		return false;
+	}
+	
+//--------------------------------------------------------------------------------------
+
+	function class_popup($name, $val, $id='', $truncate=0)
+	{
+		$rs = safe_column(
+			"Name,Title",
+			"txp_category",
+			"`Class` = 'yes' AND Trash = 0 ORDER BY Name ASC");
+		
+		$rs = array_merge(array('NONE'=>''),$rs);
+			
 		if ($rs) {
-			return treeSelectInput($name,$rs,$val,$id,$truncate);
+			return selectInput($name,$rs, $val,0,'',$id);
 		}
 		
 		return false;
@@ -4307,6 +4389,8 @@ function make_title($name) {
 	{
 		global $PFX, $site_domain, $site_dir;
 		
+		if (!is_dir(txpath.'/../sites')) return '';
+		
 		$requri = trim($_SERVER['REQUEST_URI'],'/');
 		
 		$site_name = '';
@@ -4319,6 +4403,21 @@ function make_title($name) {
 			$site_dir = substr(array_shift($requri),1);
 			
 			$site_name = $site_dir;	
+		
+		} else {
+		
+			if (table_exists("txp_site")) {
+			
+				if (is_dir(txpath.'/../sites')) {
+					
+					if (!is_dir(txpath.'/../sites/_domains/'.$site_domain)) {
+						
+						// must be the main site 
+							
+						return ''; 
+					}
+				}
+			}
 		}
 		
 		// check for subdomain site
@@ -4331,6 +4430,18 @@ function make_title($name) {
 			if ($site_domain != $root_domain) {
 				
 				$site_name = safe_field("Name","txp_site","Domain = '$site_domain' AND Trash = 0");
+				
+				if (!$site_name) {
+					
+					$site_domain = str_replace('www.','',$site_domain);
+					$site_name   = safe_field("Name","txp_site","Domain = '$site_domain' AND Trash = 0");
+				}
+				
+				if (!$site_name) {
+					
+					$site_domain = 'www.'.$site_domain;
+					$site_name   = safe_field("Name","txp_site","Domain = '$site_domain' AND Trash = 0");
+				}
 			}
 		}
 		

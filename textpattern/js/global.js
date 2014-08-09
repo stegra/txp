@@ -108,8 +108,7 @@ txp.init = function() {
 			if (txp.mode == 'list' && !target) {
 				
 				txp.update_window_session('checked,selcol,scroll',function() {
-					
-  					document.location.href = href + win_id;
+					document.location.href = href + win_id;
   				});
   			
   			} else if (target == 'mini') {
@@ -686,6 +685,5 @@ txp.getClientHeight = function() {
 		? document.documentElement.clientHeight
 		: document.body.clientHeight;
 }
-
 
 

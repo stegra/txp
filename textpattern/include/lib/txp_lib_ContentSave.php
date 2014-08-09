@@ -188,6 +188,12 @@
 			$in = textile_title_field($in,$use_textile);
 		}
 		
+		if (isset($in['Body_html']))
+			$in['Body_html'] 	= examineHTMLTags($in['Body_html'],false); 
+		
+		if (isset($in['Excerpt_html']))
+			$in['Excerpt_html'] = examineHTMLTags($in['Excerpt_html'],false);
+		
 		$Status   = (isset($in['Status']))   ? $in['Status'] : $old['Status'];
 		$Annotate = (isset($in['Annotate'])) ? $in['Annotate'] : 0;
 		
@@ -371,21 +377,21 @@
 				
 				if ($old['Categories'] != implode(',',$Category)) {
 				
-					$Classes = array();
+					// $Classes = array();
 					
 					foreach ($Category as $key => $name) {
 						
 						if ($name and $name != 'NONE') {
 							if (getCount("txp_category","Name = '$name' AND Class = 'yes'")) {
-								$Classes[] = $name;
-							 // unset($Category[$key]);
+								// $Classes[] = $name;
+							 	unset($Category[$key]);
 							}
 						}
 					}
+				
+				// 	$Category = array_values(array_merge($Classes,$Category));
 					
-				 // $Category = array_values(array_merge($Classes,$Category));
-					
-					$set['Class'] = doQuote(array_shift($Classes));
+				// 	$set['Class'] = doQuote(array_shift($Classes));
 					
 					$set['LastMod'] = "NOW()";
 				
@@ -405,7 +411,7 @@
 		
 			if ($in['Class'] and $old['Class'] != $in['Class']) {
 			
-				$oldClass = $old['Class'];
+				/* $oldClass = $old['Class'];
 				
 				if ($old['Categories'] != implode(',',$Category)) {
 					$Category = explode(',',$old['Categories']);
@@ -427,7 +433,7 @@
 					if ($in['Class'] != 'NONE') {
 						array_unshift($Category,$in['Class']);
 					}
-				}
+				} */
 				
 			} else {
 				
@@ -645,8 +651,8 @@
 								   WHERE `type` = '$content_type')",
 					"ParentID = 0");
 			}
-						
-			if ($content_type == 'article') {
+	
+			if (column_exists($textpattern,'Categories')) {
 			
 				$categories = "SELECT GROUP_CONCAT(CONCAT_WS('.',tcc.name,tcc.position) ORDER BY tcc.name ASC) FROM ".$PFX."txp_content_category AS tcc WHERE tcc.article_id = $ID AND tcc.type = '$content_type'";
 				safe_update($textpattern,"Categories = ($categories)","ID = $ID");
@@ -702,22 +708,30 @@
 				
 				} elseif (strlen($value)) {
 					
-					$value = doSlash($value);
-					 
-					$type = fetch('Type',"txp_custom","Name",doSlash($name));
+					$old_value = fetch('text_val','txp_content_value','id',$value_id);
 					
-					$set = array();
+					if ($old_value != $value) {
+					
+						$value = doSlash($value);
+						 
+						$type = fetch('Type',"txp_custom","Name",doSlash($name));
 						
-					if ($type == 'number') {
-						$text_value = preg_replace('/[^\d\.\,]/','',$value);
-						$set[] = "text_val = '$text_value'";
-						$num_value = preg_replace('/\,/','',$value);
-						$set[] = "num_val = '$num_value'";
-					} else {
-						$set[] = "text_val = '$value'";
+						$set = array();
+							
+						if ($type == 'number') {
+							
+							$text_value = preg_replace('/[^\d\.\,]/','',$value);
+							$set[] = "text_val = '$text_value'";
+							$num_value = preg_replace('/\,/','',$value);
+							$set[] = "num_val = '$num_value'";
+						} else {
+							$set[] = "text_val = '$value'";
+						}
+						
+						safe_update("txp_content_value",impl($set),"id = $value_id");
+						
+						update_lastmod($ID);
 					}
-					
-					safe_update("txp_content_value",impl($set),"id = $value_id");
 				
 				} else {
 					

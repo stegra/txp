@@ -81,6 +81,12 @@ $LastChangedRevision: 3260 $
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
+		if (safe_count('txp_form',"Name LIKE '%\_%'")) {
+			safe_update('txp_form',"Name = REPLACE(Name,'_','-')","1=1");
+		};
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
 		$forms = new ContentList(); 
 		$list = $forms->getList();
 		
@@ -364,15 +370,8 @@ $LastChangedRevision: 3260 $
 		$html = gps('Body');
 		$xsl  = preg_match('/<xsl:/',$html) ? true : '';
 		
-		if (is_dir($path_to_site.DS.'xsl')) {
-		
-			$path = $path_to_site.DS.'xsl'.DS.'form'.DS;
-		
-		} else {
-		
-			$path = $path_to_site.DS.'textpattern'.DS.'xsl'.DS.'form'.DS;
-			if (!is_dir($path)) mkdir($path,0777,TRUE);
-		}
+		$path = $path_to_site.DS.'textpattern'.DS.'xsl'.DS.'form'.DS;
+		if (!is_dir($path)) mkdir($path,0777,TRUE);
 		
 		$Body = $html;
 		$Body = preg_replace("/\&nbsp;/","&#160;",$Body);

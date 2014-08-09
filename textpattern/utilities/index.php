@@ -61,7 +61,7 @@
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// database
 	
-	$DB->refresh();
+ // $DB->refresh();
 	$PFX = $txpcfg['table_prefix'];
 	
  // $tables = remove_pfx(getThings('SHOW TABLES',0));
@@ -205,8 +205,8 @@
 		exit;
 	}
 	
-	if ($action == 'search_presentation') {
-		include_once txpath.'/utilities/include/search_presentation/index.php';
+	if ($action == 'search_pages') {
+		include_once txpath.'/utilities/include/search_pages/index.php';
 		exit;
 	}
 	
@@ -307,6 +307,7 @@
 						<li id="custom_field_values"><a href="index.php?go=custom_field_values&<?php echo $nocache; ?>" title="Custom Field Values">Custom Field Values...</a></li>
 						<li id="user_agent_log"><a href="index.php?go=user_agent_log&<?php echo $nocache; ?>" title="User Agent Log">User Agent Log...</a></li>
 						<li id="txp_changes"><a href="index.php?go=txp_changes&<?php echo $nocache; ?>" title="TXP Changes">TXP Changes...</a></li>
+						<li id="search_pages"><a href="index.php?go=search_pages&<?php echo $nocache; ?>" title="Search Pages">Search Pages...</a></li>
 						
 						
 						<li id="view_inspector"><span class="name">Inspector</span> <span class="go"><a title="Inspector" href="index.php?go=view_inspector&<?php echo $nocache; ?>">Go</a></span></li>
@@ -380,4 +381,3 @@
 
 </body>
 </html>
-

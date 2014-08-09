@@ -68,9 +68,9 @@
 				{if !$in_trash}
 					
 					{if $event eq 'list'}
-						<a class="title top" title="{$value}" rel="{$id}" href="index.php?event=article&step=edit&id={$id}">{$smarty.capture.title}</a>
+						<a class="title top" title="{$title_path}{$value}" rel="{$id}" href="index.php?event=article&step=edit&id={$id}">{$smarty.capture.title}</a>
 					{else}
-						<a class="title top" title="{$value}" rel="{$id}" href="?event={$event}&step=edit&win={$winid}&id={$id}">{$smarty.capture.title}</a>
+						<a class="title top" title="{$title_path}{$value}" rel="{$id}" href="?event={$event}&step=edit&win={$winid}&id={$id}">{$smarty.capture.title}</a>
 					{/if}
 					
 				{else}
@@ -92,10 +92,14 @@
 				
 				{if $more}
 					<span class="more">
+					{if $level eq 2}
+						<a class="load-more" href="#" title="Load more">LOAD MORE</a>
+					{else}
 						<a href="index.php?event=list&step=hoist&id={$parent_id}" title="View all items">{$more} MORE</a>
+					{/if}
 					</span>
 				{/if}
-				
+			
 			{/if}
 			
 			</div>
@@ -186,6 +190,22 @@
 	<td class="{$name|lower} view col col-{$pos}">Group</td>
 	
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+{elseif $name eq 'Body' and $is_edit_mode}
+	
+	<td class="{$name|lower} edit col col-{$pos}">
+		<div class="textarea"><textarea name="{$name}[{$id}]">{$value}</textarea></div>
+	</td>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+{elseif $name eq 'Excerpt' and $is_edit_mode}
+	
+	<td class="{$name|lower} edit col col-{$pos}">
+		<div class="textarea"><textarea name="{$name}[{$id}]">{$value}</textarea></div>
+	</td>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	
 {* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
 
@@ -218,4 +238,3 @@
 {/if}
 
 {* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
-

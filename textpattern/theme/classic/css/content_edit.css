@@ -440,6 +440,15 @@ body.custom #edit p.excerpt textarea#excerpt {
 	min-width: 112px;
 }
 
+#edit .categorize select.list {
+	min-width: 145px;
+	
+}
+
+#edit .class select.list {
+	min-width: 145px;
+}
+
 /* IMAGE
  ***************************************************************** */
 

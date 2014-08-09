@@ -3,7 +3,7 @@
 	include txpath.'/publish/taghandlers.php';
 	include txpath.'/publish/lib/publish_query_builder.php';
 
-	function doArticles($atts, $iscustom, $thing = NULL) {
+	function doArticles($atts, $iscustom, $thing = NULL,&$array=null) {
 		
 		global $PFX, $pretext, $prefs, $thisarticle, $thispage, $thiscategory, 
 			$article_stack, $txptrace, $txptagtrace, $txp_current_atts;
@@ -437,7 +437,7 @@
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Path
 		
-		if (in_atts('path') and $path) {
+		if (isset($atts['path']) and $path) {
 			
 			$path = preg_split_att($path); 
 			$path = array_shift($path);
@@ -690,13 +690,30 @@
 		// Alias
 		
 			if ($alias) {
-					
+				
 				if (is_numeric($alias)) {
 					
 					$where['alias'] = (comparison($parent) == '!=') 
 						? "t.Alias != 0 AND t.Alias != $alias" 
 						: "t.Alias = $alias";
+				
+				} elseif ($alias == 'true') {
 					
+					$where['alias'] = "t.Alias != 0";
+				
+				} elseif ($alias == 'false') {
+					
+					$where['alias'] = "t.Alias == 0";
+					
+				} else {
+					
+					if (comparison($alias) == '!=') {
+						
+						if (is_numeric($alias)) {
+						
+							$where['alias'] = "t.Alias != $alias";
+						}	
+					}
 				}
 			
 			} elseif ($alias == '0') {
@@ -905,6 +922,18 @@
 		$sortcol = (isset($columns['sortcol'])) 
 			? $columns['sortcol'] = implode(', ',$columns['sortcol']) 
 			: '';
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// Posted may have duplicate value so add sorting by ID as well
+		
+		if ($sort[0]['col'] == 'Posted') {
+			
+			$sort[] = array(
+				'col' 	 => 'ID', 
+				'dir' 	 => $sort[0]['dir'], 
+				'custom' => ''
+			);
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -1207,6 +1236,22 @@
 					
 					$articles[] = parse_form($a['override_form']);
 				
+				} elseif (is_array($array)) {
+					
+					$sort = explode(' ',strtolower($sort));
+					$sort = array_shift($sort);
+					$pos = str_pad(count($array),3,'0',STR_PAD_LEFT);
+					
+					if ($sort == 'name' or $sort == 'title') {
+						$sortkey = $thisarticle['name'].'-'.$pos;
+					} elseif ($sort == 'position') {
+						$sortkey = str_pad($thisarticle['position'],3,'0',STR_PAD_LEFT).'-'.$pos;
+					} else {
+						$sortkey = $thisarticle['posted'].'-'.$pos;
+					}
+					
+					$array[$sortkey] = parse($thing);
+				
 				} else {
 					
 					$articles[] = ($thing) 
@@ -1217,6 +1262,13 @@
 				$article_stack->pop();
 				
 				$thisarticle = $article_stack->top();
+			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - -
+			
+			if (is_array($array)) {
+				
+				return;
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - -

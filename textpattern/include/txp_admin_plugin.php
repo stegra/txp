@@ -42,7 +42,7 @@ $LastChangedRevision: 3203 $
 				'Categories' => array('title' => 'Categories', 	'on' => 0, 'editable' => 1, 'pos' => 6),	
 				'version'  	 => array('title' => 'Version', 	'on' => 1, 'editable' => 0, 'pos' => 7),
 				'AuthorID'	 => array('title' => 'Author',		'on' => 1, 'editable' => 1, 'pos' => 8),
-				'Type' 	 	 => array('title' => 'Type', 	   	'on' => 0, 'editable' => 0, 'pos' => 9),
+				'Type' 	 	 => array('title' => 'Type', 	   	'on' => 0, 'editable' => 1, 'pos' => 9),
 				'Status'	 => array('title' => 'Status',		'on' => 1, 'editable' => 1, 'pos' => 10),
 				'Position'   => array('title' => 'Position',	'on' => 1, 'editable' => 1, 'pos' => 11, 'short' => 'Pos.')
 			);

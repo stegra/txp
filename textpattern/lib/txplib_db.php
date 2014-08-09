@@ -52,11 +52,27 @@ class DB {
 		
 		global $txpcfg, $connected;
 		
+		$this->host = $txpcfg['host'];
+		$this->db	= $txpcfg['db'];
+		$this->user = $txpcfg['user'];
+		$this->pass = $txpcfg['pass'];
+		
 		$this->db = $txpcfg['db'];
+		
+		$this->link = @mysql_connect($this->host, $this->user, $this->pass, false, $this->client_flags);
+		
+		if (!$this->link) die(db_down());
+		
+		$this->version = mysql_get_server_info();
+		
+		$connected = (!$this->link) ? false : true;
 		
 		@mysql_select_db($this->db) or die(db_down());
 		
-		$connected = (!$this->link) ? false : true;
+		$version = $this->version;
+		// be backwardscompatible
+		if ( isset($txpcfg['dbcharset']) && (intval($version[0]) >= 5 || preg_match('#^4\.[1-9]#',$version)) )
+			mysql_query("SET NAMES ". $txpcfg['dbcharset']);
 	}
 }
 
@@ -1596,7 +1612,7 @@ $GLOBALS['DB'] = new DB;
 				$where[] = "$as.ParentID != 0";
 				$where[] = "$as.Name != 'TRASH'";
 				
-				return safe_rows($things,$table,doAnd($where).$orderby,$debug);
+				return safe_rows($things,$table,doAnd($where).$orderby,0,$debug);
 			}
 			
 			$root = (!is_numeric($root)) 
@@ -2714,7 +2730,7 @@ eod;
 					$cmdopt = implode(' ',array(
 						"-h ".$DB->host,
 						"-u ".$DB->user,
-						"--password=".$DB->pass,
+						'--password="'.$DB->pass."'",
 						"--lock-tables=false",
 						$DB->db,
 						implode(' ',$tables)
@@ -2896,7 +2912,7 @@ eod;
 		$options = array(
 			"-h ".$DB->host,
 			"-u ".$DB->user,
-			"--password=".$DB->pass,
+			'--password="'.$DB->pass."'",
 			"--lock-tables=false",
 			"--default-character-set=utf8",
 			"--skip-add-drop-table",

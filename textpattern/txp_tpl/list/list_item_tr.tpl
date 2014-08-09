@@ -1,17 +1,17 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- {$id} / {$item_title} / {$item_name} -->
 
-{cycle assign="odd_even" values="even,odd"}
-
 {if $level gt 1}
 
-	<tr id="article-{$id}" data-pos="{$row_pos}" class="
-		
+	{cycle assign="odd_even" values="odd,even"}
+
+	{capture name=class}
 		data 
 		child
 		row-{$row_pos}
 		level-{$level}
 		type-{$type}
+		thumb-{$thumb}
 		{$display_mode}
 		{$odd_even}
 		{$is_first_row}
@@ -21,7 +21,10 @@
 		{$is_closed} 
 		{$is_folder} 
 		{$is_leaf} 
-		{$is_alias}">
+		{$is_alias}
+	{/capture}
+
+	<tr id="article-{$id}" data-pos="{$row_pos}" class="{$smarty.capture.class|strip}">
 		
 		{$column_data}
 		

@@ -57,6 +57,14 @@
 		$in = textile_main_fields($incoming, $use_textile);
 		$in = textile_title_field($in,$use_textile);
 		
+		if (isset($in['Body_html'])) {
+			$in['Body_html'] = examineHTMLTags($in['Body_html'],false); 
+		}
+		
+		if (isset($in['Excerpt_html'])) {
+			$in['Excerpt_html'] = examineHTMLTags($in['Excerpt_html'],false); 
+		}
+		
 		$Category = $in['Category'];
 		unset($in['Category']);
 		
@@ -201,6 +209,8 @@
 		// Title, Name, url_title
 		
 		$Title = trim($Title);
+		$Title = str_replace('\r','',$Title);
+		$Title = str_replace('\n','',$Title);
 		
 		// if (!strlen(trim($url_title))) $url_title = make_name($Title);
 		if (!strlen(trim($Name))) $Name = make_name($Title);
@@ -210,7 +220,7 @@
 		
 		if (!$Class) {
 		
-			$Classes = array();
+			// $Classes = array();
 			
 			if (isset($Category) and is_array($Category)) {
 				
@@ -218,14 +228,14 @@
 					
 					if (getCount("txp_category","Name = '$name' AND `Class` = 'yes'")) {
 						
-						$Classes[] = $name;
+						// $Classes[] = $name;
 						unset($Category[$key]);
 					}
 				}
 				
-				$Category = array_values(array_merge($Classes,$Category));
+				// $Category = array_values(array_merge($Classes,$Category));
 				
-				$Class = array_shift($Classes);
+				// $Class = array_shift($Classes);
 			
 			} else {
 				

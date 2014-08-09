@@ -1296,7 +1296,8 @@ $LastChangedRevision: 3256 $
 				'author' => $author
 			)); */ 
 			
-			$url  = hu.$pretext['request_uri'];
+			$url = preg_replace('/~.+/','',hu);
+			$url = $url.$pretext['request_uri'];
 			
 			if ($pretext['qs']) {
 				if (preg_match('/pg\=/',$pretext['qs'])) {
@@ -1375,7 +1376,8 @@ $LastChangedRevision: 3256 $
 				'author' => $author
 			)); */
 			
-			$url  = hu.$pretext['request_uri'];
+			$url = preg_replace('/~.+/','',hu);
+			$url = $url.$pretext['request_uri'];
 			
 			if ($pretext['qs']) {
 				if (preg_match('/pg\=/',$pretext['qs'])) {
@@ -1981,7 +1983,9 @@ $LastChangedRevision: 3256 $
 		
 		extract(lAtts(array(
 			'textile'  => '',
-			'maxwords' => 0
+			'maxwords' => 0,
+			'wraptag'  => '',
+			'class'	   => ''
 		),$atts));
 		
 		$article_stack->set('body_tag_encounter',true);
@@ -2018,6 +2022,14 @@ $LastChangedRevision: 3256 $
 			if ($textile == '0') {
 			
 				$body = fetch('Body','textpattern','ID',$thisid);
+				
+				// check for {$txp.*} 
+				if (preg_match('/\{\$txp\./',$body)) {
+					
+					include_once txpath.'/include/lib/txp_lib_misc.php';
+				
+					$body = examineHTMLTags($body,false);
+				} 
 			}
 			
 			if ($textile == '1') {
@@ -2041,6 +2053,22 @@ $LastChangedRevision: 3256 $
 			$is_article_body = 1;
 			$body = trim(parse($body));
 			$is_article_body = 0;
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		if ($class and !$wraptag) {
+			
+			$wraptag = 'div';
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		if ($wraptag) {
+			
+			$atts = ($class) ? ' class="'.$class.'"' : '';
+			
+			$body = tag($body,$wraptag,$atts);
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2087,6 +2115,14 @@ $LastChangedRevision: 3256 $
 			if ($textile == '0') {
 			
 				$excerpt = fetch('Excerpt','textpattern','ID',$thisid);
+				
+				// check for {$txp.*} 
+				if (preg_match('/\{\$txp\./',$excerpt)) {
+					
+					include_once txpath.'/include/lib/txp_lib_misc.php';
+				
+					$excerpt = examineHTMLTags($excerpt,false);
+				} 
 			}
 			
 			if ($textile == '1') {
@@ -3978,7 +4014,27 @@ $LastChangedRevision: 3256 $
 		
 		return parse(EvalElse($thing, $test));
 	}
-	
+
+// -------------------------------------------------------------
+
+	function code($atts, $thing = NULL) {
+		
+		$thing = str_replace('<br />','',$thing);
+		$thing = str_replace('<strong style="text-align:left;">','[BOLD]',$thing);
+		$thing = str_replace('<strong>','[BOLD]',$thing);
+		$thing = str_replace('</strong>','[/BOLD]',$thing);
+		$thing = str_replace('&#8221;','"',$thing);
+		
+		$thing = htmlentities(trim($thing));
+		
+		$thing = str_replace('&amp;gt;','&gt;',$thing);
+		$thing = str_replace('[BOLD]','<b>',$thing);
+		$thing = str_replace('[/BOLD]','</b>',$thing);
+		$thing = str_replace('<b>txp:','<b>&lt;txp:',$thing);
+		
+		return tag($thing,'code');
+	}
+		
 // =============================================================================
 
 	function eE($txt) // convert email address into unicode entities
@@ -4116,4 +4172,3 @@ $LastChangedRevision: 3256 $
 	}
 
 ?>
-

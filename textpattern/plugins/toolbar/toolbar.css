@@ -1,0 +1,44 @@
+body { 
+	font-family: Arial;
+	margin: 0px;
+	padding: 0;
+	font-size: 12px;
+}
+
+#container {
+	width: 940px;
+	margin: 1px auto;
+}
+
+h1 {
+	padding: 0px;
+	margin: 0px;
+	margin-left: -60px;
+	width: 368px;
+	height: 15px;
+	background: transparent url('textpattern.png') no-repeat top left;
+	text-indent: 1000px;
+	overflow: hidden;
+	float: left;
+}
+
+div.mode {
+	float: right;
+	margin-top: 3px;
+	margin-right: 20px;
+	text-transform: uppercase;
+	font-size: 11px;
+}
+
+.edit a,
+.preview a {
+	display: none;
+}
+
+.edit a.selected,
+.preview a.selected {
+	display: inline;
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}

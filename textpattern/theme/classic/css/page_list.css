@@ -201,6 +201,11 @@ img.openclose {
 	bottom: -2px;
 }
 
+#list th#body,
+#list th#excerpt {
+	min-width: 220px;
+}
+
 /* table horizontal lines
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -878,6 +883,18 @@ body.mozilla #list tr.even td.thumb {
 	width: 60px;
 }
 
+#list td.lastmod span.date {
+	float: left;
+}
+
+#list td.lastmod span.time {
+	color: #777;
+	font-size: 10px;
+	float: right;
+	padding-left: 5px;
+	line-height: 16px;
+}
+
 #list td.status strong {
 	font-weight: normal;
 }
@@ -1510,7 +1527,7 @@ html>body div#create-new-article {
 	width: 250px;
 	min-height: 50px;
 	margin: 0px;
-	padding: 10px 10px 5px 10px;
+	padding: 10px 0px 5px 10px;
 	top: 200px;
 	left: 40%;
 	background-color: white;
@@ -1526,17 +1543,32 @@ html>body div#create-new-article {
 
 html>body div#create-new-article input,
 html>body div#create-new-article select {
-	display: block;
+	display: inline;
+	position: relative;
 	margin-bottom: 10px;
+	margin-right: 5px;
 	margin-top: 0px;
+	padding: 0px;
 }
 
 html>body div#create-new-article input.text {
-	width: 99%;
+	width: 232px;
+	font-size: 11px;
+	padding: 2px 0px 2px 0px;
+}
+
+html>body div#create-new-article textarea {
+	width: 232px;
+	height: 17px;
+	min-height: 17px;
+	margin-bottom: 10px;
+	padding: 0px 0px 0px 7px;
 }
 
 html>body div#create-new-article select {
-	margin-left: -2px;
+	top: -2px;
+	left: -2px;
+	width: 150px;
 }
 
 html>body div#create-new-article a {
@@ -1546,7 +1578,8 @@ html>body div#create-new-article a {
 	text-align: center;
 	padding-left: 2px;
 	margin-top: -0px;
-	margin-left: 10px;
+	margin-left: 0px;
+	margin-right: 10px;
 	font-family: Verdana, Helvetica, sans-serif;
 	text-decoration: none;
 }
@@ -1557,4 +1590,20 @@ html>body div#create-new-article a.cancel {
 
 html>body div#create-new-article a.cancel:hover {
 	color: #963;
+}
+
+html>body div#create-new-article .extra div {
+	position: relative;
+}
+
+html>body div#create-new-article .extra span {
+	position: absolute;
+	z-index: 101;
+	top: 3px;
+	left: 8px;
+}
+
+html>body div#create-new-article .extra input.url {
+	padding-left: 40px;
+	width: 199px;
 }

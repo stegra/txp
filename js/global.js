@@ -40,23 +40,6 @@ $(document).ready(function(){
 	});
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// open external links in a new window
-	
-	$('a').click(function() {
-		
-		var href = $(this).attr('href');
-		var linkhost = $(this).context.hostname;
-		var sitehost = document.location.hostname;
-		
-		if (linkhost && (linkhost != sitehost)) {
-			
-			window.open(href,'external','width=1000,height=700,scrollbars=yes,toolbar=yes');
-			
-			return false;	
-		}
-	});
-	
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// open instruction links in a new window
 	
 	$('body.instructions #mainContent a').click(function() {
