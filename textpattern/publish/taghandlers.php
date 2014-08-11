@@ -2426,6 +2426,7 @@ $LastChangedRevision: 3256 $
 			'class'        => '',
 			'link'         => 0,
 			'name'         => '',
+			'plural'	   => '',
 			'section'      => $s, // fixme in crockery
 			'this_section' => 0,
 			'title'        => 0,
@@ -2440,6 +2441,11 @@ $LastChangedRevision: 3256 $
 		if ($name)
 		{
 			$category = $name;
+		}
+		
+		elseif ($plural)
+		{
+			$category = safe_field('Name','txp_category',"Plural = '$plural' AND Trash = 0");
 		}
 		
 		elseif ($req)
