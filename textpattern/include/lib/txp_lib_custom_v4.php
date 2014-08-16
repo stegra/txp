@@ -821,6 +821,10 @@
 			$columns[] = 'by_parent_class';
 		}
 		
+		if (column_exists("txp_group","by_path")) {
+			$columns[] = 'by_path';
+		}
+		
 		$groups = safe_rows(
 			impl($columns),
 			"txp_group AS g JOIN txp_custom AS f ON g.field_id = f.id",
@@ -879,6 +883,35 @@
 					
 				if (isset($by_parent_class) and $by_parent_class) 
 					$where['by_parent_class'] = "ParentClass = '$by_parent_class'";
+					
+				if ($by_path) {
+					
+					if (preg_match('/^\/?\/[a-z0-1\-]+\/\*\/\*$/',$by_path)) {
+						
+						// absolute path: /grand-parent/*/* 
+						// relative path:  grand-parent/*/* 
+						
+						$path = fetch("Path",$WIN['table'],"ID",$article_id);
+						$path = explode('/',$path);
+						array_pop($path);
+						
+						if ($path) {
+							
+							$id = array_pop($path);
+							$name = trim($by_path,'/*');
+							
+							$where['by_grand_parent'] = "(SELECT COUNT(*) FROM textpattern WHERE ID = $id AND Name = '$name') = 1";
+						
+						} else {
+							
+							$where['by_grand_parent'] = '1 = 2';
+						}
+					
+					} else {
+							
+						$where['by_grand_parent'] = '1 = 2';
+					}
+				}
 			}
 			
 			$match = safe_field("ID",$WIN['table'],doAnd($where));
