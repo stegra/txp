@@ -329,7 +329,7 @@
 		// child selections
 		
 		if (!defined('SELVALUE')) 
-			  define('SELVALUE','(([\w\*]+\:)?[\w\*]+)');
+			  define('SELVALUE','((\!?[\w\*]+\:)?\!?[\w\*]+)');
 		
 		if (!$where) {
 			
