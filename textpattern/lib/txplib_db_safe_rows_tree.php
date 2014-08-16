@@ -277,7 +277,8 @@
 		
 		if ($path == '') {
 			
-			$where[] = "t.ID = ".$context['id'];
+			$where[] = "1=1";
+			// $where[] = "t.ID = ".$context['id'];
 		}
 		
 		elseif ($path == '*') {
@@ -328,7 +329,7 @@
 		// child selections
 		
 		if (!defined('SELVALUE')) 
-			  define('SELVALUE','((\!?[\w\*]+\:)?\!?[\w\*]+)');
+			  define('SELVALUE','(([\w\*]+\:)?[\w\*]+)');
 		
 		if (!$where) {
 			
@@ -382,6 +383,14 @@
 			$skips = 0;
 			$prev  = '';
 			
+			// check for starting double slash 
+			
+			if (count($path) >= 3) {
+				if ($path[0] == '' and $path[1] == '') {
+					array_shift($path); // remove first empty item
+				}
+			}
+			
 			array_unshift($path,end($context['path']));
 			array_shift($q['from']);
 			
@@ -433,6 +442,13 @@
 							
 							// WARNING: if allowed, more than two skips 
 							// may give incorrect results!
+						}
+						
+						if (!count($on)) {
+							
+							// exceptional case when path starts with double slash
+							
+							$on[] = "t1.ID != t2.ID";
 						}
 						
 						$indent = str_repeat(' ',(strlen($table) + 12));
