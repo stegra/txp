@@ -150,24 +150,8 @@ body.custom #edit div.recent-articles {
 	display: none;
 }	
 
-body.custom #edit p.body {
-	width: 160px;
-	float: left;
-}
-
 body.custom #edit p.body textarea#body {
-	width: 150px;
-	height: 307px;
-}
-
-body.custom #edit p.excerpt {
-	width: 330px;
-	margin-left: 170px;
-}
-
-body.custom #edit p.excerpt textarea#excerpt {
-	width: 320px;
-	height: 307px;
+	height: 175px;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
