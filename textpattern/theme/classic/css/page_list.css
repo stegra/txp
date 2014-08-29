@@ -76,7 +76,7 @@ img.openclose {
 /* new stuff
 ----------------------------------------------------------------------------- */
 
-#content .path { 
+#content tr.path { 
 	margin-left: 3px; 
 	margin-bottom: 5px; 
 	padding-bottom: 3px;
@@ -110,18 +110,22 @@ img.openclose {
 }
 
 #list tr.path td {
-	color: #AFAFAF;
 	border-width: 0;
 }
 
-#list tr.path td a {
+#list tr.path td div.path {
+	color: #AFAFAF;
+	margin-right: 150px;
+}
+
+#list tr.path td div.path a.path {
 	color: grey;
 	font-size: 10px;
 	text-transform: uppercase;
 	letter-spacing: 0px;
 }
 
-#list tr.path td a:hover {
+#list tr.path td div.path a.path:hover {
 	color: #963;
 }
 

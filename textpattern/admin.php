@@ -392,7 +392,7 @@
 				$EVENT = get_event_session();
 				$WIN   = get_window_session($WIN);
 				
-				if ($step == 'hoist') $step = 'list';
+				if ($step == 'hoist')  $step = 'list';
 				
 				$stepfunc = $step;
 				
@@ -662,6 +662,7 @@
 		$headers = gps('headers');
 		$main    = gps('main');
 		$view	 = gps('view');
+		$search  = gps('search');
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -692,6 +693,7 @@
 				'flat'		=> 0,
 				'selcol'	=> '',				// selected columns
 				'editcol'	=> '',				// edit a single item in a row
+				'search'	=> '',
 				'checked'   => array(),
 				'prevnext'	=> array(),
 				'open'	    => array(0),		// open articles
@@ -830,6 +832,17 @@
 		} elseif (isset($_POST['editcol'])) {
 			
 			$win[$event]['editcol'] = '';
+		}
+		
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		if ($search) {
+		
+			$win[$event]['search'] = $search;
+			
+		} elseif (isset($_POST['search']) or isset($_GET['search'])) {
+			
+			$win[$event]['search'] = '';
 		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - -

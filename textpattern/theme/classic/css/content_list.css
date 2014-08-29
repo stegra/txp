@@ -1,3 +1,78 @@
+/* SEARCH FORM 
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+body.admin.list #content table#list tr.path td div.search,
+body.presentation.list #content table#list tr.path td div.search {
+	display: none;
+}
+
+#content table#list tr.path td {
+	position: relative;
+}
+
+#content table#list tr.path td div.search {
+	position: absolute;
+	bottom: 5px;
+	right: 6px;
+	width: 145px;
+}
+
+#content table#list tr.path td div.search input.search {
+	width: 120px;
+	height: 13px;
+	float: right;
+	margin-right: 19px;
+	color: #747474;
+	padding-right: 13px;
+	background-color: #e2e2e2;
+	border-top: 1px solid #d9d9d9;
+	border-left: 1px solid #d9d9d9;
+	border-right: 1px solid #e2e2e2;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+#content table#list tr.path td div.search a.button.submit {
+	position: absolute;
+	display: block;
+	width: 17px;
+	height: 17px;
+	right: 0px;
+	background-image: url('/textpattern/txp_img/button_search_submit.png');
+	overflow: hidden;
+	text-indent: 50px;
+}
+
+#content table#list tr.path td div.search a.button.clear {
+	display: none;
+	position: absolute;
+	padding: 0px; 
+	right: 0px;
+	width: 17px;
+	height: 17px;
+	background-image: url('/textpattern/txp_img/button_search_clear.png');
+	background-position: left;
+	overflow: hidden;
+	text-indent: 50px;
+}
+
+#content table#list tr.path td div.search.clear a.button.clear {
+	display: block;
+}
+
+#content table#list tr.path td div.search.clear a.button.submit {
+	right: 19px;
+}
+
+#content table#list tr.path td div.search.clear input.search {
+	margin-right: 38px;
+}
+
+#content table#list tr.path td div.search a.button.clear:hover {
+	background-position: right;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #content table#list.view-tr {
 	 padding: 0px; 
 	 width: 65%;
@@ -130,6 +205,10 @@
 
 #list tr.thumb-y td.body.view {
 	height: 50px;
+}
+
+#list td.parents span {
+	white-space: nowrap;
 }
 
 /* edit mode */ 

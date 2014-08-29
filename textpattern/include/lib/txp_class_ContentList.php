@@ -7,6 +7,7 @@
 		var $view	 = '';
 		var $sortby  = '';
 		var	$sortdir = '';
+		var $search	 = '';
 		var $root    = 0;
 		var $flat    = false;
 		var $more 	 = 0;
@@ -23,6 +24,7 @@
 		var $exclude = array();
 		
 		var $list	 = array();
+		
 		
 	// -------------------------------------------------------------------------
 		function ContentList() 
@@ -83,6 +85,7 @@
 				$this->selected = $WIN['checked'];
 				$this->open 	= $WIN['open'];
 				$this->edit 	= $WIN['edit'];
+				$this->search 	= $WIN['search'];
 				
 				if (isset($_SESSION['clipboard'])) {
 					$this->clip = $_SESSION['clipboard'];
@@ -94,6 +97,9 @@
 			
 			$this->deepest = safe_field("MAX(Level)",$this->table,"1=1"); 
 			
+			// - - - - - - - - - - - - - - - - - - - - - 
+			// toggle columns
+			 
 			if ($columns = gps('columns')) {
 				
 				$columns = expl($columns);
@@ -105,6 +111,9 @@
 				$this->visible	= $this->get_visible_columns(); 
 				$this->custom 	= $this->get_custom_columns(); 
 			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - 
+			// hoist article with custom settings from txp_group table
 			
 			if (gps('step') == 'hoist') {
 				
@@ -146,6 +155,60 @@
 						}
 					}
 				}
+			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - 
+			// search
+			
+			if ($this->search) {
+				
+				$this->flat = 50;
+				
+				if (!gps('sort')) {
+					$this->sortby  = 'Relevance';
+					$this->sortdir = 'desc';
+				}
+				
+				if (!array_key_exists('Parents',$WIN['columns'])) {
+				
+					$WIN['columns']['Parents'] = array(
+						'title' 	=> 'In',    	   
+						'on' 		=> 1, 
+						'editable' 	=> 0, 
+						'pos' 		=> 7,
+						'sel'		=> 't.Path'
+					);
+					
+					$this->visible = $this->get_visible_columns(); 			
+				}
+				
+				if (!array_key_exists('Relevance',$WIN['columns'])) {
+					
+					$WIN['columns']['Relevance'] = array(
+						'title' 	=> 'Relevance',    	   
+						'on' 		=> 0, 
+						'editable' 	=> 0, 
+						'pos' 		=> 8
+					);
+					
+					$this->visible = $this->get_visible_columns(); 		
+				}
+				
+			} else {
+				
+				if (array_key_exists('Parents',$WIN['columns'])) {
+					
+					unset($WIN['columns']['Parents']);
+					
+					$this->visible = $this->get_visible_columns();
+				}	
+				
+				if (array_key_exists('Relevance',$WIN['columns'])) {
+					
+					unset($WIN['columns']['Relevance']);
+					
+					$this->visible = $this->get_visible_columns();
+				}	
 			}
 		}
 		
@@ -346,7 +409,6 @@
 			$maxlevel   = 1;
 			$row_count  = 1;
 			
-			$path       = array();
 			$ids		= array();
 			$notes		= array();
 			$columns	= $WIN['columns'];
@@ -387,21 +449,22 @@
 			$smarty->assign('view',$WIN['view']);
 			$smarty->assign('is_view_grid',$WIN['view'] == 'div');
 			$smarty->assign('is_view_list',$WIN['view'] == 'tr');
-			$smarty->assign('is_flat',$WIN['flat']);
+			$smarty->assign('is_flat',$this->flat);
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			
 			foreach($list as $item_key => $row) {
 				
-				$ID 	 = $row['ID'];
-				$Type	 = $row['Type'];
-				$ImageID = $row['ImageID'];
-				$FileID  = $row['FileID'];
-				$Alias   = $row['Alias'];
-				$Status  = $row['Status'];
-				$Level	 = $row['Level'];
-				$Trash	 = $row['Trash'];
-				$Path    = $row['Path'];
+				$ID 	  = $row['ID'];
+				$Type	  = $row['Type'];
+				$ImageID  = $row['ImageID'];
+				$FileID   = $row['FileID'];
+				$ParentID = $row['ParentID'];
+				$Alias    = $row['Alias'];
+				$Status   = $row['Status'];
+				$Level	  = $row['Level'];
+				$Trash	  = $row['Trash'];
+				$Path     = $row['Path'];
 				
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				
@@ -717,6 +780,55 @@
 							$columns['Title']['path'] = implode('/',$path);
 						}
 					}
+					
+					// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+					// Parents for search results
+					
+					if ($name == 'Parents' and $ParentID) {
+						
+						$parents = array();
+						
+						if ($value) {
+							
+							$path = explode('/',$value);
+							$path = array_reverse($path);
+						
+							$children = array(0);
+							$stop = false;
+							
+							while ($path and !$stop) {
+								
+								$item = array_shift($path);
+								
+								if ($item == $WIN['id']) {
+									$stop = true;
+								}
+								
+								$title = fetch('Title',$WIN['table'],'ID',$item);
+								$open  = implode(',',$children);
+								
+								$href  = '?mini=1&id='.$item.'&open='.$open.'&checked='.$ID;
+								$break = (!$stop) ? '&#8250; ': '';
+								$link  = '<span>'.$break.'<a href="'.$href.'">'.$title.'</a></span>';
+								
+								if (!$stop or ($stop and !$parents)) {
+									array_unshift($parents,$link);
+								}
+								
+								$children[] = $item; 
+							}
+						
+						} else {
+							
+							$title = fetch('Title',$WIN['table'],'ID',$ParentID);
+							$href  = '?mini=1&id='.$ParentID.'&checked='.$ID;
+							$link  = '<span><a href="'.$href.'">'.$title.'</a></span>';
+							
+							$parents[] = $link;	
+						}
+						
+						$columns['Parents']['value'] = implode(n,$parents);
+					}
 				}
 				
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -770,15 +882,13 @@
 				
 				if ($Level == 1) {
 				
-					$parentid = $row['ParentID'];
-				
 					if (isset($WIN['prevnextlist'])) {
 					
-						if (isset($WIN['prevnextlist'][$parentid])) {
+						if (isset($WIN['prevnextlist'][$ParentID])) {
 						
-							if (isset($WIN['prevnextlist'][$parentid][$ID])) {
+							if (isset($WIN['prevnextlist'][$ParentID][$ID])) {
 							
-								list($previd,$nextid) = explode(',',$WIN['prevnextlist'][$parentid][$ID]);
+								list($previd,$nextid) = explode(',',$WIN['prevnextlist'][$ParentID][$ID]);
 							}
 						}
 					}
@@ -804,7 +914,7 @@
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				
 				$smarty->assign('id',$ID);
-				$smarty->assign('parent_id',$row['ParentID']);
+				$smarty->assign('parent_id',$ParentID);
 				$smarty->assign('title_id',(($Alias > 0) ? $Alias : $ID));
 				$smarty->assign('title_path',ltrim($title_path,'/'));
 				$smarty->assign('item_title',$row['Title']);
@@ -1020,6 +1130,7 @@
 			// $smarty->assign('has_export',count(dirlist($site_base_path.DS.$file_dir.DS.'_export')));
 			$smarty->assign('has_export',1);
 			$smarty->assign('new_article_fields',$new_article_fields);
+			$smarty->assign('search',$this->search);
 			
 			return $smarty->fetch('list/list.tpl');
 			
@@ -1050,6 +1161,7 @@
 			}
 			
 			asort($include);
+			asort($visible);
 			
 			foreach($include as $key => $pos) {
 				
@@ -1063,7 +1175,13 @@
 			
 			return $visible;
 		}
-
+	
+	// -------------------------------------------------------------------------
+		function column_is_visible($name)
+		{
+			return array_key_exists($name,$this->visible);
+		}
+	
 	// -------------------------------------------------------------
 		function get_custom_columns() 
 		{
@@ -1360,7 +1478,7 @@
 				return $lg;
 			}
 		}
-		
+	
 	// -------------------------------------------------------------------------
 		function toggle_column($name='') 
 		{	
@@ -1618,11 +1736,16 @@
 					AS custom_fields";
 			}
 			
+			if (isset($incl['Relevance'])) {
+			
+				$select['Relevance'] = n."NULL AS Relevance";
+			}
+			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// event specific select
 			
 			foreach($incl as $name => $col) {
-				
+			
 				if (isset($col['sel'])) {
 					
 					if (isset($select[$name])) {
@@ -1720,6 +1843,21 @@
 			$where['trash'] = 't.Trash = 0';
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+			// SEARCH 
+			
+			if ($this->search) {
+				
+				$search_term = doSlash($this->search);
+				
+				$select['search'] = 
+				   "MATCH (t.Title) AGAINST ('$search_term') AS title_score,
+					MATCH (t.Body) AGAINST ('$search_term') AS body_score";
+				$where['search']  = 
+					"(MATCH (t.Title) AGAINST ('$search_term')
+					 OR MATCH (t.Body) AGAINST ('$search_term'))";
+			}
+			
+			// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 			// ORDER BY
 			
 			$sorthistory = (isset($WIN['sorthist'])) 
@@ -1751,6 +1889,10 @@
 				
 				$orderby[] = "t.ID $dir";
 			
+			} elseif ($sort == 'Relevance') {
+			
+				$orderby[] = "(title_score * 1.5) + body_score $dir";
+				
 			} elseif (count($sorthistory)) {
 			
 				$next = array_shift($sorthistory);
@@ -1793,6 +1935,9 @@
 			$q['where']['trash'] = "t.Trash = 0";
 			
 			extract($q);
+			
+			unset($select['search']);
+			unset($where['search']);
 			
 			$select  = n.add_pfx(implode(','.n,$select)).n.n;
 			$from    = n.implode(n.' ',$from);
@@ -1952,10 +2097,17 @@
 							}
 							
 						} elseif ($level == 2 and $this->flat) {
-						
-							$path = str_replace('t.','',trim($q['where']['id'],'()'));
 							
-							$count = getCount($this->table,"$path AND Trash = 0");
+							$table = $this->table." AS t";
+							$where = array('Trash = 0');
+							
+							$where['path'] = $q['where']['id'];
+							
+							if ($this->search) {
+								$where['search'] = $q['where']['search'];
+							}
+							
+							$count = getCount($table,doAnd($where));
 							
 							if ($count > $this->flat) { 
 								

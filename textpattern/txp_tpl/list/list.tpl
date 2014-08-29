@@ -2,6 +2,10 @@
 
 <hr/>
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<hr>
+
 <form action="index.php" data-sort="{$sortby}" data-sortdir="{$sortdir}" action="" method="post" id="longform" name="longform" onsubmit="return txp.verify('{$trash_cnt}')">
 
 	<table class="view-{$view} thumb-{$thumb} avg-title-{$avg_title}" width="" cellpadding="2" cellspacing="0" border="1" id="list" align="center">
@@ -11,9 +15,19 @@
 	<tr class="path">
 		
 		<td colspan="20">
-			{section name=i loop=$path}
-				<a href="?event={$event}&win={$winid}&id={$path[i].ID}">{$path[i].Title}</a> &#8250; 
-			{/section} &nbsp;
+		
+			<div class="path">
+				{section name=i loop=$path}
+					<a class="path" href="?event={$event}&win={$winid}&id={$path[i].ID}">{$path[i].Title}</a> &#8250; 
+				{/section} &nbsp;
+			</div>
+						
+			<div class="search {if $search}clear{/if}">
+				<input type="text" class="search" name="search" value="{$search}"/>
+				<a href="#" class="button submit" title="Search">Search</a>
+				<a href="#" class="button clear" title="Clear the search">Clear</a>
+			</div>
+		
 		</td>
 	</tr>
 
@@ -99,20 +113,26 @@
 					<option value="cut" data-key="&#8984;X">Cut</option>
 					<option value="copy" data-key="&#8984;C">Copy</option>
 					
-					{if $clipboard}
+					{if $clipboard and !$search}
 						<option value="paste" data-key="&#8984;V">Paste</option>
 						{if $clipboard eq 'cut'}<option value="clear_clip" data-key="ESC">Cancel Cut</option>{/if}
 						{if $clipboard eq 'copy'}<option value="clear_clip" data-key="ESC">Cancel Copy</option>{/if}
 					{/if}
 					
 					<option value="duplicate" data-key="&#8984;D">Duplicate</option>
-					<option value="new" data-key="&#8984;&#8629;">New</option>
+					
+					{if !$search}
+						<option value="new" data-key="&#8984;&#8629;">New</option>
+					{/if}
 					
 					<option value="alias" data-key="&#8984;L">Alias</option>
-					<option value="group" data-key="&#8984;G">Group</option>
-					<option value="ungroup" data-key="&#8984;U">Ungroup</option>
 					
-					{if $sortby eq 'position'}
+					{if !$search}
+						<option value="group" data-key="&#8984;G">Group</option>
+						<option value="ungroup" data-key="&#8984;U">Ungroup</option>
+					{/if}
+					
+					{if $sortby eq 'position' and !$search}
 						<option id="position-move-up" value="move_up" data-key="&#8984;&#8593;">Move Up</option>
 						<option id="position-move-down" value="move_down" data-key="&#8984;&#8595;">Move Down</option>
 						{if $is_view_grid}
@@ -121,10 +141,11 @@
 						{/if}
 					{/if}
 					
-					<option value="open" data-key="&#8984;+">Open</option>
-					
-					{if $close}
-						<option value="close" data-key="&#8984;&#8722;">Close</option>
+					{if !$search}
+						<option value="open" data-key="&#8984;+">Open</option>
+						{if $close}
+							<option value="close" data-key="&#8984;&#8722;">Close</option>
+						{/if}
 					{/if}
 					
 					{* DISABLED
@@ -154,11 +175,13 @@
 					<option class="show" value="changecomments" data-key="">Change comments...</option>
 					<option class="show" value="changeauthor" data-key="">Change author...</option>
 					
-					<option class="line" value="">---------------------</option>
-					<option class="toggle" value="keep_view_settings">Keep View Settings</option>
-					<option class="toggle" value="hide_headers">Hide Column Headers {if $hide_headers}&#10003;{/if}</option>
-					<option class="toggle" value="hide_main">Hide Main Item {if $hide_main}&#10003;{/if}</option>
-					<option class="toggle" value="flat_view">Flat View {if $flat_view}&#10003;{/if}</option>
+					{if !$search}
+						<option class="line" value="">---------------------</option>
+						<option class="toggle" value="keep_view_settings">Keep View Settings</option>
+						<option class="toggle" value="hide_headers">Hide Column Headers {if $hide_headers}&#10003;{/if}</option>
+						<option class="toggle" value="hide_main">Hide Main Item {if $hide_main}&#10003;{/if}</option>
+						<option class="toggle" value="flat_view">Flat View {if $flat_view}&#10003;{/if}</option>
+					{/if}
 					
 				</select>
 			

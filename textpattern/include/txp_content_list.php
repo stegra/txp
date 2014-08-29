@@ -96,6 +96,17 @@ $LastChangedRevision: 3203 $
 		$articles = new ContentList(); 
 		$list = $articles->getList();
 		
+		if ($articles->search and $articles->column_is_visible('Relevance')) {
+			
+			foreach ($list as $key => $item) {
+				if (array_key_exists('title_score',$item)) {
+					$title = floatval($item['title_score']);
+					$body  = floatval($item['body_score']);
+					$list[$key]['Relevance'] = round(($title * 1.5) + $body,2);
+				}
+			}
+		}
+		
 		$html.= $articles->viewList($list);
 		
 		save_session($EVENT);
