@@ -896,7 +896,11 @@ EOS
 		echo comment_line().n;
 		echo $smarty->fetch("upload_progress.tpl");
     	echo comment_line().n;
-    	
+    
+    //------------------------------------------------------------------
+    
+    	plugin_callback('end',$ID);
+    
 	//------------------------------------------------------------------
 		
 		$WIN['last']['status'] = $Status;

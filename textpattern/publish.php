@@ -489,6 +489,8 @@ $LastChangedRevision: 3258 $
 		// check the request path for an id or page number
 		// example: gallery/lol/5/cat.html
 		
+		$req_level = 1;
+		
 		if (!$messy_req) { 
 			
 			$req = parse_req($out['req'],$out['qs']);

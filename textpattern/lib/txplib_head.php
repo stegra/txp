@@ -63,6 +63,9 @@ $LastChangedRevision: 3265 $
 		$body_class[] = ($WIN['name']) ? $event.'-name-'.$WIN['name'] : '';
 		$body_class[] = ($WIN['class']) ? $event.'-class-'.$WIN['class'] : '';
 		
+		$path = new Path($WIN['docid']);
+		$body_class[] = 'path_'.$path->getList('Name','_');
+		
 		$event_js = txpath.DS.'js'.DS.'txp_event'.DS.'txp_event_'.$event.'.js';
 		$event_js = (is_file($event_js)) ? 'js/txp_event/txp_event_'.$event.'.js' : '';
 		
