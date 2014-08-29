@@ -61,13 +61,41 @@
 	
 	// -------------------------------------------------------------------------
 
-	function safe_column_treex($context=0,$path='',$things='ID',$table='textpattern',$where='1=1',$sortcol='',$flags='') 
+	function safe_column_treex($context=0,$path='',$things='',$table='textpattern',$where='1=1',$sortcol='',$flags='') 
 	{
 		set_flag($flags,'COLUMN');
 		
 		if ($sortcol) $where['sortcol'] = $sortcol;
 		
 		return safe_rows_treex($context,$path,$things,$table,$where,$flags);
+	}
+	
+	// -------------------------------------------------------------------------
+	
+	function safe_field_treex($context=0,$path='',$thing='',$table='textpattern',$where='1=1',$flags='') 
+	{
+		$row = safe_row_treex($context,$path,$thing,$table,$where,$flags);
+		
+		if ($row) {
+			
+			return array_shift($row);
+		}
+	}
+	
+	// -------------------------------------------------------------------------
+	
+	function safe_row_treex($context=0,$path='',$things='',$table='textpattern',$where='1=1',$flags='') 
+	{
+		$where = do_list($where);
+		
+		$where['limit'] = 1; 
+		
+		$rs = safe_rows_treex($context,$path,$things,$table,$where,$flags);
+		
+		if ($rs) {
+			
+			return nextRow($rs);
+		}
 	}
 	
 	// -------------------------------------------------------------------------

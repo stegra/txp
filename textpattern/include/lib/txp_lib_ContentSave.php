@@ -689,6 +689,13 @@
 			
 			if (!$value_id) {
 				
+				$value_id = get_field_value_id($ID,$name);
+			}
+			
+			// -------------------------------------------------
+			
+			if (!$value_id) {
+			
 				$value_id = apply_custom_fields($ID,0,$name);
 			}
 			

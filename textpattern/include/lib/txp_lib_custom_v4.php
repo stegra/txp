@@ -384,21 +384,6 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
-		if ($article_id and !$field_id and $field_name) {
-		
-			$field_value_id = safe_field("id","txp_content_value",
-				"article_id = $article_id 
-				 AND field_name = '$field_name'
-				 AND text_val IS NULL");
-			
-			if ($field_value_id) {
-				
-				return $field_value_id;
-			}
-		}
-		
-		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		
 		$parent_article_id = 0;
 		
 		if ($article_id) {
@@ -777,7 +762,7 @@
 	function getArticleCustomFields($article_id  = 0, $field_name  = '',
 			 						$field_id    = 0, $instance_id = 0) 
 	{
-		global $WIN;
+		global $WIN, $PFX;
 		
 		$table   = $WIN['table'];
 		$content = $WIN['content'];
@@ -854,13 +839,15 @@
 			
 			extract($group);
 			
-			$where = array("ID = $article_id");
+			$tables = array('textpattern');
+			$where 	= array("t.ID = $article_id");
+			$path  	= '';
 			
 			if ($group_id) {
 				
-				if ($by_class)   $where['by_class']   = "Class = '$by_class'";
-				if ($by_id)      $where['by_id']      = "ID = $by_id";
-				if ($by_parent)  $where['by_parent']  = "ParentID = $by_parent";
+				if ($by_class)   $where['by_class']   = "t.Class = '$by_class'";
+				if ($by_id)      $where['by_id']      = "t.ID = $by_id";
+				if ($by_parent)  $where['by_parent']  = "t.ParentID = $by_parent";
 				
 				if ($by_category) {
 					
@@ -876,45 +863,25 @@
 					}
 				}
 				
-				if ($by_sticky)  $where['by_sticky'] = "Status = 5";
+				if ($by_sticky)  $where['by_sticky'] = "t.Status = 5";
 				
 				if (isset($by_section) and $by_section) 
-					$where['by_section'] = "Section = '$by_section'";
+					$where['by_section'] = "t.Section = '$by_section'";
 					
 				if (isset($by_parent_class) and $by_parent_class) 
-					$where['by_parent_class'] = "ParentClass = '$by_parent_class'";
+					$where['by_parent_class'] = "t.ParentClass = '$by_parent_class'";
 					
 				if ($by_path) {
 					
-					if (preg_match('/^\/?\/[a-z0-1\-]+\/\*\/\*$/',$by_path)) {
-						
-						// absolute path: /grand-parent/*/* 
-						// relative path:  grand-parent/*/* 
-						
-						$path = fetch("Path",$WIN['table'],"ID",$article_id);
-						$path = explode('/',$path);
-						array_pop($path);
-						
-						if ($path) {
-							
-							$id = array_pop($path);
-							$name = trim($by_path,'/*');
-							
-							$where['by_grand_parent'] = "(SELECT COUNT(*) FROM textpattern WHERE ID = $id AND Name = '$name') = 1";
-						
-						} else {
-							
-							$where['by_grand_parent'] = '1 = 2';
-						}
+					$path = $by_path;
 					
-					} else {
-							
-						$where['by_grand_parent'] = '1 = 2';
+					if (!preg_match('/^\//',$path)) {
+						$path = '//'.$path;
 					}
 				}
 			}
 			
-			$match = safe_field("ID",$WIN['table'],doAnd($where));
+			$match = safe_count_treex(0,$path,$tables,$where);
 			
 			if ($match) {
 				
@@ -1355,6 +1322,19 @@
 		return $out;
 	}
 
+// -----------------------------------------------------------------------------
+	
+	function get_field_value_id($article_id,$field_name)
+	{
+		return safe_field("id","txp_content_value",
+			"article_id = $article_id 
+			 AND field_name = '$field_name'");
+		/* 	 AND text_val IS NULL"); 
+		 *   This was probably not even necessary, but to update a custom 
+		 *	 field's value with AJAX we need the field_value_id.
+		 */
+	}
+		
 // -----------------------------------------------------------------------------
 	
 	function get_group_sql($group)

@@ -210,6 +210,11 @@
 		exit;
 	}
 	
+	if ($action == 'test') {
+		include_once txpath.'/utilities/include/test/index.php';
+		exit;
+	}
+	
 	if ($PFX == 'hrp_') { 
 		// $action = 'clean_article_body_html';
 		// $action = 'make_excerpts';

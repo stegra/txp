@@ -404,16 +404,10 @@
 				
 				if ($by == 'by_path') {
 					
-					if (preg_match('/^\/?\/?[a-z0-1\-]+\/\*\/\*$/',$value)) {
+					$path = $value;
 						
-						$path = $value;
-						
-						if (!preg_match('/^\//',$path)) {
-							$path = '//'.$path;
-						}
-						
-					} else {
-						$where[] = "1=2";	
+					if (!preg_match('/^\//',$path)) {
+						$path = '//'.$path;
 					}
 				}
 			}
