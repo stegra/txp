@@ -1,16 +1,33 @@
 <?php
-
+	
 	include txpath.'/publish/taghandlers.php';
 	include txpath.'/publish/lib/publish_query_builder.php';
-
+	
+	// -------------------------------------------------------------------------
+	// TODO: this function should return all article values 
+	// create getArticleItems() getArticleItem()
+	
+	function getArticles($thing,$where) {
+		
+		$where['return'] = 'array';
+		
+		return doArticles($where,1,$thing);
+	}
+	
+	// -------------------------------------------------------------------------
+	
 	function doArticles($atts, $iscustom, $thing = NULL,&$array=null) {
 		
 		global $PFX, $pretext, $prefs, $thisarticle, $thispage, $thiscategory, 
 			$article_stack, $txptrace, $txptagtrace, $txp_current_atts;
 		
 		$thisid = $thisarticle['thisid'];
+		$q = '';
 		
-		extract($pretext);
+		if (isset($pretext)) {
+			extract($pretext);
+		}
+		
 		extract($prefs);
 		
 		static $run = 1;
@@ -282,12 +299,28 @@
 		// - - - - - - - - - - - - - - - - - - - - - - - -
 		
 		$tables  = array($table);
+		$where   = array();
 		$columns = array('t.*','t.ID',
 			'unix_timestamp(t.Posted) AS uPosted',
 			'unix_timestamp(t.Expires) AS uExpires',
 			'unix_timestamp(t.LastMod) AS uLastMod'
 		);
-		$where   = array();
+		
+		if ($return == 'array' and $thing) {
+			
+			if ($thing == '*') {
+				
+				$columns = array('t.*');
+			
+			} else {
+			
+				$thing = do_list($thing);
+			
+				foreach ($thing as $col) {
+					$columns[] = 't.'.$col;
+				}
+			}
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// WHERE
@@ -338,7 +371,16 @@
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		// Status
 		
-		$where['status'] = build_query_status($status,$searchsticky,$iscustom);
+		if (txpinterface == 'admin' and $return == 'array') {
+			
+			if ($status) {
+				$where['status'] = "(t.Status IN ($status))";
+			}
+			
+		} else {
+			
+			$where['status'] = build_query_status($status,$searchsticky,$iscustom);
+		}
 		
 		// Parent Status 
 		
@@ -1201,6 +1243,20 @@
 			
 			while($a = nextRow($rs)) {
 				
+				if ($return == 'array') {
+				
+					foreach ($thing as $col) {
+						
+						if (array_key_exists($col,$a)) {
+							$thisarticle[$col] = $a[$col];
+						}
+					}
+					
+					$articles[] = $thisarticle;
+					
+					continue;	
+				}
+					
 				$id = $a['ID'];
 				
 				$a['atts'] = $atts;
@@ -1217,7 +1273,7 @@
 				$thisarticle['query']['where']     = doAnd($where).$groupby.$orderby;
 				
 				if ($groupby) {
-					
+				
 					$thisarticle['group_count'] = $a['group_count'];
 					
 					if (strtolower($theAtts['groupby']) == 'category') {
@@ -1268,12 +1324,20 @@
 			
 			if (is_array($array)) {
 				
-				return;
+				return;	
+				
+				// $array of parsed articles is returned by reference 
+				// when search has a multiple path request.
+				// Example: <txp:article path="/this/* or /that/*">
 			}
 			
 			// - - - - - - - - - - - - - - - - - - - - - - - - -
 			
-			if ($count) {
+			if ($return == 'array') {
+				
+				return $articles;
+				
+			} elseif ($count) {
 				
 				if (!strlen($join) or $join == '!*') {
 					$articles = doLabel($label, $labeltag).doWrap($articles, $wraptag, $break,'');
