@@ -285,6 +285,38 @@ table#list tr.footer td select#column {
 	width: 120px;
 }
 
+table#list tr.footer td ul.select-column.option-round-30,
+table#list tr.footer td ul.select-column.option-round-35,
+table#list tr.footer td ul.select-column.option-round-40 {
+	width: 240px;
+}
+
+table#list tr.footer td ul.select-column.option-count-28,
+table#list tr.footer td ul.select-column.option-count-29 {
+	width: 120px;
+}
+
+table#list tr.footer td ul.select-column.option-round-45,
+table#list tr.footer td ul.select-column.option-round-50,
+table#list tr.footer td ul.select-column.option-round-55 {
+	width: 360px;
+}
+
+table#list tr.footer td ul.select-column.option-round-60 {
+	width: 480px;
+}
+
+table#list tr.footer td ul.select-column.option-round-30 li.custom,
+table#list tr.footer td ul.select-column.option-round-35 li.custom,
+table#list tr.footer td ul.select-column.option-round-40 li.custom,
+table#list tr.footer td ul.select-column.option-round-45 li.custom,
+table#list tr.footer td ul.select-column.option-round-50 li.custom,
+table#list tr.footer td ul.select-column.option-round-55 li.custom,
+table#list tr.footer td ul.select-column.option-round-60 li.custom   {
+	width: 100px;
+	float: left;
+}
+
 table#list tr.footer td ul.select-column li span {
 	min-width: 12px;
 }

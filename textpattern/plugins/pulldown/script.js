@@ -17,9 +17,10 @@ txp.plugins.pulldown.init = function() {
 		var select = alt_select.find('select');
 		var select_id = select.attr('id');
 		var select_list_items = [];
-		
+		var option_count = select.find('option').length
+		var option_count_round = Math.round(option_count / 5) * 5;
 		var cover = ($.browser.mozilla) ? '<div data-id="'+select_id+'" class="cover"><'+'/div>' : '';
-		alt_select.prepend('<ul class="select-'+select_id+'"><'+'/ul>'+cover);
+		alt_select.prepend('<ul class="select-'+select_id+' option-count-'+option_count+' option-round-'+option_count_round+'"><'+'/ul>'+cover);
 		
 		var select_list = alt_select.find('ul');
 		var select_cover = alt_select.find('.cover');
@@ -29,7 +30,7 @@ txp.plugins.pulldown.init = function() {
 		select.find('option').each( function () {
 			
 			var option   = $(this);
-			var label    = option.html();
+			var label    = option.html().split('_').join(' ');
 			var value    = option.attr('value');
 			var key      = option.attr('data-key');
 			var type  	 = option.attr('class');
