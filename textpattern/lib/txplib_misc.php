@@ -3807,6 +3807,7 @@ function make_title($name) {
 
 	function category_popup($name, $val, $id='', $truncate=0)
 	{
+		global $PFX;
 		static $categories = array();
 		
 		if (!$categories) {
@@ -3816,7 +3817,7 @@ function make_title($name) {
 				"ID, Name AS name, Title AS title, Level AS level, ParentID AS parent",
 				"txp_category",
 				"(p.Class != 'yes' 
-				  OR EXISTS (SELECT ID FROM txp_category AS c 
+				  OR EXISTS (SELECT c.ID FROM ".$PFX."txp_category AS c 
 							  WHERE p.ID = c.ParentID 
 								AND c.Class != 'yes'
 								AND c.Status IN (4,5) 
@@ -3827,7 +3828,7 @@ function make_title($name) {
 		}
 					 		 
 		if ($categories) {
-			
+		
 			return treeSelectInput($name,$categories,$val,$id,$truncate);
 		}
 		
