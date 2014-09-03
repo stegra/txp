@@ -251,9 +251,9 @@
 	 	}
 	 	
 	 	// -------------------------------------------------------------
-	 	// remove leading self selection "."
+	 	// remove leading self selection "." if followed by more 
 	 	
-	 	$path = preg_replace('/^\.(\/|\z)/','',$path);
+	 	$path = preg_replace('/^\.(\/)/','',$path);
 	 	
 	 	// -------------------------------------------------------------
 	 	// return no results when context + path is beyond deepest level
@@ -306,7 +306,10 @@
 		if ($path == '') {
 			
 			$where[] = "1=1";
-			// $where[] = "t.ID = ".$context['id'];
+		
+		} elseif ($path == '.') {
+			
+			$where[] = "t.ID = ".$context['id'];
 		}
 		
 		elseif ($path == '*') {
