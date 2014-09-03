@@ -201,9 +201,9 @@ $LastChangedRevision: 3247 $
 				
 					$count[$key] = str_pad($value + 1,9,'0',STR_PAD_LEFT);	
 					
-					if ($key == 'ip') {
+					/* if ($key == 'ip') {
 						$location = get_ip_location($value);
-					}
+					} */
 				}
 			}
 		}
