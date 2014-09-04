@@ -154,7 +154,11 @@
 		} elseif (str_begins_with($path,'/')) {
 			
 			$path_is_relative = false;
-			$path = substr($path,1);
+			
+			// remove leading single slash if followed by other things
+			if (strlen($path) > 1) { 
+				$path = ltrim($path,'/');
+			}
 		}
 		
 		// -------------------------------------------------------------
@@ -258,20 +262,23 @@
 	 	// -------------------------------------------------------------
 	 	// return no results when context + path is beyond deepest level
 	 	
-	 	$path = explode('/',$path);
+	 	if ($path != '/') {
 	 	
-	 	$maxlevel = safe_field("MAX(Level)",$table);
-	 	
-	 	if (($context['level'] + count($path)) > $maxlevel) {
-	 		
-	 		$path = '';
-	 		$context['id'] = 0;
-	 	
-	 	} else {
-	 	
-	 		$path = implode('/',$path);
-	 	}
-	 	
+			$path = explode('/',$path);
+			
+			$maxlevel = safe_field("MAX(Level)",$table);
+			
+			if (($context['level'] + count($path)) > $maxlevel) {
+				
+				$path = '';
+				$context['id'] = 0;
+			
+			} else {
+			
+				$path = implode('/',$path);
+			}
+		}
+			 	
 	 	// -------------------------------------------------------------
 		// query parts
 		
@@ -309,6 +316,10 @@
 		
 		} elseif ($path == '.') {
 			
+			$where[] = "t.ID = ".$context['id'];
+		
+		} elseif ($path == '/') {
+		
 			$where[] = "t.ID = ".$context['id'];
 		}
 		
