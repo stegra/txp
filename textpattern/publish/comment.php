@@ -70,7 +70,8 @@ $LastChangedRevision: 3266 $
 			'contact'   => 0,
 			'action'	=> '',
 			'preview'	=> 0,
-			'backpage'	=> ''
+			'backpage'	=> '',
+			'captcha'	=> 0
 		),$atts, 0));
 		
 		$namewarn 		= false;
@@ -138,6 +139,14 @@ $LastChangedRevision: 3266 $
 		
 			safe_insert("txp_discuss_nonce", "issue_time=now(), nonce='".doSlash($nonce)."', secret='".doSlash($secret)."'");
 			$n_message = md5('message'.$secret);
+			
+			// captcha for backwards compatibility 
+			if (!array_key_exists('captcha',$atts)) {
+				$captcha = ($contact) ? 0 : 1;
+			}
+			
+			$_SESSION[$nonce.$secret] = array('captcha' => $captcha);
+			
 		// }
 		
 		if (isset($atts['preview']) and $atts['preview']) {
@@ -470,6 +479,11 @@ $LastChangedRevision: 3266 $
 		
 		extract($in);
 		
+		if (!array_key_exists($nonce.$secret,$_SESSION)) {
+			$_POST['error'] = "Form data was not sent from this website!";
+			return;
+		}
+		
 		if (!checkCommentsAllowed($parentid))
 			txp_die(gTxt('comments_closed'), '403');
 
@@ -490,8 +504,8 @@ $LastChangedRevision: 3266 $
 		if ($blacklisted)
 			txp_die(gTxt('your_ip_is_blacklisted_by'.' '.$blacklisted), '403');
 		
-		if (!$contact) {
-		
+		if ($_SESSION[$nonce.$secret]['captcha']) {
+			
 			if (empty($captcha)) {
 			
 				$_POST['error'] = "Please enter the CAPTCHA word!"; return;

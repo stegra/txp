@@ -192,7 +192,8 @@
 			'contact'	   => 0,
 			'action'	   => '',
 			'preview'	   => 0,
-			'backpage'	   => ''
+			'backpage'	   => '',
+			'captcha'	   => 0
 		), $atts));
 		
 		assert_article();
