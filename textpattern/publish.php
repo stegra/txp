@@ -211,9 +211,9 @@ $LastChangedRevision: 3258 $
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// Comment Form Submit
+	// NOTE: jQuery $('form').submit() function has a problem with input name="submit"  
 	
-	if (gps('parentid') && gps('submit')) {
-		
+	if (gps('parentid') && (gps('submit') or gps('submit-form'))) {
 		saveComment();
 	} elseif (gps('parentid') and $comments_mode==1) { // popup comments?
 		header("Content-type: text/html; charset=utf-8");
@@ -615,7 +615,7 @@ $LastChangedRevision: 3258 $
 // -------------------------------------------------------------------------------------
 	function textpattern() {
 		
-		global $txp_user,$pretext,$prefs,$qcount,$qtime,$production_status,$txptrace,$has_article_tag,$html,$inspector;
+		global $txp_user,$app_mode,$pretext,$prefs,$qcount,$qtime,$production_status,$txptrace,$has_article_tag,$html,$inspector;
 		
 		extract($pretext); 
 		
@@ -688,46 +688,52 @@ $LastChangedRevision: 3258 $
 		
 		header("Content-Type: text/".$content_type."; charset=utf-8");
 		
-		if ($content_type == 'html') {
-			$html = '<!DOCTYPE html>'.n.$html;
-		}
+		if ($app_mode != 'async') {
 		
-		$runtime = getmicrotime('runtime');
-		
-		if ($content_type == 'html') {
-			
-			add_common_javascript($html);
-			
-			if ($txp_user) {
-				add_toolbar_iframe($html);
+			if ($content_type == 'html') {
+				$html = '<!DOCTYPE html>'.n.$html;
 			}
 			
-			if ($production_status != 'live' or 
-			   ($production_status == 'live' and PREVIEW)) {
+			$runtime = getmicrotime('runtime');
+			
+			if ($content_type == 'html') {
 				
-				// inspect('Runtime: '.$runtime,'line','textpattern');
-				// inspect('Query time: '.sprintf('%02.6f', $qtime),'','textpattern');
-				// inspect('Queries: '.$qcount,'','textpattern');
-				// inspect(maxMemUsage('end of textpattern()',1),'','textpattern');
+				add_common_javascript($html);
 				
-				$html = add_inspector($html);
+				if ($txp_user) {
+					add_toolbar_iframe($html);
+				}
+				
+				if ($production_status != 'live' or 
+				   ($production_status == 'live' and PREVIEW)) {
+					
+					// inspect('Runtime: '.$runtime,'line','textpattern');
+					// inspect('Query time: '.sprintf('%02.6f', $qtime),'','textpattern');
+					// inspect('Queries: '.$qcount,'','textpattern');
+					// inspect(maxMemUsage('end of textpattern()',1),'','textpattern');
+					
+					$html = add_inspector($html);
+				}
 			}
 		}
-		
+				
 		echo $html;
 		
-		if ($production_status != 'live' or 
-		   ($production_status == 'live' and PREVIEW)) {
-
-			echo n.n.n,comment('Runtime: '.$runtime);
-			echo n,comment('Query time: '.sprintf('%02.6f', $qtime));
-			echo n,comment('Queries: '.$qcount);
-			echo maxMemUsage('end of textpattern()',1);
-			if (!empty($txptrace) and is_array($txptrace))
-				echo n, comment('txp tag trace: '.n.str_replace('--','&shy;&shy;',join(n, $txptrace)).n);
-				// '&shy;&shy;' is *no* tribute to Kajagoogoo, but an attempt to avoid prematurely terminating HTML comments
-		}
+		if ($app_mode != 'async') {
 		
+			if ($production_status != 'live' or 
+			   ($production_status == 'live' and PREVIEW)) {
+	
+				echo n.n.n,comment('Runtime: '.$runtime);
+				echo n,comment('Query time: '.sprintf('%02.6f', $qtime));
+				echo n,comment('Queries: '.$qcount);
+				echo maxMemUsage('end of textpattern()',1);
+				if (!empty($txptrace) and is_array($txptrace))
+					echo n, comment('txp tag trace: '.n.str_replace('--','&shy;&shy;',join(n, $txptrace)).n);
+					// '&shy;&shy;' is *no* tribute to Kajagoogoo, but an attempt to avoid prematurely terminating HTML comments
+			}
+		}
+				
 		// callback_event('textpattern_end');
 		plugin_callback(3);
 	}

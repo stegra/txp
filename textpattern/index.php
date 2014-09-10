@@ -73,22 +73,6 @@ $LastChangedRevision: 789 $
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
-	if (isset($_GET['captcha'])) {
-		
-		include txpath.'/publish/captcha/captcha.php'; 
-		
-		session_start();
-		
-		$captcha = new SimpleCaptcha();
-		$captcha->resourcesPath = txpath.'/publish/captcha/resources'; 
-		$captcha->imageFormat = 'png';
-		$captcha->CreateImage();
-		
-		exit;
-	}
-	
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	
 	include txpath.'/lib/constants.php';
 	include txpath.'/lib/languages.php';
 	include txpath.'/lib/txplib_misc.php'; 
@@ -143,6 +127,10 @@ $LastChangedRevision: 789 $
 	$PFX = $txpcfg['table_prefix'];
 	
 	$tables = safe_tables();
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	$app_mode = gps('app_mode');
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
@@ -272,6 +260,38 @@ $LastChangedRevision: 789 $
 		} else {
 			
 			unset($plugin_list[$plugin]);
+		}
+	}
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	if (isset($_GET['captcha'])) {
+		
+		include txpath.'/publish/captcha/captcha.php'; 
+		include txpath.'/publish/captcha/validate.php'; 
+		
+		if (in_array('captcha', $plugin_list)) {
+			
+			sleep(1);
+			
+			$captcha = gps('captcha');
+			
+			if ($captcha == '' or $captcha == '1') {
+				captcha_create();
+			} else {
+				captcha_validate($captcha);
+			}	
+			
+			exit;
+			
+		} else {
+		
+			$captcha = new SimpleCaptcha();
+			$captcha->resourcesPath = txpath.'/publish/captcha/resources'; 
+			$captcha->imageFormat = 'png';
+			$captcha->CreateImage();
+			
+			exit;
 		}
 	}
 	
