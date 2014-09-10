@@ -84,7 +84,16 @@
 		$textile_body 	 = assert_int($textile_body);
 		$textile_excerpt = assert_int($textile_excerpt);
 		
-		$Annotate = (int) $Annotate;
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		if (array_key_exists('Annotate',$_POST)) {
+		
+			$Annotate = (int) $Annotate;
+		
+		} else {
+			
+			$Annotate = ($comments_on_default == 1) ? 1 : 0;
+		}
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
