@@ -26,6 +26,7 @@
 	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// add field as a new group 
 	
 	if (gps('new') == 'group') {
 		
@@ -64,10 +65,31 @@
 	}
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// add field to an existing group 
 	
 	if (gps('new') == 'field') {
 		
 		pre($_POST);
+		
+		$group_id = assert_int(gps('group',0));
+		$field_id = assert_int(gps('field',0));
+		
+		$row = safe_row('*','txp_group',"group_id = $group_id");
+		
+		if ($row) {
+			
+			unset($row['id']);
+			unset($row['field_default']);
+			unset($row['value_count']);
+			
+			$row['group_id']   = $group_id;
+			$row['field_id']   = $field_id;
+			$row['field_name'] = fetch('Name','txp_custom',"ID",$field_id);
+			$row['last_mod']   = 'NOW()';
+			
+			safe_insert('txp_group',$row);
+		}
+		
 		echo "<hr/>";
 	}
 	
