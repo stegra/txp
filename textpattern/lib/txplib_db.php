@@ -1381,13 +1381,41 @@ $GLOBALS['DB'] = new DB;
 	}
 
 //-------------------------------------------------------------
-	function getColumns($table,$pfx=null)
+	function getColumns($table,$pfx=null,$incl='')
 	{
 		static $prev_table = '';
 		static $columns = array();
 		
 		if ($prev_table != $table) {
+			
 			$columns = getThings('describe '.safe_pfx($table,$pfx));
+			
+			if ($incl and $columns) {
+				
+				$incl  = do_list($incl);
+				$include = array(); 
+				
+				foreach($columns as $key => $name) {
+					
+					foreach($incl as $in) {
+						
+						if (str_ends_with($in,'*')) {
+							
+							if (str_begins_with($name,rtrim($in,'*'))) {
+								$include[] = $name;
+							}
+							
+						} else {
+							
+							if ($name == $in) {
+								$include[] = $name;
+							}
+						}
+					}
+				}
+				
+				$columns = $include;
+			}
 		}
 		
 		return $columns;
