@@ -8,26 +8,7 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
-		$all_groupby = array(
-			'by_table',
-			'by_id',
-			'by_name',
-			'by_path',
-			'by_parent',
-			'by_parent_category',
-			'by_parent_class',
-			'by_class',
-			'by_category',
-			'by_sticky',
-			'by_level'
-		);
-		
-		foreach ($all_groupby as $key => $col) {
-		
-			if (!column_exists('txp_group',$col)) {
-				unset($all_groupby[$key]);
-			}
-		}
+		$all_groupby = getColumns('txp_group',null,'by_*');
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
@@ -409,24 +390,11 @@
 			 'g.field_id',
 			 'g.field_name',
 			 'g.field_parent',
-			 'g.by_id',
-			 'g.by_class',
-			 'g.by_category',
-			 'g.by_sticky',
-			 'g.by_parent',
 			 'g.status'
 		);
 		
-		if (column_exists("txp_group","by_section")) {
-			$columns[] = 'g.by_section';
-		}
-		
-		if (column_exists("txp_group","by_parent_class")) {
-			$columns[] = 'g.by_parent_class';
-		}
-		
-		if (column_exists("txp_group","by_parent_category")) {
-			$columns[] = 'g.by_parent_category';
+		foreach(getColumns('txp_group',null,'by_*') as $by_column) {
+			$columns[] = 'g.'.$by_column;
 		}
 		
 		if (!$article_id and column_exists("txp_group","used")) {
@@ -789,27 +757,14 @@
 			 'field_id',
 			 'group_id',
 			 'instance_id',
-			 'by_id',
-			 'by_class',
-			 'by_category',
-			 'by_sticky',
-			 'by_parent',
 			 'f.default AS field_default',
 			 'f.position'
 		);
 		
-		if (column_exists("txp_group","by_section")) {
-			$columns[] = 'by_section';
+		foreach(getColumns('txp_group',null,'by_*') as $by_column) {
+			$columns[] = $by_column;
 		}
-		
-		if (column_exists("txp_group","by_parent_class")) {
-			$columns[] = 'by_parent_class';
-		}
-		
-		if (column_exists("txp_group","by_path")) {
-			$columns[] = 'by_path';
-		}
-		
+			
 		$groups = safe_rows(
 			impl($columns),
 			"txp_group AS g JOIN txp_custom AS f ON g.field_id = f.id",
