@@ -214,12 +214,13 @@
 	 		$new_level = $context['level'];
 	 		$new_path  = $context['path'];
 	 		$new_name  = $context['name'];
+	 		$dots 	   = array();
 	 		
 	 		while ($path and !$start) {
 	 			
 	 			if ($path[0] == '..') {
 	 				
-	 				array_shift($path);
+	 				$dots[] = array_shift($path);
 	 				
 	 				if ($context['level'] != 1) {
 	 				
@@ -247,6 +248,11 @@
 	 		}
 	 		
 	 		$path = implode('/',$path);
+	 		$dots = implode('/',$dots);
+	 		
+	 		if (!$path and $dots) {
+	 			$path = '..';
+	 		}
 	 		
 	 		$context['id']	  = $new_id;
 	 		$context['level'] = $new_level;
@@ -318,6 +324,10 @@
 			
 			$where[] = "t.ID = ".$context['id'];
 		
+		} elseif ($path == '..') {
+			
+			$where[] = "t.ID = ".$context['id'];
+			
 		} elseif ($path == '/') {
 		
 			$where[] = "t.ID = ".$context['id'];
