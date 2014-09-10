@@ -419,7 +419,7 @@ $LastChangedRevision: 3185 $
 				fInput('text', 'email', $email, 'edit'));
 			
 			$out[] =  n.graf('<label for="name">'.gTxt('url').'</label>'.br.
-				fInput('text', 'web', $web, 'edit'));
+				fInput('text', 'web', $url, 'edit'));
 			
 			$html[0]['special'] = '<div class="event-group1">'.n.implode(n,$out).n.'</div>';
 			$html[1]['title']   = str_replace('>'.gTxt('title').'<','>'.gTxt('comment_subject').'<',$html[1]['title']);
