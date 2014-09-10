@@ -241,7 +241,7 @@
 		
 		if ($table) {
 			
-			$table = (in_list($table,'image,file,link,category,discuss,custom,page,form,css,site')) 
+			$table = (in_list($table,'image,file,link,category,discuss,custom,page,form,css,site,users')) 
 				? "txp_".$table 
 				: "textpattern";
 				
@@ -1405,16 +1405,23 @@
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
-		$Categories = explode(',',$Categories);
+		if (isset($Categories)) {
 		
-		foreach ($Categories as $key => $value) {
+			$Categories = explode(',',$Categories);
 			
-			$value = explode('.',$value);
-			$Categories[$key] = array_shift($value);
-		}
-		
-		$Categories = implode(',',$Categories);
+			foreach ($Categories as $key => $value) {
 				
+				$value = explode('.',$value);
+				$Categories[$key] = array_shift($value);
+			}
+			
+			$Categories = implode(',',$Categories);
+		
+		} else {
+			
+			$Categories = '';
+		}
+						
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		
 		$thisarticle['thisid']           = $ID;
