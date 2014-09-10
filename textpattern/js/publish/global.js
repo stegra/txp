@@ -205,6 +205,19 @@ $(document).ready(function(){
 	},300); 
 	
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// change captcha image 
+	
+	$('a#change-captcha-image').click(function() {
+		
+		var src = $('img#captcha').attr('src').split('?').shift();
+		
+		$('img#captcha').attr('src',src + '?' + Math.random());
+		$('input#captcha').focus();
+		
+		return false;
+	});
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// inspect meta tags and canonical url
 	/*
 	var meta = '<table>'+"\n";
